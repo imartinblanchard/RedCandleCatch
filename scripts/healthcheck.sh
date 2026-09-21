@@ -15,8 +15,11 @@ echo "▸ 1. IB Gateway (port 4001)"
 if ss -tlnp 2>/dev/null | grep -q ":4001"; then ok "4001 en écoute"; else bad "4001 PAS en écoute (Gateway down/bloquée)"; fi
 
 echo "▸ 2. Process du bot"
-pgrep -f "redcandlecatch_dashboard" >/dev/null && ok "dashboard tourne (PID $(pgrep -f redcandlecatch_dashboard|head -1))" || warn "dashboard ARRÊTÉ"
-pgrep -f "redcandlecatch_terminator" >/dev/null && ok "terminator tourne (PID $(pgrep -f redcandlecatch_terminator|head -1))" || warn "terminator ARRÊTÉ"
+# truc [p] : évite que la commande grep/ps se matche elle-même (faux positif)
+DASH=$(ps -eo pid,cmd | grep "[b]ot.redcandlecatch_dashboard" | awk '{print $1}' | head -1)
+TERM=$(ps -eo pid,cmd | grep "[b]ot.redcandlecatch_terminator" | awk '{print $1}' | head -1)
+[ -n "$DASH" ] && ok "dashboard tourne (PID $DASH)" || bad "dashboard ARRÊTÉ"
+[ -n "$TERM" ] && ok "terminator tourne (PID $TERM)" || bad "terminator ARRÊTÉ"
 
 echo "▸ 3. Modules Python (imports)"
 $PY -c "import bot.redcandlecatch_terminator, bot.redcandlecatch_scan, bot.redcandlecatch_dashboard, bot.eligible, bot.collect_eligibles" 2>/dev/null && ok "tous les modules importent" || bad "ERREUR d'import (voir: $PY -c 'import bot.redcandlecatch_terminator')"

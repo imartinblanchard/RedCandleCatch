@@ -45,6 +45,13 @@ except Exception:
 GAP_MIN, GAP_MAX = 10.0, 20.0        # fourchette de gap, %
 PRICE_MIN, PRICE_MAX = 3.0, 20.0
 MARKET_CAP_MAX = 500_000_000         # small caps (filtre du SCANNER IBKR, pas d'evaluate)
+# --- ÉLARGISSEMENT UNIVERS (21/09) : le top-30 par %-gain se faisait écraser par les
+# monstres >20% les jours chargés -> nos cibles 10-20 tombaient au rang #31+ et jamais vues.
+# Fix : filtrer le scan DIRECTEMENT sur la bande (marge 8-25 vs notre gap 04:00->midi) + 50
+# lignes. Rien ne change au TRADING (evaluate coupe précis 10-20, 1 action/trade). >20% =
+# pas d'edge (déjà testé) donc non collectés -> aucun downside.
+SCAN_LIMIT = 50                      # lignes renvoyées par le scanner IBKR (était 30)
+SCAN_CHANGE_MIN, SCAN_CHANGE_MAX = 8.0, 25.0   # filtre %-change du scanner (bande large)
 # --- ÉLIGIBILITÉ POST-OUVERTURE (16/09) : le gap est mesuré sur le plus-haut de 04:00
 # jusqu'à midi (pas seulement le pré-marché). Ça capte les runners qui entrent dans la
 # bande 10-20% APRÈS 9:30 (83% des candidats étaient ratés). Validé OOS via
@@ -339,21 +346,25 @@ def gap_pct(broker, tk: str, today_bars: List[dict]) -> Optional[float]:
         return None
     return (max(b['h'] for b in win) - pc) / pc * 100
 
-def scan_universe(broker, limit: int = 30) -> List[str]:
-    """Univers Gus : TOP_PERC_GAIN small-caps < 500M, prix 3-20$."""
+def scan_universe(broker, limit: int = SCAN_LIMIT) -> List[str]:
+    """Univers : TOP_PERC_GAIN small-caps < 500M, prix 3-20$, %-change filtré sur la bande
+    (8-25%) pour cibler directement nos gappers 10-20 et ne pas être écrasé par les >20%."""
     try:
-        from ib_insync import ScannerSubscription
+        from ib_insync import ScannerSubscription, TagValue
         sub = ScannerSubscription(instrument='STK', locationCode='STK.US.MAJOR',
                                   scanCode='TOP_PERC_GAIN', numberOfRows=limit)
         sub.abovePrice = PRICE_MIN; sub.belowPrice = PRICE_MAX
         sub.marketCapBelow = MARKET_CAP_MAX
-        rows = broker.ib.reqScannerData(sub)
+        # filtre %-change (bande) : cible directement la zone, chaque ligne devient pertinente
+        filt = [TagValue('changePercAbove', str(SCAN_CHANGE_MIN)),
+                TagValue('changePercBelow', str(SCAN_CHANGE_MAX))]
+        rows = broker.ib.reqScannerData(sub, [], filt)
         return [r.contractDetails.contract.symbol for r in rows[:limit]]
     except Exception as e:
         print(f"scan error: {e}")
         return []
 
-def scan_eligible(broker, limit: int = 30) -> Dict[str, dict]:
+def scan_eligible(broker, limit: int = SCAN_LIMIT) -> Dict[str, dict]:
     """Scanne l'univers + applique tous les filtres LONG. Retourne les titres
     ÉLIGIBLES sous forme {ticker: snapshot} (gap, float, inst, ratings, ssr)."""
     out: Dict[str, dict] = {}
