@@ -1,0 +1,50 @@
+{
+  "MKDW": {
+    "gap": 14.5,
+    "price": 7.225,
+    "float_shares": 6350000.0,
+    "inst_pct": 0.07,
+    "chart_rating": 1,
+    "volume_rating": 5,
+    "float_rating": 3,
+    "ssr": false,
+    "reason": "OK (chart=1 vol=5 float=3)",
+    "added": "15:00"
+  },
+  "SWRD": {
+    "gap": 16.6,
+    "price": 3.14,
+    "float_shares": 211120000.0,
+    "inst_pct": 0.0,
+    "chart_rating": 1,
+    "volume_rating": 5,
+    "float_rating": 1,
+    "ssr": false,
+    "reason": "OK (chart=1 vol=5 float=1)",
+    "added": "15:00"
+  },
+  "SMZ": {
+    "gap": 12.8,
+    "price": 16.7,
+    "float_shares": null,
+    "inst_pct": null,
+    "chart_rating": 2,
+    "volume_rating": 1,
+    "float_rating": 3,
+    "ssr": false,
+    "reason": "OK (chart=2 vol=1 float=3)",
+    "added": "15:00"
+  },
+  "LPA": {
+    "gap": 11.6,
+    "price": 3.44,
+    "float_shares": 5100000.0,
+    "inst_pct": 1.9,
+    "chart_rating": 4,
+    "volume_rating": 5,
+    "float_rating": 3,
+    "ssr": false,
+    "reason": "OK (chart=4 vol=5 float=3)",
+    "added": "15:00"
+  }
+}

@@ -1,0 +1,48 @@
+# ─── Secrets (NE JAMAIS committer) ───
+.env
+.env.local
+.env.*.local
+
+# ─── Python ───
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+
+# ─── Gros fichiers de données / artefacts (trop lourds ou régénérables) ───
+*.parquet
+*.log
+data/collected/bars/
+data/collected/*.csv
+bot/bot.log
+
+# ─── Caches d'API & datasets de recherche (régénérables, 100s de Mo) ───
+research/bars_cache/
+research/rvol_cache/
+research/daily_cache/
+research/lm/
+research/gappers.json
+research/intraday_gappers/data/
+**/*_cache/
+
+# ─── Backups / fichiers de travail (junk) ───
+*.bak
+*.old
+*.old-config
+*.avant-*
+*.seuil*
+*.tmp
+*.tar.gz
+
+# ─── OS / éditeurs ───
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.idea/
+.vscode/

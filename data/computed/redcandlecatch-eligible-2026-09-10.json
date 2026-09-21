@@ -1,0 +1,26 @@
+{
+  "ATTT": {
+    "gap": 754.0,
+    "price": 4.71,
+    "float_shares": 2850000.0,
+    "inst_pct": 0.72,
+    "chart_rating": 4,
+    "volume_rating": 5,
+    "float_rating": 4,
+    "ssr": false,
+    "reason": "OK (chart=4 vol=5 float=4)",
+    "added": "05:50"
+  },
+  "PCLA": {
+    "gap": 64.2,
+    "price": 8.51,
+    "float_shares": 9480000.0,
+    "inst_pct": 0.0,
+    "chart_rating": 5,
+    "volume_rating": 2,
+    "float_rating": 3,
+    "ssr": false,
+    "reason": "OK (chart=5 vol=2 float=3)",
+    "added": "05:50"
+  }
+}

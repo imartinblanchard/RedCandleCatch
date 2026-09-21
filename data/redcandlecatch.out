@@ -1,0 +1,1005 @@
+⚠️  MODE LIVE : le bot va passer de VRAIS ORDRES (multi-positions, 1 titre(s)/trade, 1/ticker/jour, 2-phases STOP-10%/+5%/TRAIL2%).
+Terminator WARRIOR — LIVE — VRAIS ORDRES. dip -5% | 2-phases: STOP -10% -> +5% -> TRAIL 2%, gap 10-20%, prix 3-20$, 1 titre(s)/trade, 0 ouverte(s). Journal: terminator-warrior-journal.csv
+[09:30] ← SKDD reçu du scanner (gap 14.2%, OK (chart=1 vol=2 float=3))
+[09:30] ← CORD reçu du scanner (gap 18.9%, OK (chart=1 vol=1 float=3))
+[09:30] ← SKYQ reçu du scanner (gap 16.9%, OK (chart=5 vol=2 float=3))
+[09:30] ← LITZ reçu du scanner (gap 18.2%, OK (chart=1 vol=1 float=3))
+[09:30] ← RAMZ reçu du scanner (gap 13.1%, OK (chart=1 vol=1 float=3))
+[09:30] ← MUZ reçu du scanner (gap 14.3%, OK (chart=2 vol=1 float=3))
+[09:30] ← NOWL reçu du scanner (gap 13.4%, OK (chart=2 vol=1 float=3))
+[09:30] ← BNC reçu du scanner (gap 16.4%, OK (chart=5 vol=1 float=1))
+[09:30] ← CAPR reçu du scanner (gap 11.4%, OK (chart=4 vol=1 float=1))
+[09:31] ← FTFT reçu du scanner (gap 18.8%, OK (chart=4 vol=1 float=3))
+[09:31] ← NBIZ reçu du scanner (gap 18.2%, OK (chart=4 vol=1 float=3))
+[09:31] ← BEZ reçu du scanner (gap 15.9%, OK (chart=1 vol=1 float=3))
+[09:31] ← SMCZ reçu du scanner (gap 12.9%, OK (chart=2 vol=1 float=3))
+[09:31] ← SNDQ reçu du scanner (gap 14.7%, OK (chart=4 vol=1 float=3))
+[09:31] ← GDXD reçu du scanner (gap 11.7%, OK (chart=5 vol=1 float=3))
+[09:31] ← DAMD reçu du scanner (gap 12.2%, OK (chart=2 vol=1 float=3))
+[09:37] ← PMI reçu du scanner (gap 16.1%, OK (chart=5 vol=1 float=5))
+[10:04] ← SKHN reçu du scanner (gap 11.7%, OK (chart=1 vol=3 float=3))
+[10:04] ← SKHQ reçu du scanner (gap 11.1%, OK (chart=3 vol=2 float=3))
+[10:04] ← MLEC reçu du scanner (gap 15.0%, OK (chart=2 vol=5 float=5))
+[10:04] ← CBRZ reçu du scanner (gap 10.5%, OK (chart=3 vol=1 float=3))
+[10:04] ← FLWS reçu du scanner (gap 15.8%, OK (chart=1 vol=3 float=1))
+[10:04] ← ORCZ reçu du scanner (gap 11.7%, OK (chart=2 vol=5 float=3))
+[10:04] ← BMM reçu du scanner (gap 12.4%, OK (chart=2 vol=1 float=1))
+[10:04] ← PBM reçu du scanner (gap 16.7%, OK (chart=5 vol=2 float=4))
+[10:04] ← CRMG reçu du scanner (gap 11.3%, OK (chart=4 vol=1 float=3))
+[10:04] ← DERM reçu du scanner (gap 12.8%, OK (chart=3 vol=1 float=3))
+[10:04] ← ADAG reçu du scanner (gap 11.8%, OK (chart=1 vol=2 float=1))
+[10:04] ← STLU reçu du scanner (gap 12.2%, OK (chart=3 vol=5 float=3))
+[10:04] ← NSRX reçu du scanner (gap 11.6%, OK (chart=2 vol=1 float=3))
+[10:04] ← AAOZ reçu du scanner (gap 10.2%, OK (chart=4 vol=1 float=3))
+[10:13] ENTRY FTFT @ 4.5400 (dip) gap 18.8% 1 titre(s) (~4.54$) (LIVE)
+    achat placé, attente du fill (halt-check)... [status=PendingSubmit filled=0.0 remaining=0.0]
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    fill réel 4.6500 (signal 4.5400) -> slippage +2.42%
+    STOP fixe -10% posé @ 4.1850
+[10:13] FTFT achat CONFIRMÉ -> STOP fixe -10% posé
+    ⚠️ IBKR err 110 : The price does not conform to the minimum price variation for this contract.
+    TRAIL 2% posé (réf 4.9200)
+[10:32] FTFT +5% atteint -> TRAIL 2% activé
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+    ⚠️ IBKR err 10147 : OrderId 289211 that needs to be cancelled is not found.
+[10:32] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9200)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:33] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:33] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:34] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:34] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:34] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:35] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:35] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:36] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:36] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:37] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:37] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:37] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:38] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:38] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:39] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:39] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:40] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:40] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:41] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:41] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:41] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:42] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:42] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:43] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:43] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:44] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:44] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:45] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:45] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:45] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:46] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:46] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:47] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:47] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:48] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:48] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:49] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:49] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:49] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:50] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:50] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:51] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:51] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:52] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:52] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:53] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:53] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:53] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:54] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:54] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:55] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:55] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:56] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:56] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:57] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:57] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:58] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:58] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:58] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:59] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[10:59] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:00] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:00] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:01] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:01] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:01] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:02] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:02] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:03] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:03] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:04] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:04] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:05] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:05] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:05] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:06] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:06] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:07] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:07] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:08] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:08] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:09] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:09] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:09] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:10] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:10] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:11] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:11] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:12] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:12] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:13] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:13] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:13] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:14] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:14] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:15] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:15] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:16] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:16] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:17] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:17] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:17] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:18] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:18] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:19] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:19] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:20] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:20] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:20] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:21] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:21] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:22] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:22] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:23] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:23] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:24] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:24] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:24] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:25] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:25] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:26] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:26] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:27] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:27] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:28] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:28] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:28] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:29] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:29] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:30] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:30] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:31] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:31] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:32] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:32] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:32] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:33] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:33] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:34] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:34] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:35] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:35] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:36] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:36] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:36] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:37] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:37] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:38] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:38] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:39] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:39] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:39] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:40] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:40] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:41] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:41] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:42] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:42] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:43] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:43] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:43] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:44] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:44] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:45] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:45] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:46] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:46] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:47] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:47] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:47] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:48] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:48] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:49] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:49] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:50] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:50] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:51] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9900)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:51] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9900)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:52] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9900)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:52] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9900)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:52] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 4.9900)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:53] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.0400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:53] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.0400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:54] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.0400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:54] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.0400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:55] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.0400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:55] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.0400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:55] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.0400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:56] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.0400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:56] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.0400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:57] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.0400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:57] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.0400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:58] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.0400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:58] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.0400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:59] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.0400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:59] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.0400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[11:59] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.0400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[12:00] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.0400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[12:00] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.0400)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[12:01] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.1500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[12:01] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.1500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[12:02] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.1500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[12:02] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.1500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[12:03] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.1500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[12:03] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.1500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[12:03] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.1500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[12:04] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.1500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[12:04] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.1500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[12:05] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.1500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[12:05] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.1500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[12:06] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.1500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[12:06] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.1500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[12:07] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.1500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[12:07] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.1500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[12:07] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.1500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[12:08] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.1500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[12:08] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.1500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[12:09] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.1500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[12:09] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.1500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[12:10] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.1500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[12:10] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.1500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[12:11] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.1500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[12:11] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.1500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[12:11] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.1500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[12:12] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.1500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[12:12] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.1500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[12:13] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.1500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[12:13] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.1500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[12:14] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.1500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[12:14] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.1500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[12:15] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.1500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[12:15] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.1500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[12:15] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.1500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[12:16] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.1500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[12:16] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.1500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[12:17] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.1500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+[12:17] ⚠️ FTFT position SANS protection -> repose TRAIL
+    TRAIL 2% posé (réf 5.1500)
+    ⚠️ IBKR err 2109 : Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+    ⚠️ IBKR err 201 : Order rejected - reason:Invalid Price
+    ⚠️ IBKR err 1100 : Connectivity between IBKR and Trader Workstation has been lost.
+    ⚠️ IBKR err 1100 : Connectivity between IBKR and Trader Workstation has been lost.
+    ⚠️ IBKR err 2103 : Market data farm connection is broken:usfarm
+    ⚠️ IBKR err 2157 : Sec-def data farm connection is broken:secdefnj
+    ⚠️ IBKR err 2105 : HMDS data farm connection is broken:ushmds
+    ⚠️ IBKR err 1102 : Connectivity between IBKR and Trader Workstation has been restored - data maintained. All data farms are connected: usfarm; ushmds; secdefnj.
+[12:52] EXIT  FTFT @ 5.2796 TRAIL +13.54% (mfe +13.5%) -> journal
+    ⚠️ IBKR err 10147 : OrderId 307049 that needs to be cancelled is not found.

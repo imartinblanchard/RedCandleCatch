@@ -1,0 +1,10 @@
+//@version=6
+indicator("PM Volume Surge x3")
+
+surgeX = input.float(3.0, "Surge x")
+
+avg5    = ta.sma(volume, 5)[1]
+isSurge = not na(avg5) and avg5 > 0 and volume >= surgeX * avg5
+
+plot(volume, "Volume", color = isSurge ? color.green : color.new(color.gray, 30), style = plot.style_columns)
+plot(na(avg5) ? na : surgeX * avg5, "Seuil x3", color = color.red, linewidth = 1)

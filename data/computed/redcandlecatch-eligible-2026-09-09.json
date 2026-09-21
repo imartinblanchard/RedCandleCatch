@@ -1,0 +1,14 @@
+{
+  "RML": {
+    "gap": 393.8,
+    "price": 11.88,
+    "float_shares": null,
+    "inst_pct": null,
+    "chart_rating": 4,
+    "volume_rating": 5,
+    "float_rating": 3,
+    "ssr": false,
+    "reason": "OK (chart=4 vol=5 float=3)",
+    "added": "10:06"
+  }
+}

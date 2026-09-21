@@ -1,0 +1,52 @@
+//@version=6
+indicator("Warrior PM Pullback", overlay = true)
+
+// Inputs (memes valeurs que bot/strategy.py)
+kBand    = input.float(2.0,   "Bande VWAP (sigma)")
+surgeX   = input.float(3.0,   "Surge volume x")
+minAbove = input.int(3,       "Bougies au-dessus VWAP")
+vwapTol  = input.float(0.003, "Tolerance tag VWAP")
+minPMv   = input.int(150000,  "Volume cumule mini")
+minRange  = input.float(0.01,  "Range moyen mini (0.01 = 1%)")
+minBarV   = input.int(10000,   "Volume bougie mini")
+minTarget = input.float(0.05,  "TP mini bande (0.05 = 5%)")
+
+// VWAP ancre au jour + bande sigma ponderee volume (comme le bot)
+newDay = ta.change(time("D")) != 0
+var float cpv  = na
+var float cv   = na
+var float cpv2 = na
+src = (high + low + close) / 3
+if na(cv) or newDay
+    cpv  := src * volume
+    cv   := volume
+    cpv2 := src * src * volume
+else
+    cpv  := cpv + src * volume
+    cv   := cv + volume
+    cpv2 := cpv2 + src * src * volume
+vwapV = cpv / cv
+varV  = math.max(0.0, cpv2 / cv - vwapV * vwapV)
+upper = vwapV + kBand * math.sqrt(varV)
+
+plot(vwapV, "VWAP",       color = color.blue,   linewidth = 2)
+plot(upper, "TP VWAP+2s", color = color.orange, linewidth = 1)
+
+// Conditions d'entree (identiques au bot)
+avg5  = ta.sma(volume, 5)[1]
+surge = not na(avg5) and avg5 > 0 and volume >= surgeX * avg5
+above = true
+for i = 1 to minAbove
+    above := above and close[i] > vwapV[i]
+tag   = low <= vwapV * (1 + vwapTol)
+green = close >= open and close > vwapV
+pmvol = cv >= minPMv
+avgRange = ta.sma((high - low) / close, 5)
+tradable = avgRange >= minRange and volume >= minBarV
+reward   = (upper - close) / close >= minTarget
+entry = above and tag and green and surge and pmvol and tradable and reward
+
+plotshape(entry, "ENTREE", shape.triangleup, location.belowbar, color.green, size = size.small, text = "BUY")
+plot(entry ? close * 0.95 : na, "Stop -5%", color = color.red, style = plot.style_circles)
+
+alertcondition(entry, "Setup repli VWAP", "Repli VWAP + rebond vert + surge x3")

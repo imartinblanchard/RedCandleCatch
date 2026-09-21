@@ -1,0 +1,104 @@
+//@version=6
+// Micro Pullback (Ross) — verificateur d'entrees. Replique research/backtest_micropullback.py.
+// Fleche verte "BUY" = une entree du backtest (toutes conditions point-in-time reunies).
+// ⚠️ ACTIVE LES "EXTENDED HOURS" (heures etendues) : la reference de hausse est l'open ~04:00.
+indicator("Micro Pullback (Ross) — verificateur d'entrees", overlay = true)
+
+// ---- Inputs (memes valeurs que le backtest) ----
+minPerf   = input.float(10.0, "Hausse mini depuis open 04:00 (%)") / 100.0
+rvolMin   = input.float(5.0,  "RVOL mini (x)")
+gateVol   = input.int(0,      "Gate volume cumule mini (0 = off)")
+minPrice  = input.float(2.0,  "Prix min $")
+maxPrice  = input.float(20.0, "Prix max $")
+rrMin     = input.float(2.0,  "R:R mini")
+winStartH = input.int(7,      "Fenetre debut (heure ET)")
+winEndH   = input.int(10,     "Fenetre fin (heure ET)")
+
+// ---- Ancrage jour a l'open 04:00 (VWAP, volume cumule, HOD, perf) ----
+newDay = ta.change(time("D")) != 0
+var float dayOpen = na
+var float cumV    = na
+var float cpv     = na
+var float cvv     = na
+var float sh      = na
+sessHighPrev = na(sh) ? high : sh          // HOD AVANT la bougie courante (= hod a i-1 du backtest)
+tp = (high + low + close) / 3.0
+if newDay
+    dayOpen := open
+    cumV := volume
+    cpv := tp * volume
+    cvv := volume
+    sh  := high
+else
+    cumV := nz(cumV) + volume
+    cpv := nz(cpv) + tp * volume
+    cvv := nz(cvv) + volume
+    sh  := math.max(nz(sh), high)
+vwapV = cvv > 0 ? cpv / cvv : close
+
+// ---- Indicateurs ----
+ema9 = ta.ema(close, 9)
+[macdLine, sigLine, _h] = ta.macd(close, 12, 26, 9)
+perf = (na(dayOpen) or dayOpen == 0) ? 0.0 : (close - dayOpen) / dayOpen
+avgDailyVol = request.security(syminfo.tickerid, "D", ta.sma(volume, 20)[1], lookahead = barmerge.lookahead_off)
+rvol = avgDailyVol > 0 ? cumV / avgDailyVol : 0.0
+
+// ---- Fenetre horaire (ET) ----
+hourET = hour(time, "America/New_York")
+inWin = hourET >= winStartH and hourET < winEndH
+
+// ---- Contexte point-in-time ----
+ctx = perf >= minPerf and close >= minPrice and close <= maxPrice and close > vwapV and close > ema9 and macdLine > 0 and macdLine > sigLine and rvol >= rvolMin and cumV >= gateVol
+
+// ---- Micro pullback (1 ou 2 bougies rouges, volume leger, impulsion avant) ----
+p1red = close[1] < open[1]
+p2red = close[2] < open[2]
+p3red = close[3] < open[3]
+twoBar = p1red and p2red and not p3red
+oneBar = p1red and not p2red
+hasPB  = twoBar or oneBar
+
+pbHigh = twoBar ? math.max(high[1], high[2]) : high[1]
+pbLow  = twoBar ? math.min(low[1], low[2])   : low[1]
+pbVol  = twoBar ? (volume[1] + volume[2]) / 2.0 : volume[1]
+impNew = twoBar ? close[3] : close[2]
+impOld = twoBar ? close[5] : close[4]
+impVol = twoBar ? (volume[3] + volume[4] + volume[5]) / 3.0 : (volume[2] + volume[3] + volume[4]) / 3.0
+g1 = twoBar ? (close[3] >= open[3]) : (close[2] >= open[2])
+g2 = twoBar ? (close[4] >= open[4]) : (close[3] >= open[3])
+g3 = twoBar ? (close[5] >= open[5]) : (close[4] >= open[4])
+impulseUp = impNew > impOld and (g1 or g2 or g3)
+lightPB   = impVol > 0 and pbVol < impVol
+
+// ---- Trigger + gate R:R ----
+entry  = pbHigh
+stop   = pbLow
+target = sessHighPrev
+brk    = high >= pbHigh
+rrOK   = (entry - stop) > 0 and (target - entry) >= rrMin * (entry - stop)
+
+buy = inWin and ctx and hasPB and impulseUp and lightPB and brk and rrOK
+
+// ---- Affichage ----
+plot(vwapV, "VWAP", color = color.blue,   linewidth = 2)
+plot(ema9,  "EMA9", color = color.orange, linewidth = 1)
+plotshape(buy, "BUY", shape.triangleup, location.belowbar, color.green, size = size.small, text = "BUY")
+plot(buy ? stop   : na, "Stop",     color = color.red,   style = plot.style_circles)
+plot(buy ? target : na, "TP (HOD)", color = color.green, style = plot.style_circles)
+alertcondition(buy, "Micro Pullback entry", "Entree micro-pullback (Ross)")
+
+// ---- Tableau d'etat (coin haut-droit) : voir pourquoi ca passe/bloque ----
+var table t = table.new(position.top_right, 2, 6, border_width = 1)
+if barstate.islast
+    table.cell(t, 0, 0, "Hausse",  text_color = color.gray)
+    table.cell(t, 1, 0, str.tostring(perf * 100, "#.0") + "%", text_color = perf >= minPerf ? color.green : color.red)
+    table.cell(t, 0, 1, "RVOL",    text_color = color.gray)
+    table.cell(t, 1, 1, str.tostring(rvol, "#.0") + "x", text_color = rvol >= rvolMin ? color.green : color.red)
+    table.cell(t, 0, 2, "Vol cum", text_color = color.gray)
+    table.cell(t, 1, 2, str.tostring(cumV / 1000, "#") + "K", text_color = cumV >= gateVol ? color.green : color.red)
+    table.cell(t, 0, 3, ">VWAP",   text_color = color.gray)
+    table.cell(t, 1, 3, close > vwapV ? "oui" : "non", text_color = close > vwapV ? color.green : color.red)
+    table.cell(t, 0, 4, "MACD ouv",text_color = color.gray)
+    table.cell(t, 1, 4, (macdLine > 0 and macdLine > sigLine) ? "oui" : "non", text_color = (macdLine > 0 and macdLine > sigLine) ? color.green : color.red)
+    table.cell(t, 0, 5, "Contexte",text_color = color.gray)
+    table.cell(t, 1, 5, ctx ? "OK" : "NON", text_color = ctx ? color.green : color.red)

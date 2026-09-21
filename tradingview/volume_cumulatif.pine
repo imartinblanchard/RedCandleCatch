@@ -1,0 +1,11 @@
+//@version=6
+indicator("PM Volume cumule (gate 150K)")
+
+minPMv = input.int(150000, "Volume cumule mini")
+
+newDay = ta.change(time("D")) != 0
+var float cv = na
+cv := (na(cv) or newDay) ? volume : cv + volume
+
+plot(cv, "Cumule", color = cv >= minPMv ? color.green : color.new(color.gray, 30), style = plot.style_area)
+plot(minPMv, "Gate 150K", color = color.red, linewidth = 1)

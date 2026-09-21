@@ -1,0 +1,144 @@
+//@version=5
+// ══════════════════════════════════════════════════════════════════════════
+//  WARRIOR v2 — Dip −5% + sortie DEUX PHASES (config validée 2026-09-11)
+//
+//  Entrée : gap pré-marché 10-20%, prix 3-20$, bougie 1-min clôturant ≥5%
+//           sous SON PROPRE open, pendant 09:30-16:00 ET. 1 entrée/jour.
+//  Sortie : PHASE 1 = stop fixe −10% depuis l'entrée
+//           PHASE 2 = dès que le sommet atteint +5%, bascule en trailing 2%
+//                     sous le plus-haut (le trailing ne redescend jamais)
+//           Filet   = sortie forcée à 16:30
+//
+//  À utiliser sur un graphique 1 MINUTE avec les heures étendues activées
+//  (le gap se mesure sur le pré-marché 04:00-09:30).
+// ══════════════════════════════════════════════════════════════════════════
+indicator("Warrior v2 — Dip -5% + Two-Phase Exit", overlay=true, max_labels_count=500, max_lines_count=500)
+
+// ─────────────────────────── Paramètres ───────────────────────────
+dipPct    = input.float(5.0,  "Dip d'entrée (%)",        minval=0.1, step=0.5, group="Entrée")
+gapMin    = input.float(10.0, "Gap minimum (%)",         minval=0.0, step=1.0, group="Entrée")
+gapMax    = input.float(20.0, "Gap maximum (%)",         minval=0.0, step=1.0, group="Entrée")
+useGap    = input.bool(true,  "Activer le filtre de gap",            group="Entrée")
+minPrice  = input.float(3.0,  "Prix minimum ($)",        minval=0.0, group="Entrée")
+maxPrice  = input.float(20.0, "Prix maximum ($)",        minval=0.0, group="Entrée")
+entryWin  = input.session("0930-1600", "Fenêtre d'ENTRÉE (ET)",      group="Entrée")
+
+stopPct   = input.float(10.0, "PHASE 1 — Stop fixe (%)", minval=0.1, step=0.5, group="Sortie")
+actPct    = input.float(5.0,  "Activation du trailing (%)", minval=0.1, step=0.5, group="Sortie")
+trailPct  = input.float(2.0,  "PHASE 2 — Trailing (%)",  minval=0.1, step=0.5, group="Sortie")
+sessWin   = input.session("0930-1630", "Séance (sortie forcée)",     group="Sortie")
+
+showLines = input.bool(true,  "Afficher stop / trailing",            group="Affichage")
+showGapLbl= input.bool(true,  "Afficher le gap du jour",             group="Affichage")
+tz = "America/New_York"
+
+// ──────────────── Gap = plus-haut PRÉ-MARCHÉ vs clôture veille ────────────────
+prevClose = request.security(syminfo.tickerid, "D", close[1], lookahead=barmerge.lookahead_on)
+newDay    = ta.change(time("D")) != 0
+inPre     = not na(time(timeframe.period, "0400-0930", tz))
+
+var float pmHigh = na
+if newDay
+    pmHigh := na
+if inPre
+    pmHigh := na(pmHigh) ? high : math.max(pmHigh, high)
+
+gapPct = (na(prevClose) or prevClose <= 0 or na(pmHigh)) ? na : (pmHigh / prevClose - 1) * 100
+gapOK  = not useGap or (not na(gapPct) and gapPct >= gapMin and gapPct < gapMax)
+
+inEntry = not na(time(timeframe.period, entryWin, tz))
+inSess  = not na(time(timeframe.period, sessWin,  tz))
+
+// ─────────────────────── État de la position ───────────────────────
+var bool  inPos     = false
+var bool  traded    = false        // 1 entrée par ticker par jour
+var bool  activated = false        // phase 2 atteinte ?
+var float entryP    = na
+var float peak      = na
+var float stopLvl   = na
+var float trailLvl  = na
+
+if newDay
+    traded    := false
+    inPos     := false
+    activated := false
+    entryP    := na
+    peak      := na
+    stopLvl   := na
+    trailLvl  := na
+
+isDip = open > 0 and (close - open) / open * 100 <= -dipPct
+
+// ─────────────────────── ENTRÉE ───────────────────────
+enter = not inPos and not traded and inEntry and gapOK and isDip and close >= minPrice and close <= maxPrice
+if enter
+    inPos     := true
+    traded    := true
+    activated := false
+    entryP    := close
+    peak      := close
+    stopLvl   := close * (1 - stopPct / 100)
+    trailLvl  := na
+    label.new(bar_index, low, "ACHAT\n" + str.tostring(close, format.mintick),
+              color=color.new(color.green, 15), textcolor=color.white,
+              style=label.style_label_up, size=size.small)
+
+// ─────────────── GESTION : phase 1 -> phase 2 -> sortie ───────────────
+exitPrice = float(na)
+exitTxt   = ""
+
+if inPos and not enter
+    peak := math.max(peak, high)
+
+    // bascule en PHASE 2 dès que le sommet touche +actPct%
+    if not activated and peak >= entryP * (1 + actPct / 100)
+        activated := true
+        trailLvl  := peak * (1 - trailPct / 100)
+
+    // le trailing suit le sommet, ne redescend JAMAIS
+    if activated
+        trailLvl := math.max(nz(trailLvl, peak * (1 - trailPct / 100)), peak * (1 - trailPct / 100))
+
+    // déclenchement
+    if activated and low <= trailLvl
+        exitPrice := trailLvl
+        exitTxt   := "TRAIL"
+    else if not activated and low <= stopLvl
+        exitPrice := stopLvl
+        exitTxt   := "STOP"
+    else if not inSess
+        exitPrice := close
+        exitTxt   := "EOD"
+
+if inPos and not na(exitPrice)
+    pnl = (exitPrice - entryP) / entryP * 100
+    label.new(bar_index, high,
+              exitTxt + "\n" + str.tostring(exitPrice, format.mintick) +
+              "\n" + (pnl >= 0 ? "+" : "") + str.tostring(pnl, "#.##") + "%",
+              color=color.new(pnl >= 0 ? color.teal : color.red, 15), textcolor=color.white,
+              style=label.style_label_down, size=size.small)
+    inPos     := false
+    activated := false
+    entryP    := na
+    peak      := na
+    stopLvl   := na
+    trailLvl  := na
+
+// ─────────────────────── Affichage ───────────────────────
+plot(showLines and inPos and not activated ? stopLvl  : na, "Stop -10%",  color=color.red,    linewidth=2, style=plot.style_linebr)
+plot(showLines and inPos and activated     ? trailLvl : na, "Trail 2%",   color=color.orange, linewidth=2, style=plot.style_linebr)
+plot(showLines and inPos                   ? entryP   : na, "Entrée",     color=color.new(color.gray, 40), linewidth=1, style=plot.style_linebr)
+// seuil d'activation (+5%) tant qu'on est en phase 1
+plot(showLines and inPos and not activated ? entryP * (1 + actPct/100) : na, "Seuil +5%",
+     color=color.new(color.blue, 50), linewidth=1, style=plot.style_linebr)
+
+// pastille du gap au début de la séance
+firstRth = inSess and not inSess[1]
+if showGapLbl and firstRth and not na(gapPct)
+    label.new(bar_index, high,
+              "gap " + str.tostring(gapPct, "#.#") + "%" + (gapOK ? " ✓" : " ✗"),
+              color=color.new(gapOK ? color.blue : color.gray, 30), textcolor=color.white,
+              style=label.style_label_down, size=size.tiny)
+
+// fond vert pâle quand la position est ouverte (phase 2 = plus soutenu)
+bgcolor(inPos ? color.new(activated ? color.orange : color.green, 92) : na)

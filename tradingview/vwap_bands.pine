@@ -1,0 +1,27 @@
+//@version=6
+indicator("PM VWAP + Bandes", overlay = true)
+
+k1 = input.float(1.0, "Bande 1 (sigma)")
+k2 = input.float(2.0, "Bande 2 (sigma) = TP")
+
+newDay = ta.change(time("D")) != 0
+var float cpv  = na
+var float cv   = na
+var float cpv2 = na
+src = (high + low + close) / 3
+if na(cv) or newDay
+    cpv  := src * volume
+    cv   := volume
+    cpv2 := src * src * volume
+else
+    cpv  := cpv + src * volume
+    cv   := cv + volume
+    cpv2 := cpv2 + src * src * volume
+vwapV = cpv / cv
+sd = math.sqrt(math.max(0.0, cpv2 / cv - vwapV * vwapV))
+
+plot(vwapV,          "VWAP",          color = color.blue,   linewidth = 2)
+plot(vwapV + k1*sd,  "+1 sigma",      color = color.new(color.gray, 40))
+plot(vwapV - k1*sd,  "-1 sigma",      color = color.new(color.gray, 40))
+plot(vwapV + k2*sd,  "+2 sigma (TP)", color = color.orange, linewidth = 1)
+plot(vwapV - k2*sd,  "-2 sigma",      color = color.new(color.orange, 60))
