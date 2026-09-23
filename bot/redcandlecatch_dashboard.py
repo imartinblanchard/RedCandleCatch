@@ -399,9 +399,17 @@ class LiveDashboard:
                     self.account_capital = float(nl)
             except Exception:
                 pass
-            elig = wscan.scan_eligible(br)           # éligibles de CE cycle
+            elig = wscan.scan_eligible(br)           # éligibles de CE cycle (TRADING, gap 5-10)
             eligible.write_all(elig)                 # merge STICKY dans le fichier du jour
             full = eligible.load()                   # liste sticky complète du jour
+            # CAPTURE LIVE de l'univers LARGE 5-500% (collecte de données, indépendant du trading)
+            try:
+                import bot.collect_universe as cu
+                nadd, ntot = cu.record(br)
+                if nadd:
+                    self._add_message(f"  [univers 5-500] +{nadd} nouveaux, {ntot} au total")
+            except Exception as e:
+                self._add_message(f"  [univers] err: {e}")
             self.watchlist = sorted(
                 [dict(ticker=tk, **info) for tk, info in full.items()],
                 key=lambda x: (x.get('gap') or 0), reverse=True)

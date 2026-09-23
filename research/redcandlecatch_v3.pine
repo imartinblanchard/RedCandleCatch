@@ -1,0 +1,115 @@
+//@version=5
+// ══════════════════════════════════════════════════════════════════════════
+//  RedCandleCatch V3 — REPLI & CAPITULATION (strategie live 2026-09-24)
+//
+//  Achat quand un petit gappeur (5-10%) RECULE >=8% de son plus-haut du jour (HOD)
+//  ET que le VOLUME ACCELERE dans la descente (= capitulation). Stop -10%, on tient
+//  jusqu'a 15:55 (pas de trailing, pas de take-profit).
+//
+//  Graphique 1 MINUTE, heures etendues (ETH) ACTIVEES.
+// ══════════════════════════════════════════════════════════════════════════
+indicator("RedCandleCatch V3 (repli+capit)", overlay=true, max_labels_count=500, max_lines_count=500)
+tz = "America/New_York"
+
+gapMin   = input.float(5.0,   "Gap min (%)",              step=0.5, group="Univers")
+gapMax   = input.float(10.0,  "Gap max (%)",              step=0.5, group="Univers")
+minP     = input.float(3.0,   "Prix min ($)",                       group="Univers")
+maxP     = input.float(20.0,  "Prix max ($)",                       group="Univers")
+retrPct  = input.float(8.0,   "Repli minimum du HOD (%)", step=0.5, group="Entree")
+capBars  = input.int(4,       "Repli : bougies minimum",            group="Entree")
+capRatio = input.float(1.3,   "Capitulation : ratio volume 2e/1re moitie", step=0.1, group="Entree")
+pbDvol   = input.float(300000,"Liquidite : $vol cumule du repli",   step=50000, group="Entree")
+stopPct  = input.float(10.0,  "Stop (%)",                 step=0.5, group="Sortie")
+showLbl  = input.bool(true,   "Afficher les labels",                group="Affichage")
+
+prevClose = request.security(syminfo.tickerid, "D", close[1], lookahead=barmerge.lookahead_on)
+sessMin   = hour(time, tz) * 60 + minute(time, tz)
+newDay    = ta.change(time("D")) != 0
+inTrack   = sessMin >= 240 and sessMin < 960          // 04:00-16:00 (le HOD inclut le pre-marche)
+dv        = volume * close
+
+// --- HOD du jour + $vol de chaque bougie du REPLI (depuis le dernier sommet) ---
+var float hod = na
+var array<float> pbVol = array.new_float()
+var bool  traded = false
+var bool  inPos  = false
+var float entryP = na
+var float stopLvl = na
+
+if newDay
+    hod := na
+    array.clear(pbVol)
+    traded := false
+    inPos := false
+    entryP := na
+    stopLvl := na
+
+if inTrack
+    if na(hod) or high > hod                          // STRICT > : on n'ancre que sur un NOUVEAU sommet
+        hod := high
+        array.clear(pbVol)                            // (pas sur une EGALITE) -> comme le bot (argmax)
+    else
+        array.push(pbVol, dv)                         // bougie du repli (apres le sommet)
+
+gap  = (na(prevClose) or prevClose <= 0 or na(hod)) ? na : (hod / prevClose - 1) * 100
+retr = (na(hod) or hod <= 0) ? na : (hod - close) / hod * 100
+
+// --- ratio de capitulation (volume 2e moitie / 1re moitie du repli) ---
+capit() =>
+    n = array.size(pbVol)
+    float r = na
+    if n >= capBars
+        half = int(n / 2)
+        float s1 = 0.0
+        float s2 = 0.0
+        for i = 0 to half - 1
+            s1 := s1 + array.get(pbVol, i)
+        for i = half to n - 1
+            s2 := s2 + array.get(pbVol, i)
+        a1 = s1 / half
+        a2 = s2 / (n - half)
+        r := a1 > 0 ? a2 / a1 : na
+    r
+ratio = capit()
+pbSum = array.sum(pbVol)
+
+// --- ENTREE : 1er franchissement du repli -retrPct + capitulation + liquidite ---
+gapOK      = not na(gap) and gap >= gapMin and gap <= gapMax
+firstCross = not na(retr) and retr >= retrPct and (na(retr[1]) or retr[1] < retrPct)
+capitOK    = not na(ratio) and ratio > capRatio
+enter = inTrack and sessMin >= 570 and sessMin < 955 and not inPos and not traded and gapOK and firstCross and capitOK and pbSum >= pbDvol and close >= minP and close <= maxP
+
+if enter
+    inPos := true
+    traded := true
+    entryP := close
+    stopLvl := close * (1 - stopPct / 100)
+    if showLbl
+        label.new(bar_index, low, "ACHAT repli -" + str.tostring(retr, "#") + "%\ngap " + str.tostring(gap, "#") + "% - capit x" + str.tostring(ratio, "#.#") + "\n" + str.tostring(close, format.mintick),
+                  color=color.new(color.blue, 10), textcolor=color.white, style=label.style_label_up, size=size.small)
+
+// --- SORTIE : stop -10% sinon on tient jusqu'a 15:55 ---
+if inPos and not enter
+    float exitP = na
+    string txt = ""
+    if low <= stopLvl
+        exitP := stopLvl
+        txt := "STOP"
+    else if sessMin >= 955
+        exitP := close
+        txt := "EOD 15:55"
+    if not na(exitP)
+        pnl = (exitP - entryP) / entryP * 100
+        if showLbl
+            label.new(bar_index, high, txt + "\n" + str.tostring(exitP, format.mintick) + "\n" + (pnl >= 0 ? "+" : "") + str.tostring(pnl, "#.##") + "%",
+                      color=color.new(pnl >= 0 ? color.teal : color.red, 10), textcolor=color.white, style=label.style_label_down, size=size.small)
+        inPos := false
+        entryP := na
+        stopLvl := na
+
+// --- Affichage ---
+plot(inTrack and not na(hod) ? hod : na, "HOD (sommet du jour)", color=color.new(color.gray, 30), linewidth=1, style=plot.style_linebr)
+plot(inTrack and not na(hod) ? hod * (1 - retrPct/100) : na, "Niveau repli -8%", color=color.new(color.orange, 30), linewidth=1, style=plot.style_linebr)
+plot(inPos ? entryP : na, "Entree", color=color.new(color.blue, 20), linewidth=1, style=plot.style_linebr)
+plot(inPos ? stopLvl : na, "Stop -10%", color=color.new(color.red, 20), linewidth=2, style=plot.style_linebr)
+bgcolor(inPos ? color.new(color.blue, 92) : (gapOK ? color.new(color.green, 94) : na))

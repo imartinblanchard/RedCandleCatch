@@ -377,6 +377,27 @@ class RedCandleCatchTerminator:
         g = (cur_high - pc) / pc * 100
         return g if (GAP_MIN <= g <= GAP_MAX) else None
 
+    def _log_eval(self, tk, r, pc, hod, gap, drop, ratio, pb_dvol, nbars, decision):
+        """LOG TEMPS RÉEL de chaque opportunité (1er repli >=RETRACE_PCT) vue par le bot, avec
+        toutes ses valeurs et la décision. Donnée FIABLE (capturée à l'instant, IBKR, non
+        reconstruite). -> data/collected_live/signals-YYYY-MM-DD.csv (dataset qui s'accumule)."""
+        try:
+            import csv, os
+            d = os.path.join('data', 'collected_live'); os.makedirs(d, exist_ok=True)
+            path = os.path.join(d, f"signals-{now_et():%Y-%m-%d}.csv")
+            new = not os.path.exists(path)
+            with open(path, 'a', newline='') as f:
+                w = csv.writer(f)
+                if new:
+                    w.writerow(['logged_at', 'ticker', 'candle', 'o', 'h', 'l', 'c', 'v', 'prev_close',
+                                'hod', 'gap', 'retrace', 'capit_ratio', 'pb_dvol', 'n_bars', 'decision', 'mode'])
+                w.writerow([now_et().strftime('%H:%M:%S'), tk, r['t'].strftime('%H:%M'),
+                            r['o'], r['h'], r['l'], r['c'], int(r.get('v') or 0), round(pc, 4), round(hod, 4),
+                            round(gap, 2), round(drop, 2), round(ratio, 2), int(pb_dvol), nbars, decision,
+                            'LIVE' if self.live else 'PAPER'])
+        except Exception as e:
+            print(f"    log_eval err {tk}: {e}")
+
     def _retrace_signal(self, tk: str, r: dict, allbars):
         """STRATÉGIE v3 : repli >=RETRACE_PCT du HOD + capitulation (volume qui accélère) +
         liquidité cumulée. -> (entry, activate, desc) ou None. Sortie hold-to-EOD (activate=jamais)."""
@@ -413,16 +434,20 @@ class RedCandleCatchTerminator:
             return None
         dv = [(b.get('v') or 0) * b['c'] for b in pull]
         pb_dvol = sum(dv)
-        if pb_dvol < PULLBACK_DVOL_MIN:
-            print(f"[{now_et():%H:%M}] SKIP {tk} {r['t']:%H:%M} repli -{drop:.0f}% mais illiquide "
-                  f"(${pb_dvol/1e3:.0f}K cumulé < ${PULLBACK_DVOL_MIN/1e3:.0f}K)")
-            return None
         half = len(dv) // 2
         a1 = sum(dv[:half]) / max(half, 1); a2 = sum(dv[half:]) / max(len(dv) - half, 1)
         ratio = (a2 / a1) if a1 > 0 else 0
-        if ratio <= CAPIT_RATIO:                          # pas de capitulation (volume ne s'accélère pas)
-            print(f"[{now_et():%H:%M}] SKIP {tk} {r['t']:%H:%M} repli -{drop:.0f}% gap {gap:.0f}% mais "
-                  f"PAS de capitulation (volume x{ratio:.1f} <= {CAPIT_RATIO})")
+        # DÉCISION + LOG TEMPS RÉEL : chaque opportunité (1er repli 8%) est enregistrée avec TOUTES
+        # ses valeurs, à l'instant où le bot la voit -> donnée FIABLE (pas de reconstruction post-hoc).
+        if pb_dvol < PULLBACK_DVOL_MIN:
+            decision = f'SKIP-illiquide-{pb_dvol/1e3:.0f}K'
+        elif ratio <= CAPIT_RATIO:
+            decision = f'SKIP-pas-capit-x{ratio:.1f}'
+        else:
+            decision = 'ENTER'
+        self._log_eval(tk, r, pc, hod, gap, drop, ratio, pb_dvol, len(pull), decision)
+        if decision != 'ENTER':
+            print(f"[{now_et():%H:%M}] SKIP {tk} {r['t']:%H:%M} repli -{drop:.0f}% gap {gap:.0f}% -> {decision}")
             return None
         desc = f"repli -{drop:.0f}% du HOD, gap {gap:.0f}%, capitulation vol x{ratio:.1f} (repli {len(pull)} bougies)"
         return r['c'], 999.0, desc                        # activate=999 -> jamais activé = HOLD-TO-EOD
