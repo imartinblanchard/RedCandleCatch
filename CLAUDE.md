@@ -8,6 +8,17 @@ Trading bot for the **LONG Gap & Go strategy** (Warrior Trading style). Scans fo
 
 **Direction**: LONG (buy low, sell high on gap-up momentum)
 
+> ⚠️ **MISE À JOUR 2026-09-23 (rebuild point-in-time `research/pit_gappers/`) — fait autorité sur la description ci-dessous.**
+> Un audit a montré que l'ancien "edge post-open" (gap 10-20) était un **artefact de look-ahead** ; mesuré proprement il est nul.
+> Config live DÉSORMAIS :
+> - **Bande de gap 5-10 %** (plus 10-20). Seule bande OOS-validée. `GAP_MIN/MAX = 5/10`.
+> - **Classification PM/post-open par l'heure du DIP** (plus par `added`) + **recheck du gap** : on n'entre que si le gap est ENCORE dans 5-10 % au moment du dip (l'éligibilité est sticky).
+> - **Plancher de float 5M** (`FLOAT_MIN_HARD`, exclut l'ultra-bas perdant ; float inconnu passe).
+> - **Entrée en LIMITE marketable** (plus d'ordre marché) — l'edge (+0,5 %/tr) meurt dès +0,5 % de slippage.
+> - Inchangé : dip 1,5 %, act +10 %, trail 2 %, stop −10 %, prix 3-20 $, dip-candle ≥ 200 K$, `TRADE_PM=False`.
+> Backtest de cette règle : +0,46 %/tr (t=3,5), TEST +0,61 % (t=3,2). Voir mémoire `edge-reel-gap-5-10` et `lookahead-postopen-invalide`.
+> Les paragraphes ci-dessous décrivent encore l'ANCIENNE config (10-20, dip adaptatif −5/−1,5 par `added`) — à lire comme historique.
+
 **Live strategy — RedCandleCatch_SmallCap**: see [STRATEGY.md](STRATEGY.md). Dip-buy
 momentum during regular hours. Universe: gap **10-20%** measured **04:00→noon** (catches
 post-open runners, not just pre-market), price 3-20$ (session dollar-volume filter disabled 19/09; liquidity is gated at entry by
@@ -98,7 +109,7 @@ python -m analysis.entry_model --train   # Train entry model
 **RedCandleCatch strategy libraries** (called by `redcandlecatch_terminator`):
 | Module | Purpose | Key Classes/Functions |
 |--------|---------|----------------------|
-| `bot/redcandlecatch_scan.py` | Gap scan + RedCandleCatch filters | `scan_eligible()`, `GAP_MIN/MAX=10/20`, chart/volume/float/SSR ratings |
+| `bot/redcandlecatch_scan.py` | Gap scan + RedCandleCatch filters | `scan_eligible()`, `GAP_MIN/MAX=5/10` (23/09, ex-10/20), `FLOAT_MIN_HARD=5M`, chart/volume/float/SSR ratings |
 | `bot/eligible.py` | Sticky per-day signal file | `write_all()`, `load()`, `upsert()` → `redcandlecatch-eligible-YYYY-MM-DD.json` |
 | `bot/indicators.py` | Pure math | `vwap()`, `ema()`, `vwap_bands()`/`vwap_upper()` |
 | `execution/ibkr_broker.py` | IBKR prices + orders | `IBKRBroker` (prices, positions, bars, buy/sell, `allow_live` guard) |

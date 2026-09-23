@@ -46,14 +46,23 @@ def upsert(ticker: str, info: dict, day: Optional[str] = None) -> bool:
 
 
 def write_all(elig: Dict[str, dict], day: Optional[str] = None) -> None:
-    """Écrit tout le dict (merge sticky : conserve les titres déjà présents)."""
+    """Merge dans le fichier du jour. STICKY sur la PRÉSENCE (on ne retire jamais un titre),
+    mais on RAFRAÎCHIT ses valeurs (gap/prix/vol/ratings/reason) à CHAQUE scan — `added` (heure
+    de 1re éligibilité) est préservé. Écrit dès qu'il y a un ajout OU une mise à jour.
+    NB : un titre qui sort de la bande n'est plus renvoyé par le scan -> il garde ses dernières
+    valeurs (le terminator re-vérifie le gap sur bougies live à l'entrée, donc pas de mauvais trade)."""
     d = load(day)
-    added = False
+    changed = False
     for tk, info in elig.items():
         tk = tk.upper()
         if tk not in d:
-            d[tk] = info; added = True
-    if added or not path(day).exists():
+            d[tk] = info; changed = True
+        else:
+            first_added = d[tk].get('added', info.get('added'))     # on garde la 1re éligibilité
+            refreshed = {**info, 'added': first_added}
+            if refreshed != d[tk]:
+                d[tk] = refreshed; changed = True
+    if changed or not path(day).exists():
         p = path(day)
         p.parent.mkdir(parents=True, exist_ok=True)
         p.write_text(json.dumps(d, indent=2))

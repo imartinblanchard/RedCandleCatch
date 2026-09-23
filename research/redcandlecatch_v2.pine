@@ -1,0 +1,140 @@
+//@version=5
+// ══════════════════════════════════════════════════════════════════════════
+//  RedCandleCatch V2 — NOUVELLE stratégie (déployée 2026-09-23)
+//
+//  Marque le DIP d'entrée et la sortie 2-phases du bot LIVE actuel.
+//  Différences clés vs l'ancien Pine :
+//   - Bande de gap 5-10% (était 10-20).
+//   - RECHECK : on n'entre que si le gap est ENCORE dans 5-10% AU MOMENT DU DIP
+//     (pas juste "éligible une fois"). C'est LA condition qui rend l'edge positif.
+//   - Classé par HEURE DU DIP : dip post-ouverture = -1,5% (act +10%) ;
+//     dip pré-marché = -5% (act +5%). Le bot trade les DEUX (TRADE_PM=True).
+//   - Filtre liquidité : la bougie de dip doit faire volume x close >= 200K$.
+//
+//  ⚠️ Le PLANCHER DE FLOAT (>=5M actions) du bot N'EST PAS reproductible en Pine
+//     (pas de donnée de float fiable) -> ce script peut marquer des titres que le
+//     bot exclurait sur le float. À garder en tête.
+//
+//  Graphique 1 MINUTE, heures étendues (ETH) ACTIVÉES.
+// ══════════════════════════════════════════════════════════════════════════
+indicator("RedCandleCatch V2 (5-10)", overlay=true, max_labels_count=500, max_lines_count=500)
+tz = "America/New_York"
+
+// ─────────────────────────── Paramètres ───────────────────────────
+gapMin   = input.float(5.0,  "Gap min (%)",                minval=0.0, step=0.5, group="Entrée")
+gapMax   = input.float(10.0, "Gap max (%)",                minval=0.0, step=0.5, group="Entrée")
+dipPost  = input.float(1.5,  "Dip POST-open (%)",          minval=0.1, step=0.5, group="Entrée")
+dipPM    = input.float(5.0,  "Dip PRÉ-marché (%)",         minval=0.1, step=0.5, group="Entrée")
+tradePM  = input.bool(true,  "Trader aussi le pré-marché",              group="Entrée")
+minPrice = input.float(3.0,  "Prix min ($)",               minval=0.0, group="Entrée")
+maxPrice = input.float(20.0, "Prix max ($)",               minval=0.0, group="Entrée")
+minDvol  = input.float(200000, "Liquidité min bougie de dip ($)", step=50000, group="Entrée")
+
+stopPct  = input.float(10.0, "Phase 1 — Stop fixe (%)",    minval=0.1, step=0.5, group="Sortie")
+actPost  = input.float(10.0, "Activation POST-open (%)",   minval=0.1, step=0.5, group="Sortie")
+actPM    = input.float(5.0,  "Activation PRÉ-marché (%)",  minval=0.1, step=0.5, group="Sortie")
+trailPct = input.float(2.0,  "Phase 2 — Trailing (%)",     minval=0.1, step=0.5, group="Sortie")
+
+showLines= input.bool(true,  "Afficher stop / trailing / seuils",       group="Affichage")
+
+// ──────────── Gap = plus-haut courant 04:00->maintenant vs clôture veille ────────────
+// (running max high sur la journée = ce que le RECHECK du bot utilise à l'entrée)
+prevClose = request.security(syminfo.tickerid, "D", close[1], lookahead=barmerge.lookahead_on)
+sessMin   = hour(time, tz) * 60 + minute(time, tz)          // minutes depuis minuit (ET)
+newDay    = ta.change(time("D")) != 0
+inTrack   = sessMin >= 240 and sessMin < 960                // 04:00-16:00 : on suit le plus-haut
+
+var float dayHigh = na
+if newDay
+    dayHigh := na
+if inTrack
+    dayHigh := na(dayHigh) ? high : math.max(dayHigh, high)
+
+gapPct    = (na(prevClose) or prevClose <= 0 or na(dayHigh)) ? na : (dayHigh / prevClose - 1) * 100
+gapInBand = not na(gapPct) and gapPct >= gapMin and gapPct <= gapMax   // RECHECK : dans la bande MAINTENANT
+
+// ─────────────────────── Classement PM / post-open (par heure du dip) ───────────────────────
+isPM      = sessMin < 571                                   // dip avant 09:31 = pré-marché
+dipEff    = isPM ? dipPM  : dipPost
+actEff    = isPM ? actPM  : actPost
+entryOK   = sessMin >= (tradePM ? 240 : 570) and sessMin < 955   // fenêtre d'entrée (jusqu'à 15:55)
+dollarVol = volume * close
+
+// ─────────────────────── État de la position ───────────────────────
+var bool  inPos     = false
+var bool  traded    = false
+var bool  activated = false
+var float entryP    = na
+var float peak      = na
+var float stopLvl   = na
+var float trailLvl  = na
+if newDay
+    traded := false
+    inPos := false
+    activated := false
+    entryP := na
+    peak := na
+    stopLvl := na
+    trailLvl := na
+
+isDip = open > 0 and (close - open) / open * 100 <= -dipEff
+
+// ─────────────────────── ENTRÉE (le DIP) ───────────────────────
+enter = not inPos and not traded and entryOK and gapInBand and isDip and dollarVol >= minDvol and close >= minPrice and close <= maxPrice
+if enter
+    inPos := true
+    traded := true
+    activated := false
+    entryP := close
+    peak := close
+    stopLvl := close * (1 - stopPct / 100)
+    trailLvl := na
+    label.new(bar_index, low,
+              "ACHAT " + (isPM ? "PM -" : "-") + str.tostring(dipEff, "#.#") + "%\n" +
+              str.tostring(close, format.mintick) + "  (gap " + str.tostring(gapPct, "#.#") + "%)",
+              color=color.new(isPM ? color.purple : color.blue, 10), textcolor=color.white,
+              style=label.style_label_up, size=size.small)
+
+// ─────────────── GESTION : phase 1 -> activation -> phase 2 -> sortie ───────────────
+exitPrice = float(na)
+exitTxt   = ""
+if inPos and not enter
+    peak := math.max(peak, high)
+    if not activated and peak >= entryP * (1 + actEff / 100)
+        activated := true
+        trailLvl := peak * (1 - trailPct / 100)
+    if activated
+        trailLvl := math.max(nz(trailLvl, peak * (1 - trailPct / 100)), peak * (1 - trailPct / 100))
+    if activated and low <= trailLvl
+        exitPrice := trailLvl
+        exitTxt := "TRAIL"
+    else if not activated and low <= stopLvl
+        exitPrice := stopLvl
+        exitTxt := "STOP"
+    else if sessMin >= 955                                  // sortie forcée 15:55
+        exitPrice := close
+        exitTxt := "EOD"
+
+if inPos and not na(exitPrice)
+    pnl = (exitPrice - entryP) / entryP * 100
+    label.new(bar_index, high,
+              exitTxt + "\n" + str.tostring(exitPrice, format.mintick) + "\n" +
+              (pnl >= 0 ? "+" : "") + str.tostring(pnl, "#.##") + "%",
+              color=color.new(pnl >= 0 ? color.teal : color.red, 10), textcolor=color.white,
+              style=label.style_label_down, size=size.small)
+    inPos := false
+    activated := false
+    entryP := na
+    peak := na
+    stopLvl := na
+    trailLvl := na
+
+// ─────────────────────── Affichage ───────────────────────
+plot(showLines and inPos and not activated ? stopLvl : na, "Stop -10%", color=color.red, linewidth=2, style=plot.style_linebr)
+plot(showLines and inPos and activated ? trailLvl : na, "Trail 2%", color=color.orange, linewidth=2, style=plot.style_linebr)
+plot(showLines and inPos ? entryP : na, "Entrée", color=color.new(color.gray, 40), linewidth=1, style=plot.style_linebr)
+plot(showLines and inPos and not activated ? entryP * (1 + actEff / 100) : na, "Seuil activation",
+     color=color.new(color.blue, 50), linewidth=1, style=plot.style_linebr)
+
+// fond : vert clair = dans la bande 5-10 (éligible au recheck), teinté quand en position
+bgcolor(inPos ? color.new(activated ? color.orange : color.blue, 92) : (gapInBand ? color.new(color.green, 94) : na))

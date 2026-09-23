@@ -48,16 +48,29 @@ DIP = 0.05              # bougie de -5% déclenche l'entrée (gappers PM). 18/09
 # On lit l'heure 'added' du fichier de signaux (heure de 1re éligibilité).
 DIP_LIQUID = 0.015      # dip des runners POST-OUVERTURE (ajoutés après 09:31)
 PREOPEN_CUTOFF = '09:31'  # éligible avant cette heure = gapper pré-marché -> DIP (-6%)
-# TRADE_PM (18/09) : on NE TRADE PLUS les gappers PM (edge intrinsèquement faible : n=86/8mois,
-# exp +0,69%, R/R 0,55 -> net-négatif après commissions ; l'edge vit dans le post-open). On
-# CONTINUE de les COLLECTER (le scanner/eligibles les enregistre) pour la recherche.
-TRADE_PM = False
+# TRADE_PM : ACTIVÉ le 23/09 (forward-test). Le rebuild PIT montre un edge PM plus GROS que le
+# post-open (5-15% : +2 à +4%/tr, robuste jusqu'à ~2% de slippage) — mais win ~90% = probable
+# artefact de microstructure (stop qui ne se déclenche pas sur bougies éparses) + fills PM incertains.
+# On le FORWARD-TESTE en LIVE 1-action (risque $ minime) pour voir les VRAIS fills PM. Ordres tous
+# en limite (StopLimit/TrailLimit) pour s'exécuter en pré-marché. Dip PM = -5%, activation +5%.
+TRADE_PM = True
 # --- FILTRE DE LIQUIDITÉ SUR LA BOUGIE DE DIP (18/09, décision Martin) ---
 # On n'entre que si la MINUTE d'entrée (bougie de dip) a brassé assez : volume × close >= seuil.
 # But = FACILITÉ D'EXÉCUTION (entrer/sortir sans slippage). Le filtre du SCANNER porte sur le
 # volume CUMULÉ session ; celui-ci porte sur la BOUGIE elle-même (la minute où on tire).
 # Sur data non biaisée, élimine les entrées type LGHL (+4% de slippage sur bougie fine).
 MIN_DIP_DOLLAR_VOL = 200_000   # $ min de dollar-volume sur la bougie de dip (0 = désactivé)
+# ══════════════════════════════════════════════════════════════════════════════════════════
+# STRATÉGIE REPLI & CAPITULATION (v3, 23/09) — validée OOS, remplace le dip mono-bougie.
+# Idée : un titre gap 5-10% fait un sommet (HOD), RECULE >=RETRACE_PCT depuis ce sommet, et le
+# VOLUME ACCÉLÈRE dans la descente (= capitulation) -> on achète ce creux. Sortie = stop -10% +
+# HOLD-TO-EOD (pas de trailing ni TP : ils coupent les gagnants). Preuves : filtre capitulation
+# train +1,97%/t4,9, test +2,21%/t5,6 (research/pit_gappers/combined_config.py).
+ENTRY_MODE = 'retrace'          # 'retrace' (v3) ou 'dip' (ancien) — bascule d'entrée
+RETRACE_PCT = 0.08             # repli minimum depuis le plus-haut du jour (HOD)
+CAPIT_MIN_BARS = 4             # nb de bougies minimum du repli (pour juger la tendance du volume)
+CAPIT_RATIO = 1.3             # volume moyen 2e moitié / 1re moitié du repli > ce ratio = capitulation
+PULLBACK_DVOL_MIN = 300_000    # $ min de dollar-volume CUMULÉ sur tout le repli (liquidité, exécutable)
 # --- sortie EN DEUX PHASES ---
 STOP = 0.10             # phase 1 : STOP fixe -10% (survit au repli initial)
 # ACTIVATION ADAPTATIVE (18/09) : l'effet du seuil d'activation est OPPOSÉ selon la population
@@ -69,10 +82,22 @@ ACTIVATE_PM = 0.05      # gappers PM (éligible avant 09:31) : bascule phase 2 �
 ACTIVATE_POST = 0.10    # runners post-open (ajoutés après) : bascule à +10%
 TRAIL = 0.02            # phase 2 : TRAIL natif 2% (paramètre dominant ; ne PAS descendre
                         # plus bas : sous 2% on passe sous la résolution des bougies 1-min)
+# STOP/TRAIL en LIMITE (23/09) : les protections sont passées de STOP/TRAIL marché à STOP LIMIT /
+# TRAIL LIMIT pour s'exécuter aussi en pré-marché/extended (marché = bloqué hors RTH). COMPROMIS :
+# une limite peut NE PAS remplir si le prix traverse trop vite (gap-through). Coussin large = la
+# limite est posée STOP_LIMIT_OFFSET sous le déclencheur -> remplit dans presque tous les cas réels ;
+# ne rate que les krachs instantanés > coussin. ⚠️ Params IBKR non testés hors-ligne : vérifier les logs.
+STOP_LIMIT_OFFSET = 0.06   # 6% : limite de vente posée 6% sous le déclencheur (PM a des spreads
+                           # larges -> 3% ne remplissait pas toujours). Plus grand = remplit mieux
+                           # en PM mais pire fill dans le pire cas. Réglable.
 FILL_TIMEOUT = 3        # cycles d'attente du fill ; sinon = halt/illiquide -> annuler + retenter
 SHARES = 1              # 1 titre/trade (test live à risque minimal)
 ENTRY_END = (15, 55)    # dernières entrées à 15:55 (= début de la sortie forcée, pas d'entrée tardive inutile)
 RTH_OPEN, RTH_CLOSE = (9, 30), (16, 30)
+PM_START = (4, 0)       # début du trading PRÉ-MARCHÉ (23/09, TRADE_PM=True). La liquidité est
+                        # gatée par MIN_DIP_DOLLAR_VOL (bougie de dip >= 200K$) -> les heures
+                        # ultra-fines (04:00-07:00) ne produiront quasi aucune entrée.
+ENTRY_FLOOR = PM_START if TRADE_PM else RTH_OPEN   # heure la plus tôt où le bot agit
 # --- BACKSTOP à deux niveaux (16/09) : sortir AVANT la vraie clôture (16:00 ET) pendant
 # que c'est LIQUIDE, puis filet extended si pas sorti. HARD_EXIT = sortie forcée au marché.
 HARD_EXIT = (15, 55)    # 15:55 ET : vente forcée des positions encore ouvertes (marché liquide)
@@ -122,12 +147,19 @@ def _today_bars(broker: IBKRBroker, tk: str) -> List[dict]:
     return out
 
 def _prev_close(broker: IBKRBroker, tk: str) -> Optional[float]:
+    """Clôture de la VEILLE. Robuste (comme le scanner) : prendre la dernière barre daily dont
+    la date est STRICTEMENT avant aujourd'hui (bars[-2] était faux quand la barre du jour manque)."""
     try:
         c = broker._contract(tk)
-        bars = broker.ib.reqHistoricalData(c, endDateTime='', durationStr='3 D',
+        bars = broker.ib.reqHistoricalData(c, endDateTime='', durationStr='5 D',
                                            barSizeSetting='1 day', whatToShow='TRADES',
                                            useRTH=True, formatDate=1)
-        return float(bars[-2].close) if len(bars) >= 2 else None
+        today = now_et().date()
+        def bar_date(b):
+            d = b.date
+            return d.date() if hasattr(d, 'hour') else d
+        prev = [b for b in bars if bar_date(b) < today]
+        return float(prev[-1].close) if prev else None
     except Exception:
         return None
 
@@ -171,6 +203,7 @@ class RedCandleCatchTerminator:
         self.orders: Dict[str, object] = {}         # ticker -> ordre de protection courant (STOP ou TRAIL)
         self.evals: Dict[str, dict] = {}             # ticker -> résultat redcandlecatch_scan.evaluate (ratings/flags)
         self._protected: set = set()                 # symboles avec un ordre de vente vivant (réconciliation)
+        self._pc: Dict[str, float] = {}              # cache clôture-veille par ticker (recheck du gap à l'entrée)
         self.day = now_et().date()
 
     def _stop_at(self, tk: str, shares: int, stop_price: float):
@@ -183,9 +216,11 @@ class RedCandleCatchTerminator:
         if not self.live:
             return None
         try:
-            from ib_insync import StopOrder
+            from ib_insync import StopLimitOrder
             c = self.broker._contract(tk)
-            o = StopOrder('SELL', shares, round(stop_price, 2)); o.tif = 'DAY'; o.outsideRth = True
+            stop_price = round(stop_price, 2)
+            lmt = round(stop_price * (1 - STOP_LIMIT_OFFSET), 2)   # limite sous le déclencheur -> exécutable en PM
+            o = StopLimitOrder('SELL', shares, lmt, stop_price); o.tif = 'DAY'; o.outsideRth = True
             return self.broker.ib.placeOrder(c, o)
         except Exception as e:
             print(f"    ⚠️ STOP ÉCHEC {tk}: {e}")
@@ -199,18 +234,21 @@ class RedCandleCatchTerminator:
         return o
 
     def _trailing_stop(self, tk: str, shares: int, ref: float = 0.0):
-        """Phase 2 : ordre TRAIL NATIF IBKR à TRAIL% (géré par IBKR, suit le sommet).
-        On ne fournit QUE `trailingPercent` (fournir trailStopPrice fait rejeter err 201,
-        cf research/test_trail_covered.py 14/09). IBKR gère le trailing. `ref` inutilisé."""
+        """Phase 2 : TRAIL LIMIT IBKR à TRAIL% (suit le sommet), avec une LIMITE posée
+        STOP_LIMIT_OFFSET sous le déclencheur -> exécutable en pré-marché/extended (23/09,
+        ex-TRAIL marché). `lmtPriceOffset` = distance $ entre le déclencheur et la limite ;
+        `ref` = sommet courant (sert à dimensionner l'offset). ⚠️ params non testés hors-ligne."""
         if not self.live:
             return None
         try:
             from ib_insync import Order
             c = self.broker._contract(tk)
-            o = Order(action='SELL', totalQuantity=shares, orderType='TRAIL',
-                      trailingPercent=round(TRAIL * 100, 2), tif='DAY', outsideRth=True)
+            offset = round(max(0.01, (ref or 0.0) * STOP_LIMIT_OFFSET), 2)   # $ sous le déclencheur
+            o = Order(action='SELL', totalQuantity=shares, orderType='TRAIL LIMIT',
+                      trailingPercent=round(TRAIL * 100, 2), lmtPriceOffset=offset,
+                      tif='DAY', outsideRth=True)
             trade = self.broker.ib.placeOrder(c, o)
-            print(f"    TRAIL natif {TRAIL*100:.0f}% posé (géré par IBKR)")
+            print(f"    TRAIL LIMIT {TRAIL*100:.0f}% posé (limite {offset:.2f}$ sous le déclencheur)")
             return trade
         except Exception as e:
             print(f"    ⚠️ TRAIL ÉCHEC {tk}: {e}")
@@ -297,8 +335,8 @@ class RedCandleCatchTerminator:
     def cycle(self):
         t = now_et()
         if t.date() != self.day:                     # nouveau jour -> reset
-            self.day = t.date(); self.done.clear(); self.gap_ok.clear(); self.evals.clear(); self.last_bar.clear()
-        if hm(t) < RTH_OPEN:
+            self.day = t.date(); self.done.clear(); self.gap_ok.clear(); self.evals.clear(); self.last_bar.clear(); self._pc.clear()
+        if hm(t) < ENTRY_FLOOR:
             return                                   # avant l'ouverture : rien
         # BUG corrigé 16/09 : avant, le cycle sortait dès 16:30 -> le backstop ne se
         # déclenchait JAMAIS -> positions gardées overnight à nu. Maintenant : après la
@@ -313,7 +351,8 @@ class RedCandleCatchTerminator:
         self._protected = self.broker.protected_symbols() if (self.live and self.state) else set()
         cur = tmin(t)                                # minute courante ET (en minutes totales)
         for tk in watch:
-            bars = [b for b in _today_bars(self.broker, tk) if RTH_OPEN <= hm(b['t']) < RTH_CLOSE]
+            allbars = _today_bars(self.broker, tk)       # 04:00+ (pré-marché inclus) -> recheck du gap
+            bars = [b for b in allbars if ENTRY_FLOOR <= hm(b['t']) < RTH_CLOSE]   # PM inclus si TRADE_PM
             # SYNCHRO BOUGIES : ne garder que les bougies STRICTEMENT CLÔTURÉES (minute < minute
             # courante). On DROP la bougie en formation par HORODATAGE — plus de dépendance à la
             # position bars[-2] (fragile : IBKR omet les minutes sans trade sur les titres peu
@@ -325,61 +364,112 @@ class RedCandleCatchTerminator:
             if tk in self.state:
                 self._manage(tk, cbars, t)
             elif tk not in self.done and hm(t) < ENTRY_END:   # multi-positions : 1 par ticker
-                self._maybe_enter(tk, cbars, cur)
+                self._maybe_enter(tk, cbars, cur, allbars)
 
-    def _maybe_enter(self, tk: str, cbars: List[dict], cur: int):
-        r = cbars[-1]                                # dernière bougie CLÔTURÉE (sélection par HORODATAGE)
-        # FRAÎCHEUR : n'agir que sur la bougie qui vient JUSTE de clôturer (minute = cur-1).
-        # Une bougie plus vieille = signal périmé (titre peu liquide, minutes sans trade) : on
-        # n'entre PAS sur un dip d'il y a plusieurs minutes. Le cycle tourne toutes les 20s
-        # (3x/minute) -> on attrape toujours la bougie fraîche.
-        if tmin(r['t']) != cur - 1:
-            return
-        # DÉDUP : 1 bougie clôturée = 1 décision (sinon les 3 cycles de la minute la ré-évaluent).
-        if self.last_bar.get(tk) == r['t']:
-            return
-        self.last_bar[tk] = r['t']
-        # DIP selon le MOMENT d'éligibilité (pas le volume) : éligible AVANT 09:31 = gapper
-        # pré-marché -> -6% ; ajouté APRÈS = runner post-open -> -2%. (added inconnu -> -6% par
-        # sécurité, ex mode --tickers.)
-        added = (self.evals.get(tk, {}) or {}).get('added') or ''
-        premarket = (not added) or (added < PREOPEN_CUTOFF)
+    def _gap_ok_now(self, tk: str, r: dict, allbars) -> Optional[float]:
+        """Gap (plus-haut 04:00->r vs clôture veille) ENCORE dans [GAP_MIN, GAP_MAX] ? -> gap% ou None."""
+        pc = self._pc.get(tk)
+        if pc is None:
+            pc = _prev_close(self.broker, tk); self._pc[tk] = pc
+        if not pc or pc <= 0 or not allbars:
+            return None
+        cur_high = max((b['h'] for b in allbars if b['t'] <= r['t']), default=r['h'])
+        g = (cur_high - pc) / pc * 100
+        return g if (GAP_MIN <= g <= GAP_MAX) else None
+
+    def _retrace_signal(self, tk: str, r: dict, allbars):
+        """STRATÉGIE v3 : repli >=RETRACE_PCT du HOD + capitulation (volume qui accélère) +
+        liquidité cumulée. -> (entry, activate, desc) ou None. Sortie hold-to-EOD (activate=jamais)."""
+        if hm(r['t']) < RTH_OPEN:                        # v3 = SÉANCE seulement (validé post-open)
+            return None
+        pc = self._pc.get(tk)
+        if pc is None:
+            pc = _prev_close(self.broker, tk); self._pc[tk] = pc
+        if not pc or pc <= 0 or not allbars:
+            return None
+        up = [b for b in allbars if b['t'] <= r['t']]
+        if not up:
+            return None
+        hod = max(b['h'] for b in up)
+        gap = (hod - pc) / pc * 100
+        if not (GAP_MIN <= gap <= GAP_MAX):
+            return None
+        if not (PRICE_MIN <= r['c'] <= PRICE_MAX):
+            return None
+        drop = (hod - r['c']) / hod * 100
+        if drop < RETRACE_PCT * 100:                     # pas assez reculé du sommet
+            return None
+        # FIDÉLITÉ BACKTEST : n'évaluer qu'au PREMIER franchissement du repli -RETRACE_PCT (one-shot,
+        # comme combined_config). Si la bougie PRÉCÉDENTE était déjà >= repli, on a déjà eu notre
+        # chance -> on n'entre pas (sinon on entre plus tard/plus profond, hors validation).
+        if len(up) >= 2:
+            hod_prev = max(b['h'] for b in up[:-1])
+            drop_prev = (hod_prev - up[-2]['c']) / hod_prev * 100 if hod_prev > 0 else 0
+            if drop_prev >= RETRACE_PCT * 100:
+                return None
+        hidx = max(range(len(up)), key=lambda i: up[i]['h'])   # bougie du sommet
+        pull = up[hidx + 1:]                             # le repli (sommet -> maintenant)
+        if len(pull) < CAPIT_MIN_BARS:
+            return None
+        dv = [(b.get('v') or 0) * b['c'] for b in pull]
+        pb_dvol = sum(dv)
+        if pb_dvol < PULLBACK_DVOL_MIN:
+            print(f"[{now_et():%H:%M}] SKIP {tk} {r['t']:%H:%M} repli -{drop:.0f}% mais illiquide "
+                  f"(${pb_dvol/1e3:.0f}K cumulé < ${PULLBACK_DVOL_MIN/1e3:.0f}K)")
+            return None
+        half = len(dv) // 2
+        a1 = sum(dv[:half]) / max(half, 1); a2 = sum(dv[half:]) / max(len(dv) - half, 1)
+        ratio = (a2 / a1) if a1 > 0 else 0
+        if ratio <= CAPIT_RATIO:                          # pas de capitulation (volume ne s'accélère pas)
+            print(f"[{now_et():%H:%M}] SKIP {tk} {r['t']:%H:%M} repli -{drop:.0f}% gap {gap:.0f}% mais "
+                  f"PAS de capitulation (volume x{ratio:.1f} <= {CAPIT_RATIO})")
+            return None
+        desc = f"repli -{drop:.0f}% du HOD, gap {gap:.0f}%, capitulation vol x{ratio:.1f} (repli {len(pull)} bougies)"
+        return r['c'], 999.0, desc                        # activate=999 -> jamais activé = HOLD-TO-EOD
+
+    def _dip_signal(self, tk: str, r: dict, allbars):
+        """ANCIENNE stratégie (dip mono-bougie). -> (entry, activate, desc) ou None."""
+        premarket = hm(r['t']) < (9, 31)
         eff_dip = DIP if premarket else DIP_LIQUID
         if not (r['o'] > 0 and (r['c'] - r['o']) / r['o'] <= -eff_dip and r['c'] >= PRICE_MIN):
-            return
-        # PM DÉSACTIVÉ (18/09) : on ne trade plus les gappers pré-marché (edge faible). On logue
-        # quand même l'opportunité (pour la traçabilité), mais on n'entre pas. Collecte inchangée.
+            return None
         if premarket and not TRADE_PM:
-            print(f"[{now_et():%H:%M}] SKIP {tk} bougie {r['t']:%H:%M} gapper PM (dip -{eff_dip*100:.0f}%, "
-                  f"éligible {added or '?'}) -> PM désactivé (post-open seulement)")
+            print(f"[{now_et():%H:%M}] SKIP {tk} {r['t']:%H:%M} dip pré-ouverture -> PM désactivé")
+            return None
+        if self._gap_ok_now(tk, r, allbars) is None:
+            print(f"[{now_et():%H:%M}] SKIP {tk} {r['t']:%H:%M} dip OK mais gap hors bande (recheck)")
+            return None
+        if MIN_DIP_DOLLAR_VOL and (r.get('v') or 0) * r['c'] < MIN_DIP_DOLLAR_VOL:
+            print(f"[{now_et():%H:%M}] SKIP {tk} {r['t']:%H:%M} dip OK mais bougie illiquide")
+            return None
+        act = ACTIVATE_PM if premarket else ACTIVATE_POST
+        return r['c'], act, f"dip -{eff_dip*100:.0f}% {'PM' if premarket else 'post-open'}"
+
+    def _maybe_enter(self, tk: str, cbars: List[dict], cur: int, allbars: Optional[List[dict]] = None):
+        r = cbars[-1]                                # dernière bougie CLÔTURÉE (sélection par HORODATAGE)
+        if tmin(r['t']) != cur - 1:                  # FRAÎCHEUR : seulement la bougie qui vient de clôturer
             return
-        # FILTRE LIQUIDITÉ sur la BOUGIE DE DIP : la minute d'entrée doit avoir brassé assez pour
-        # un fill propre (sinon slippage, ex LGHL). volume × close de la bougie de dip elle-même.
-        dip_dvol = (r.get('v') or 0) * r['c']
-        if MIN_DIP_DOLLAR_VOL and dip_dvol < MIN_DIP_DOLLAR_VOL:
-            print(f"[{now_et():%H:%M}] SKIP {tk} bougie {r['t']:%H:%M} dip OK mais illiquide "
-                  f"(${dip_dvol/1e3:.0f}K < ${MIN_DIP_DOLLAR_VOL/1e3:.0f}K) -> pas d'entrée")
+        if self.last_bar.get(tk) == r['t']:          # DÉDUP : 1 bougie = 1 décision
             return
-        entry = r['c']; shares = SHARES
-        mode = 'LIVE' if self.live else 'PAPER'
-        # LOG DE PREUVE : les dernières bougies CLÔTURÉES lues par le bot (horodatage + OHLC +
-        # dip intra-bougie) -> vérifiable a posteriori que l'entrée colle bien à une vraie bougie.
+        self.last_bar[tk] = r['t']
+        sig = self._retrace_signal(tk, r, allbars) if ENTRY_MODE == 'retrace' else self._dip_signal(tk, r, allbars)
+        if sig is None:
+            return
+        entry, activate, desc = sig
+        shares = SHARES; mode = 'LIVE' if self.live else 'PAPER'
         tail = ' | '.join(f"{b['t']:%H:%M} o{b['o']:.3f} h{b['h']:.3f} l{b['l']:.3f} c{b['c']:.3f} "
-                          f"({(b['c']-b['o'])/b['o']*100:+.1f}%)" for b in cbars[-4:])
-        print(f"[{now_et():%H:%M}] ENTRY {tk} @ {entry:.4f} (dip -{eff_dip*100:.0f}% "
-              f"{'PM' if premarket else 'post-open'}, éligible {added or '?'}, bougie {r['t']:%H:%M}) "
-              f"gap {self.gap_ok.get(tk,'')}% {shares} titre(s) (~{shares*entry:.2f}$) ({mode})")
+                          f"v{int(b.get('v') or 0)}" for b in cbars[-4:])
+        print(f"[{now_et():%H:%M}] ENTRY {tk} @ {entry:.4f} ({desc}, bougie {r['t']:%H:%M}) "
+              f"{shares} titre(s) (~{shares*entry:.2f}$) ({mode})")
         print(f"    [bougies clôturées] {tail}")
         if self.live:                                # achat ; le STOP sera posé APRÈS confirmation du fill
             res = self.broker.buy(tk, shares, entry, tag='RCC')
             self.orders[tk] = res.get('trade') if isinstance(res, dict) else None
             print(f"    achat placé, attente du fill (halt-check)... [{self._order_diag(tk)}]")
-        ev = self.evals.get(tk, {})                  # features de sélection (snapshot à l'entrée)
-        fs = ev.get('float_shares')
+        ev = self.evals.get(tk, {}); fs = ev.get('float_shares')
         self.state[tk] = {'entry': entry, 'gap': self.gap_ok.get(tk, ''),
                           'entry_time': r['t'].strftime('%H:%M'), 'peak': entry,
-                          # activation ADAPTATIVE : +5% pour PM, +10% pour post-open (comme le dip)
-                          'activate': ACTIVATE_PM if premarket else ACTIVATE_POST,
+                          'activate': activate,       # 999 en mode repli = HOLD-TO-EOD (jamais de trail)
                           'shares': shares, 'last': entry, 'activated': False, 'confirmed': False,
                           'pending': bool(self.live), 'wait': 0,
                           'float_m': round(fs / 1e6, 3) if fs else '', 'inst_pct': ev.get('inst_pct', ''),

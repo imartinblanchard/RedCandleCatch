@@ -40,18 +40,27 @@ except Exception:
     HAS_WEB = False
 
 # ------------------------------------------------------------------ constantes
-# Config validée 2026-09-11 : la tranche 10-20% bat nettement le >=50% (9/9 mois
-# gagnants, t-stat 4,01 vs 2,03). Le >=50% concentrait 92% de son profit sur mai-juin.
-GAP_MIN, GAP_MAX = 10.0, 20.0        # fourchette de gap, %
+# Config MàJ 2026-09-22 (rebuild point-in-time, research/pit_gappers) : l'ancien "edge"
+# post-open 10-20 était un artefact de LOOK-AHEAD (voir mémoire lookahead-postopen-invalide).
+# Mesuré proprement (dip APRÈS éligibilité), 10-20 est ~plat/négatif et CASSE en OOS. La SEULE
+# bande post-open validée OOS est 5-10% (dip 1.5-2%, trail 2%, act +10% : train +0,43%/t2,6,
+# test +0,68%/t4,0). Gros gaps (30-100%) = perdants nets. ⚠️ edge modeste et sensible à la
+# définition -> le bot 1-action sert de FORWARD-TEST de cette bande, pas de martingale.
+GAP_MIN, GAP_MAX = 5.0, 10.0         # fourchette de gap, % (était 10-20 avant le 22/09)
 PRICE_MIN, PRICE_MAX = 3.0, 20.0
-MARKET_CAP_MAX = 500_000_000         # small caps (filtre du SCANNER IBKR, pas d'evaluate)
+MARKET_CAP_MAX = 500_000_000         # DÉPRÉCIÉ 22/09 : le filtre small-cap se fait maintenant
+                                     # sur le FLOAT (FLOAT_MAX_HARD dans evaluate), pas le market cap.
 # --- ÉLARGISSEMENT UNIVERS (21/09) : le top-30 par %-gain se faisait écraser par les
 # monstres >20% les jours chargés -> nos cibles 10-20 tombaient au rang #31+ et jamais vues.
 # Fix : filtrer le scan DIRECTEMENT sur la bande (marge 8-25 vs notre gap 04:00->midi) + 50
 # lignes. Rien ne change au TRADING (evaluate coupe précis 10-20, 1 action/trade). >20% =
 # pas d'edge (déjà testé) donc non collectés -> aucun downside.
 SCAN_LIMIT = 50                      # lignes renvoyées par le scanner IBKR (était 30)
-SCAN_CHANGE_MIN, SCAN_CHANGE_MAX = 8.0, 25.0   # filtre %-change du scanner (bande large)
+# Bande %-change du scanner IBKR = marge autour de notre gap (04:00->midi). Bande cible 5-10 %
+# depuis le 22/09 -> on descend le plancher à 3 % (capte les gappers un peu fadés) et le plafond
+# à 13 % (notre gap high-based >= change courant ; marge au-dessus de 10). evaluate() coupe
+# ensuite précis à 5-10 %.
+SCAN_CHANGE_MIN, SCAN_CHANGE_MAX = 3.0, 13.0   # (était 8-25 pour l'ancienne bande 10-20)
 # --- ÉLIGIBILITÉ POST-OUVERTURE (16/09) : le gap est mesuré sur le plus-haut de 04:00
 # jusqu'à midi (pas seulement le pré-marché). Ça capte les runners qui entrent dans la
 # bande 10-20% APRÈS 9:30 (83% des candidats étaient ratés). Validé OOS via
@@ -87,6 +96,15 @@ PM_MINUTES_MIN = 60                  # minutes (bougies à volume > 0) entre 04:
 # Vérifié : RAMZ (82k), AAOZ (53k), CBRZ (73k) échouent tous sur le volume seul.
 ENABLE_FLOAT_FILTER = False          # si True : rejet hors bande FLOAT_MIN-FLOAT_MAX
 FLOAT_MIN, FLOAT_MAX = 200_000, 50_000_000
+# --- FILTRE FLOAT-MAX (22/09, décision Martin) : remplace l'ancien filtre MARKET CAP du
+# scanner. On écarte les GROSSES caps par le FLOAT (nb d'actions), pas la capitalisation.
+# Appliqué dans evaluate() via Finviz. ⚠️ si le float est INCONNU (Finviz échoue) -> on laisse
+# passer (permissif). Les gros floats gappant 10-20 à 3-20$ sont rares, donc risque faible.
+FLOAT_MAX_HARD = 500_000_000         # 500M actions max (float)
+# PLANCHER DE FLOAT (22/09, rebuild PIT) : le float ultra-bas (<5M) est le SEUL segment qui
+# PERD en OOS (post-open 5-10 : −0,73%, TEST −1,53% ; ces titres whipsawent, spreads larges).
+# On l'écarte. INCONNU = laissé passer (le bucket float-inconnu est POSITIF, +1,38%/t3,96).
+FLOAT_MIN_HARD = 5_000_000           # 5M actions min (float) — écarte l'ultra-bas perdant
 ENABLE_RATINGS = False               # si True : rejet si chart_rating==1 ou volume_rating==1
 ENABLE_ANTIPUMP = False              # anti-pump (rel-vol) DÉSACTIVÉ : backtest 09/09 montre que
 REL_VOL_MAX = 50.0                   #   les titres pumpés (rvol 50+) sont GAGNANTS en long (+0,54%/tr,
@@ -278,6 +296,12 @@ def evaluate(broker, ticker: str, gap_pct: Optional[float], price: Optional[floa
     fund = fetch_fundamentals(ticker)
     out['float_shares'] = fund['float_shares']; out['inst_pct'] = fund['inst_pct']
     fs = fund['float_shares']
+    # FILTRE FLOAT-MAX (remplace le market cap) : écarte les grosses caps par le float.
+    if fs is not None and fs > FLOAT_MAX_HARD:
+        out['reason'] = f'float {fs/1e6:.0f}M > {FLOAT_MAX_HARD/1e6:.0f}M (grosse cap)'; return out
+    # PLANCHER DE FLOAT (22/09) : écarte l'ultra-bas <5M (seul segment perdant OOS). INCONNU passe.
+    if fs is not None and fs < FLOAT_MIN_HARD:
+        out['reason'] = f'float {fs/1e6:.2f}M < {FLOAT_MIN_HARD/1e6:.0f}M (ultra-bas, perd)'; return out
     if ENABLE_FLOAT_FILTER and fs is not None:
         if fs < FLOAT_MIN: out['reason'] = f'float {fs/1e6:.2f}M < {FLOAT_MIN/1e6:.1f}M'; return out
         if fs > FLOAT_MAX: out['reason'] = f'float {fs/1e6:.1f}M > {FLOAT_MAX/1e6:.0f}M'; return out
@@ -354,7 +378,7 @@ def scan_universe(broker, limit: int = SCAN_LIMIT) -> List[str]:
         sub = ScannerSubscription(instrument='STK', locationCode='STK.US.MAJOR',
                                   scanCode='TOP_PERC_GAIN', numberOfRows=limit)
         sub.abovePrice = PRICE_MIN; sub.belowPrice = PRICE_MAX
-        sub.marketCapBelow = MARKET_CAP_MAX
+        # (plus de filtre market cap au scanner : on filtre le FLOAT dans evaluate, 22/09)
         # filtre %-change (bande) : cible directement la zone, chaque ligne devient pertinente
         filt = [TagValue('changePercAbove', str(SCAN_CHANGE_MIN)),
                 TagValue('changePercBelow', str(SCAN_CHANGE_MAX))]

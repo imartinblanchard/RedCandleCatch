@@ -223,25 +223,14 @@ class IBKRBroker:
                 'qty': qty, 'limit': limit, 'trade': trade}
 
     def buy(self, ticker: str, qty: int, ref_price: float,
-            tag: str = 'BUY', dry_run: bool = False):
-        """Entrée au MARCHÉ : remplit quasi toujours (sauf halt réel, détecté par
-        l'absence de fill). ref_price gardé pour le log seulement."""
-        blocked = dry_run or not self.allow_live
-        self._log(tag, ticker, f'BUY {qty} @MKT (ref {ref_price:.4f})',
-                  'DRY' if blocked else 'LIVE')
-        if blocked:
-            return {'status': 'dry_run', 'ticker': ticker, 'action': 'BUY',
-                    'qty': qty, 'limit': None}
-        ib = self._ensure()
-        c = self._contract(ticker)
-        if not ib or not c:
-            return {'status': 'error', 'reason': 'no_connection_or_contract'}
-        order = MarketOrder('BUY', qty)
-        order.tif = 'DAY'
-        order.outsideRth = True
-        trade = ib.placeOrder(c, order)
-        return {'status': 'submitted', 'ticker': ticker, 'action': 'BUY',
-                'qty': qty, 'limit': None, 'trade': trade}
+            tag: str = 'BUY', dry_run: bool = False, tif: str = 'DAY'):
+        """Entrée en LIMITE MARKETABLE (limite ~0,5% AU-DESSUS du ref -> fill quasi immédiat,
+        slippage PLAFONNÉ, et exécutable en pré-marché/extended contrairement à un ordre marché).
+        CHANGÉ 23/09 : l'edge post-open est trop fin pour un ordre marché — la recherche montre
+        qu'il MEURT dès +0,5%/côté de slippage ; un marché sur small-cap dépasse ça facilement.
+        Si ça ne remplit pas (halt / prix qui fuit), le terminator annule/retente (FILL_TIMEOUT)."""
+        return self._place(ticker, 'BUY', qty,
+                            ref_price * (1 + MARKETABLE), tag, dry_run, tif=tif)
 
     def sell(self, ticker: str, qty: int, ref_price: float,
              tag: str = 'SELL', dry_run: bool = False, tif: str = 'DAY'):

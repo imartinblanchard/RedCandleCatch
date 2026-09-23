@@ -11,6 +11,20 @@ justifient chaque paramètre, voir **[FINDINGS.md](FINDINGS.md)**. L'ancienne
 stratégie VWAP-pullback (jamais mise en prod) est archivée dans
 **[STRATEGY_VWAP_ARCHIVE.md](STRATEGY_VWAP_ARCHIVE.md)**.
 
+> 🔄 **MISE À JOUR 2026-09-23 — fait autorité (rebuild point-in-time `research/pit_gappers/`).**
+> L'ancien edge post-open (gap 10-20) était un **artefact de look-ahead** (le backtest entrait le
+> dip AVANT que le titre soit éligible). Mesuré proprement il est nul. **Nouvelle règle live :**
+> - **Bande de gap 5-10 %** (seule bande OOS-validée ; les gros gaps 30-100 % PERDENT).
+> - **PM/post-open classé par l'heure du DIP** (pas `added`) + **recheck** : entrée seulement si le
+>   gap est ENCORE dans 5-10 % au moment du dip (l'éligibilité étant sticky).
+> - **Plancher de float 5M** (ultra-bas = seul segment perdant OOS ; inconnu passe).
+> - **Entrée en LIMITE marketable** (l'edge +0,5 %/tr meurt à +0,5 % slippage → jamais d'ordre marché).
+> - Inchangé : dip **1,5 %**, activation **+10 %**, trail **2 %**, stop **−10 %**, prix 3-20 $, `TRADE_PM=False`.
+> Backtest règle exacte : **+0,46 %/tr (t=3,5), TEST +0,61 % (t=3,2)**, ~13 tr/j, tout en séance.
+> Note PM : edge PM plus GROS (+2 à +4 %) et robuste au slippage (~2 %/côté) MAIS win ~90 % =
+> artefact microstructure (stop qui ne se déclenche pas sur bougies éparses) → PM reste OFF, à
+> chiffrer sérieusement avant activation. Le paragraphe ci-dessous décrit l'ANCIENNE config (historique).
+
 > ⚠️ **Statut : forward-test PAPER en cours, edge validé IN-SAMPLE.** Les paramètres
 > sont validés sur backtest (jan–août 2026) qui est une **borne supérieure optimiste**
 > (biais du survivant + fills parfaits supposés + P&L brut hors commissions — voir
@@ -55,7 +69,7 @@ avec un trailing stop pour capturer la reprise.
 |---------|--------|------|
 | **Gap** | **+10% à +20%** | mesuré sur le **plus-haut de 04:00 → midi** vs clôture veille (`ENABLE_POSTOPEN`, 16/09) — capte aussi les runners qui entrent dans la bande **après** 9:30 |
 | Prix | **3–20 $** | |
-| Market cap | < 500 M | filtre du scanner IBKR (small caps) |
+| **Float** | **< 500 M actions** | filtre small-cap (22/09 : passé de market-cap → float, dans `evaluate` via Finviz) |
 | Autres filtres | **AUCUN** | float, volume PM, ratings, anti-pump, inst% : tous **désactivés** (validé nuisibles ou non prouvés — voir FINDINGS) |
 
 ⚠️ **Le gap est mesuré sur le PM-high, pas à l'open.** C'est décisif : sélectionner
