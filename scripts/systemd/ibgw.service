@@ -1,0 +1,19 @@
+[Unit]
+Description=IB Gateway via IBC sur Xvfb :99 (supervisé, Restart=always)
+Requires=xvfb99.service
+After=xvfb99.service
+
+[Service]
+Environment=DISPLAY=:99
+# Pipeline de rendu LOGICIEL (Xvfb n'a pas de GPU) — évite l'échec es2/JavaFX
+Environment=_JAVA_OPTIONS=-Dprism.order=sw
+# Attendre que Xvfb :99 réponde avant de lancer le Gateway
+ExecStartPre=/bin/sh -c 'for i in $(seq 1 30); do DISPLAY=:99 /usr/bin/xdpyinfo >/dev/null 2>&1 && exit 0; sleep 1; done; exit 1'
+ExecStart=/home/martin/ibc/gatewaystart.sh -inline
+# IBC (ibcstart) reste au premier plan et supervise déjà le java Gateway ;
+# si IBC lui-même meurt, systemd le relance -> le processus ne meurt plus jamais durablement.
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=default.target

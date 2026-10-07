@@ -1,0 +1,4 @@
+TZ=America/New_York
+30 20 * * * /home/martin/dev/N2/.venv/bin/python /home/martin/dev/N2/universe_finder/daily_universe_pipeline-2.py >> /home/martin/dev/N2/universe_finder/runs/cron.log 2>&1
+0 8 * * * /home/martin/dev/stock-journal-long/scripts/collect_daily.sh >> /home/martin/dev/stock-journal-long/data/collected/cron.log 2>&1
+20 16 * * 1-5 /home/martin/dev/stock-journal-long/scripts/run_fetch_universe.sh

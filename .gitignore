@@ -2,6 +2,8 @@
 .env
 .env.local
 .env.*.local
+# config IBC avec identifiants réels (seul le .template caviardé est versionné)
+scripts/ibc/config.ini
 
 # ─── Python ───
 .venv/

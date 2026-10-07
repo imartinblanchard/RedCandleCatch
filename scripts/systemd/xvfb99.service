@@ -1,0 +1,11 @@
+[Unit]
+Description=Xvfb :99 (écran virtuel dédié à IB Gateway)
+
+[Service]
+# Écran virtuel logiciel, isolé du bureau :0 (supprime la saturation GPU/X qui tuait le Gateway)
+ExecStart=/usr/bin/Xvfb :99 -screen 0 1280x1024x24 -nolisten tcp
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=default.target
