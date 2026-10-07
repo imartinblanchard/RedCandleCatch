@@ -53,7 +53,10 @@ PREOPEN_CUTOFF = '09:31'  # éligible avant cette heure = gapper pré-marché ->
 # artefact de microstructure (stop qui ne se déclenche pas sur bougies éparses) + fills PM incertains.
 # On le FORWARD-TESTE en LIVE 1-action (risque $ minime) pour voir les VRAIS fills PM. Ordres tous
 # en limite (StopLimit/TrailLimit) pour s'exécuter en pré-marché. Dip PM = -5%, activation +5%.
-TRADE_PM = True
+# 2026-10-07 : REMIS À False pour le lancement RÉEL de la v3 repli+capitulation. La stratégie
+# validée est RTH SEULEMENT ; l'exécution PM est suspecte (fills incertains, win ~90% = artefact
+# de microstructure). ENTRY_FLOOR passe donc à l'open (09:30) -> aucune entrée pré-marché.
+TRADE_PM = False
 # --- FILTRE DE LIQUIDITÉ SUR LA BOUGIE DE DIP (18/09, décision Martin) ---
 # On n'entre que si la MINUTE d'entrée (bougie de dip) a brassé assez : volume × close >= seuil.
 # But = FACILITÉ D'EXÉCUTION (entrer/sortir sans slippage). Le filtre du SCANNER porte sur le
