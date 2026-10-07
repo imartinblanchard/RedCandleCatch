@@ -34,6 +34,10 @@ research/intraday_gappers/data/
 # Artefacts régénérables du rebuild PIT (gros / caches API)
 research/pit_gappers/data/candidates.json
 research/pit_gappers/data/*_cache.json
+# Sorties régénérables du live_lab (on garde leaderboard_history.csv = suivi, et pm_surges.csv)
+research/live_lab/candidates.csv
+research/live_lab/core_results.csv
+research/live_lab/leaderboard_latest.csv
 
 # ─── Backups / fichiers de travail (junk) ───
 *.bak
