@@ -1,0 +1,8 @@
+[Unit]
+Description=Watchdog IB Gateway (surveille le port 4001, restart ibgw.service si fermé)
+After=ibgw.service
+
+[Service]
+Type=oneshot
+ExecStart=/home/martin/dev/stock-journal-long/scripts/ibgw_watchdog.sh
+TimeoutStartSec=200
