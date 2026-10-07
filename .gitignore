@@ -29,6 +29,9 @@ research/lm/
 research/gappers.json
 research/intraday_gappers/data/
 **/*_cache/
+# Artefacts régénérables du rebuild PIT (gros / caches API)
+research/pit_gappers/data/candidates.json
+research/pit_gappers/data/*_cache.json
 
 # ─── Backups / fichiers de travail (junk) ───
 *.bak

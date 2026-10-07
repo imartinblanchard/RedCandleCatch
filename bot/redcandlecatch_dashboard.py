@@ -229,7 +229,7 @@ class LiveDashboard:
         print(f"  {'TICKER':<6} {'GAP':>6} {'PRICE':>7} {'FLOAT':>7} "
               f"{'CHART':>5} {'VOL':>4} {'FLT':>4} {'SSR':>4} {'@':>6}")
         print("-" * 72)
-        for s in self.watchlist[:12]:
+        for s in self.watchlist:
             gap = s.get('gap') or 0
             price = s.get('price') or 0
             fs = s.get('float_shares')
