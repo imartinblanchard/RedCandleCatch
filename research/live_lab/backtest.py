@@ -332,6 +332,9 @@ def oos_split(dates):
 
 
 def _row_stats(t, split):
+    if not len(t) or 'pnl' not in t.columns:   # filtre sans aucun trade (fréquent sur peu de jours)
+        z = dict(n=0, exp=0, win=0, pf=0, t=0)
+        return dict(z), dict(z), dict(z)
     s = stat(t['pnl'])
     if split:
         tr = stat(t[t.date < split]['pnl']); te = stat(t[t.date >= split]['pnl'])
