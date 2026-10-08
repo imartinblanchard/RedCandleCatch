@@ -58,6 +58,12 @@ LIVE = dict(
     max_drop=None,                         # anti-couteau : refuser si repli déjà > X%
     require_green=False,                   # n'entrer que sur une bougie verte (rebond confirmé)
     vwap_side=None,                        # 'above' / 'below' : position vs VWAP courant
+    # ── anti-"couteau qui tombe" (titre qui pose son HOD tôt et saigne, ex. GLAS 08/10) ──
+    runup_min=0,                           # % de MONTÉE RTH exigé : (HOD_rth - open_séance)/open >= X
+    require_above_open=False,              # n'entrer que si prix courant >= open de la séance (RTH)
+    hod_in_rth=False,                      # le HOD du repli doit être fait EN SÉANCE (pas pré-marché)
+    gap_open_min=None,                     # gap ENCORE actif à l'open : (open_séance - prev_close)/pc >= X %
+    hod_max_age=None,                      # âge MAX du HOD en minutes (repli trop lent/vieux = exclu)
     cat_min=0,                             # PROXY CATALYSEUR : rvol*(1+rotation float) ; activité anormale
     require_news=None,                     # None / 'day' (news le jour) / 'before' (news AVANT l'entrée)
     # ── sortie ──
@@ -208,6 +214,10 @@ def _entry_index(g, P):
     cum_pv = np.cumsum(tp * v)
     vwap = cum_pv / np.where(cum_v > 0, cum_v, 1.0)
     in_win = (mins >= P['entry_start']) & (mins <= P['entry_end'])
+    # open de SÉANCE (1re bougie RTH) pour mesurer la montée intraday (anti couteau qui tombe)
+    rth_mask = mins >= P['entry_start']
+    rth_i0 = int(np.argmax(rth_mask)) if rth_mask.any() else 0
+    sess_open = float(o[rth_i0]) if o[rth_i0] > 0 else float(c[rth_i0])
     price_ok = (c >= P['price_min']) & (c <= P['price_max'])
     gap_ok = (gap_run >= P['gap_min']) & (gap_run <= P['gap_max'])
     crossed = drop_run >= P['retrace_pct'] * 100
@@ -243,6 +253,13 @@ def _entry_index(g, P):
         float_rot = (cum_v[i] / fs) if fs else None
         above_vwap = bool(c[i] >= vwap[i])
         green = bool(c[i] >= o[i])
+        # anti couteau qui tombe : montée RTH jusqu'au HOD, et position vs open de séance
+        rth_hod = float(h[rth_i0:i + 1].max())
+        runup = (rth_hod - sess_open) / sess_open * 100 if sess_open > 0 else 0.0
+        above_open = bool(c[i] >= sess_open)
+        hod_rth = bool(mins[hidx] >= P['entry_start'])
+        gap_open = (sess_open - pc) / pc * 100 if pc > 0 else 0.0   # gap encore actif à l'open
+        hod_age = int(mins[i] - mins[hidx])                        # minutes écoulées depuis le HOD
         # LIQUIDITÉ LOCALE (causale) : $vol moyen/min sur la fenêtre récente + fraction active depuis open
         w = P['recent_window']; lo = max(0, i - w + 1)
         recent_dvol = float((v[lo:i + 1] * c[lo:i + 1]).mean())
@@ -260,6 +277,11 @@ def _entry_index(g, P):
               and (P['cat_min'] <= 0 or cat_score >= P['cat_min'])
               and (P['float_rot_min'] <= 0 or float_rot is None or float_rot >= P['float_rot_min'])
               and (P['max_drop'] is None or drop_run[i] <= P['max_drop'])
+              and (P['runup_min'] <= 0 or runup >= P['runup_min'])
+              and (not P['require_above_open'] or above_open)
+              and (not P['hod_in_rth'] or hod_rth)
+              and (P['gap_open_min'] is None or gap_open >= P['gap_open_min'])
+              and (P['hod_max_age'] is None or hod_age <= P['hod_max_age'])
               and (not P['require_green'] or green)
               and (P['vwap_side'] is None
                    or (P['vwap_side'] == 'above' and above_vwap)
@@ -268,7 +290,9 @@ def _entry_index(g, P):
             return dict(i=i, entry=float(c[i]), gap=float(gap_run[i]), drop=float(drop_run[i]),
                         ratio=ratio, pb_dvol=pb_dvol, n_pull=n_pull, entry_min=int(mins[i]),
                         rvol=rvol, float_rot=float_rot, above_vwap=above_vwap, green=green,
-                        recent_dvol=recent_dvol, active_frac=active_frac, cat_score=cat_score)
+                        recent_dvol=recent_dvol, active_frac=active_frac, cat_score=cat_score,
+                        runup=runup, above_open=above_open, hod_rth=hod_rth,
+                        gap_open=gap_open, hod_age=hod_age)
         if P['one_shot']:
             return None
     return None

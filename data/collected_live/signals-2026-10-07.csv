@@ -1,0 +1,3 @@
+logged_at,ticker,candle,o,h,l,c,v,prev_close,hod,gap,retrace,capit_ratio,pb_dvol,n_bars,decision,mode
+15:44:54,SGML,15:43,9.82,9.82,9.81,9.81,4924,9.71,10.67,9.89,8.06,0.49,19548190,385,SKIP-pas-capit-x0.5,LIVE
+15:53:15,AARD,15:52,4.9,4.9,4.9,4.9,100,5.04,5.33,5.75,8.07,2.19,642207,382,ENTER,LIVE

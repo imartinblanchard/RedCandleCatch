@@ -71,6 +71,11 @@ MIN_DIP_DOLLAR_VOL = 200_000   # $ min de dollar-volume sur la bougie de dip (0 
 # train +1,97%/t4,9, test +2,21%/t5,6 (research/pit_gappers/combined_config.py).
 ENTRY_MODE = 'retrace'          # 'retrace' (v3) ou 'dip' (ancien) — bascule d'entrée
 RETRACE_PCT = 0.08             # repli minimum depuis le plus-haut du jour (HOD)
+# FILTRES ANTI "COUTEAU QUI TOMBE" (08/10, cas GLAS : gap pré-marché retombé, aucune montée en
+# séance -> entrée sur une chute continue, stop -10%). Testés sur 8 j live : run-up 2% + gap-open>0
+# = +2,15%/tr (t=2,4), test +1,13% (vs baseline +0,41%/test -0,81%). L'âge du HOD testé = INUTILE.
+RUNUP_MIN = 0.02               # montée RTH mini : (HOD_séance - open_séance)/open_séance >= 2%
+GAP_OPEN_MIN = 0.0             # gap ENCORE actif à l'open : (open_séance - prev_close)/pc >= 0%
 CAPIT_MIN_BARS = 4             # nb de bougies minimum du repli (pour juger la tendance du volume)
 CAPIT_RATIO = 1.3             # volume moyen 2e moitié / 1re moitié du repli > ce ratio = capitulation
 PULLBACK_DVOL_MIN = 300_000    # $ min de dollar-volume CUMULÉ sur tout le repli (liquidité, exécutable)
@@ -420,6 +425,20 @@ class RedCandleCatchTerminator:
             return None
         if not (PRICE_MIN <= r['c'] <= PRICE_MAX):
             return None
+        # ANTI "COUTEAU QUI TOMBE" (08/10, GLAS) : le gap doit être ENCORE actif à l'open ET le titre
+        # doit avoir MONTÉ en séance avant le repli. Sinon = spike pré-marché retombé qui saigne.
+        rth = [b for b in up if hm(b['t']) >= RTH_OPEN]
+        if not rth:
+            return None
+        sess_open = rth[0]['o']
+        if sess_open and sess_open > 0:
+            gap_open = (sess_open - pc) / pc * 100
+            rth_hod = max(b['h'] for b in rth)
+            runup = (rth_hod - sess_open) / sess_open * 100
+            if gap_open < GAP_OPEN_MIN * 100 or runup < RUNUP_MIN * 100:
+                print(f"[{now_et():%H:%M}] SKIP {tk} {r['t']:%H:%M} gap-open {gap_open:+.1f}% "
+                      f"run-up {runup:+.1f}% -> SKIP-couteau-qui-tombe")
+                return None
         drop = (hod - r['c']) / hod * 100
         if drop < RETRACE_PCT * 100:                     # pas assez reculé du sommet
             return None
