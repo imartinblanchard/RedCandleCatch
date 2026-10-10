@@ -63,6 +63,7 @@ LIVE = dict(
     require_above_open=False,              # n'entrer que si prix courant >= open de la séance (RTH)
     hod_in_rth=False,                      # le HOD du repli doit être fait EN SÉANCE (pas pré-marché)
     gap_open_min=None,                     # gap ENCORE actif à l'open : (open_séance - prev_close)/pc >= X %
+    gap_now_min=None,                      # gap ENCORE présent À L'ENTRÉE : (close_entrée - prev_close)/pc >= X %
     hod_max_age=None,                      # âge MAX du HOD en minutes (repli trop lent/vieux = exclu)
     cat_min=0,                             # PROXY CATALYSEUR : rvol*(1+rotation float) ; activité anormale
     require_news=None,                     # None / 'day' (news le jour) / 'before' (news AVANT l'entrée)
@@ -281,6 +282,7 @@ def _entry_index(g, P):
               and (not P['require_above_open'] or above_open)
               and (not P['hod_in_rth'] or hod_rth)
               and (P['gap_open_min'] is None or gap_open >= P['gap_open_min'])
+              and (P['gap_now_min'] is None or (c[i] - pc) / pc * 100 >= P['gap_now_min'])
               and (P['hod_max_age'] is None or hod_age <= P['hod_max_age'])
               and (not P['require_green'] or green)
               and (P['vwap_side'] is None

@@ -75,7 +75,11 @@ RETRACE_PCT = 0.08             # repli minimum depuis le plus-haut du jour (HOD)
 # séance -> entrée sur une chute continue, stop -10%). Testés sur 8 j live : run-up 2% + gap-open>0
 # = +2,15%/tr (t=2,4), test +1,13% (vs baseline +0,41%/test -0,81%). L'âge du HOD testé = INUTILE.
 RUNUP_MIN = 0.02               # montée RTH mini : (HOD_séance - open_séance)/open_séance >= 2%
-GAP_OPEN_MIN = 0.0             # gap ENCORE actif à l'open : (open_séance - prev_close)/pc >= 0%
+# GAP_OPEN_MIN durci 0->1% le 09/10 (cas APUS : gap-open +0,5% passait et a saigné ; GLAS -0,6%).
+# "Gap continu" (Martin) = gap FRANC à l'open, pas effleurer zéro. 8j : gap-open>=1% -> exp +2,33%,
+# win 65%, test +2,21% (vs >0 : +2,26/56%/+1,61%) ET exclut APUS+GLAS.
+# FRACTION (comme RUNUP_MIN) : la condition fait *100 -> 0.01 = seuil 1%.
+GAP_OPEN_MIN = 0.01            # gap ENCORE actif & FRANC à l'open : (open_séance - prev_close)/pc >= 1%
 CAPIT_MIN_BARS = 4             # nb de bougies minimum du repli (pour juger la tendance du volume)
 CAPIT_RATIO = 1.3             # volume moyen 2e moitié / 1re moitié du repli > ce ratio = capitulation
 PULLBACK_DVOL_MIN = 300_000    # $ min de dollar-volume CUMULÉ sur tout le repli (liquidité, exécutable)
