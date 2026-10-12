@@ -42,7 +42,7 @@ def variants():
           ('skip open + repli 12%', dict(entry_start=600, retrace_pct=0.12)),
           ('gap-open >0%',          dict(gap_open_min=0)),
           ('gap-open >=1%',         dict(gap_open_min=1)),
-          ('★ run-up2 + gap-open>0', dict(runup_min=2, gap_open_min=0)),   # = config LIVE actuelle
+          ('gap-open>0 (desserré)', dict(gap_open_min=0)),                 # LIVE utilise maintenant >=1%
           ('run-up2 + above-open',  dict(runup_min=2, require_above_open=True))]
     return V
 

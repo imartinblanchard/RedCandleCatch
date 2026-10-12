@@ -11,6 +11,49 @@ justifient chaque paramètre, voir **[FINDINGS.md](FINDINGS.md)**. L'ancienne
 stratégie VWAP-pullback (jamais mise en prod) est archivée dans
 **[STRATEGY_VWAP_ARCHIVE.md](STRATEGY_VWAP_ARCHIVE.md)**.
 
+---
+
+## ✅ CONFIG LIVE ACTUELLE — v3 « Repli & Capitulation » (FAIT AUTORITÉ, MAJ 2026-10-12)
+
+> **Supersède tout ce qui suit.** Les sections plus bas (dip −5 %/−1,5 % + trailing) sont HISTORIQUES.
+
+**Idée.** Un small-cap qui gappe à la hausse monte, fait son plus-haut du jour (HOD), puis
+**recule** depuis ce sommet avec un **volume qui ACCÉLÈRE pendant la descente (capitulation)** →
+on achète ce creux et on tient jusqu'à la clôture avec un stop large.
+
+### 1. Sélection (scanner `redcandlecatch_scan` → fichier éligible sticky)
+- **Gap 5–10 %** (plus-haut 04:00→midi vs close de la veille). Seule bande OOS-validée ; les gros gaps perdent.
+- **Prix 3–20 $**.
+- **Float ≥ 5 M** actions (float inconnu accepté).
+
+### 2. Entrée (`redcandlecatch_terminator`, SÉANCE RÉGULIÈRE seulement, `TRADE_PM=False`) — TOUTES ces conditions
+- **Repli ≥ 8 % depuis le HOD** (`RETRACE_PCT=0.08`), au **1ᵉʳ franchissement** (one-shot, fidèle backtest).
+- **Recheck du gap** : encore dans 5–10 % au moment de l'entrée.
+- **Capitulation** : volume moyen 2ᵉ moitié / 1ʳᵉ moitié du repli **> 1,3** (`CAPIT_RATIO`), sur **≥ 4 bougies** (`CAPIT_MIN_BARS`).
+- **Liquidité du repli** : $-volume cumulé **≥ 300 K$** (`PULLBACK_DVOL_MIN`).
+- **Run-up RTH ≥ 2 %** (`RUNUP_MIN=0.02`) : (HOD séance − open séance)/open ≥ 2 % — le titre a vraiment monté en séance avant le repli. *Anti « couteau qui tombe ».*
+- **Gap franc à l'open ≥ 1 %** (`GAP_OPEN_MIN=0.01`) : (open séance − close veille)/close ≥ 1 % — le gap existe ENCORE à 09:30, pas un spike pré-marché retombé. *Anti APUS/GLAS (08-09/10).*
+
+### 3. Sortie
+- **STOP fixe −10 %** (`STOP=0.10`) dès le fill.
+- **HOLD-TO-EOD** : on tient jusqu'à la clôture — **pas de trailing, pas de TP** (`activate=999`). Le trailing sortait les gagnants trop tôt.
+- **Sortie forcée 15:55** (2 niveaux : RTH liquide → extended → GTC lendemain).
+- Niveaux calculés sur le **prix SIGNAL** (close de la bougie de repli), PAS le fill (le fill ne sert qu'au P&L).
+
+### 4. Taille / mode
+- **1 action/trade, 1 position/ticker/jour** — mode test à risque minimal, **perdant par construction** (commissions ~1 %/côté > edge) : sert à valider l'EXÉCUTION, pas le profit.
+- `--live` = vrais ordres IBKR ; défaut = paper/journal. **Réconciliation des protections à chaque cycle** (jamais de position sans stop).
+
+### 5. Preuves (10 séances live `collected_live`, au 2026-10-12)
+- Config déployée : **+2,78 %/trade (t = 3,0), test OOS +3,71 %**, ~2–3 trades/jour. (Première config atteignant la significativité.)
+- Les deux filtres anti-couteau testés séparément sont plus faibles ; **ensemble = meilleur ET seul significatif**. Filtre d'âge du HOD testé → INUTILE. « Gap encore présent à l'entrée » → trop strict (rejeté).
+- ⚠️ **BORNE SUPÉRIEURE** : biais du survivant (Alpaca ne sert pas les radiés), slippage optimiste, rendements portefeuille irréalistes. Seul crédible = l'edge/trade + le forward live.
+- Suivi : relancer `research/live_lab/leaderboard.py` à chaque séance collectée.
+
+> Lancer les **DEUX** : `python -m bot.redcandlecatch_dashboard` (scanner) **puis** `python -m bot.redcandlecatch_terminator --live`. Constantes dans `bot/redcandlecatch_terminator.py` + `bot/redcandlecatch_scan.py`.
+
+---
+
 > 🔄 **MISE À JOUR 2026-09-23 — fait autorité (rebuild point-in-time `research/pit_gappers/`).**
 > L'ancien edge post-open (gap 10-20) était un **artefact de look-ahead** (le backtest entrait le
 > dip AVANT que le titre soit éligible). Mesuré proprement il est nul. **Nouvelle règle live :**

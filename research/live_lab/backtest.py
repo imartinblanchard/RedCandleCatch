@@ -59,10 +59,10 @@ LIVE = dict(
     require_green=False,                   # n'entrer que sur une bougie verte (rebond confirmé)
     vwap_side=None,                        # 'above' / 'below' : position vs VWAP courant
     # ── anti-"couteau qui tombe" (titre qui pose son HOD tôt et saigne, ex. GLAS 08/10) ──
-    runup_min=0,                           # % de MONTÉE RTH exigé : (HOD_rth - open_séance)/open >= X
+    runup_min=2,                           # % de MONTÉE RTH exigé (DÉPLOYÉ live 08/10, anti couteau)
     require_above_open=False,              # n'entrer que si prix courant >= open de la séance (RTH)
     hod_in_rth=False,                      # le HOD du repli doit être fait EN SÉANCE (pas pré-marché)
-    gap_open_min=None,                     # gap ENCORE actif à l'open : (open_séance - prev_close)/pc >= X %
+    gap_open_min=1,                        # gap FRANC à l'open >= 1% (DÉPLOYÉ live 09/10, cas APUS/GLAS)
     gap_now_min=None,                      # gap ENCORE présent À L'ENTRÉE : (close_entrée - prev_close)/pc >= X %
     hod_max_age=None,                      # âge MAX du HOD en minutes (repli trop lent/vieux = exclu)
     cat_min=0,                             # PROXY CATALYSEUR : rvol*(1+rotation float) ; activité anormale
