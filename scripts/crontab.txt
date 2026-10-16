@@ -3,3 +3,4 @@ TZ=America/New_York
 0 8 * * * /home/martin/dev/stock-journal-long/scripts/collect_daily.sh >> /home/martin/dev/stock-journal-long/data/collected/cron.log 2>&1
 20 16 * * 1-5 /home/martin/dev/stock-journal-long/scripts/run_fetch_universe.sh
 20 18 * * 1-5 /home/martin/dev/stock-journal-long/scripts/run_leaderboard.sh
+30 20 * * 1-5 /home/martin/dev/stock-journal-long/scripts/run_followthrough.sh
