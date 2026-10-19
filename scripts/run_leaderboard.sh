@@ -36,4 +36,7 @@ fi
 log "lancement du leaderboard"
 cd "$PROJ" || exit 1
 "$PROJ/.venv/bin/python" research/live_lab/leaderboard.py >> "$LOG" 2>&1
+# Régénère le visuel HTML autonome (research/live_lab/leaderboard.html) depuis le CSV frais.
+"$PROJ/.venv/bin/python" research/live_lab/render_leaderboard_html.py >> "$LOG" 2>&1 \
+  && log "visuel HTML régénéré" || log "⚠️ échec rendu visuel HTML"
 log "=== terminé ==="

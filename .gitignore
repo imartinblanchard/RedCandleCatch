@@ -38,6 +38,7 @@ research/pit_gappers/data/*_cache.json
 research/live_lab/candidates.csv
 research/live_lab/core_results.csv
 research/live_lab/leaderboard_latest.csv
+research/live_lab/leaderboard.html
 
 # ─── Backups / fichiers de travail (junk) ───
 *.bak
