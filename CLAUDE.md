@@ -8,6 +8,17 @@ Trading bot for the **LONG Gap & Go strategy** (Warrior Trading style). Scans fo
 
 **Direction**: LONG (buy low, sell high on gap-up momentum)
 
+> 🔬 **RÈGLE DE RECHERCHE 2026-10-21 (Martin) — FAIT AUTORITÉ.** Toute recherche / validation
+> de stratégie se fait **UNIQUEMENT sur nos données live** (`data/collected_live/` : `bars-*.parquet`,
+> `meta/universe/signals/news`), via `research/live_lab/` (`backtest.py`, `leaderboard.py`).
+> **Ne PLUS utiliser `research/pit_gappers/` ni aucun backtest historique/Alpaca pour conclure** :
+> leur univers est curé/différent et produit des edges ARTEFACTS qui ne tiennent pas en réel
+> (démontré le 21/10 : le « repli nu » donnait +1,45 % OOS sur pit mais −1,07 % sur le live).
+> Accepter le petit n (quelques dizaines de séances) et le traiter comme tel — un petit échantillon
+> *représentatif* vaut mieux qu'un gros échantillon d'un *faux* univers. Base gardée = v3, améliorée
+> incrémentalement sur le live. (Mémoires : `valider-live-seulement`, `plan-v3-ameliorer-sur-live`,
+> `edge-repli-nu-ouverture`.)
+
 > ⚠️ **MISE À JOUR 2026-09-23 (rebuild point-in-time `research/pit_gappers/`) — fait autorité sur la description ci-dessous.**
 > Un audit a montré que l'ancien "edge post-open" (gap 10-20) était un **artefact de look-ahead** ; mesuré proprement il est nul.
 > Config live DÉSORMAIS :
