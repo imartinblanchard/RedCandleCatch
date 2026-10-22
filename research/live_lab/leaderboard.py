@@ -43,7 +43,14 @@ def variants():
           ('gap-open >0%',          dict(gap_open_min=0)),
           ('gap-open >=1%',         dict(gap_open_min=1)),
           ('gap-open>0 (desserré)', dict(gap_open_min=0)),                 # LIVE utilise maintenant >=1%
-          ('run-up2 + above-open',  dict(runup_min=2, require_above_open=True))]
+          ('run-up2 + above-open',  dict(runup_min=2, require_above_open=True)),
+          # ── PISTES du sweep live 21-22/10 (à SURVEILLER semaine après semaine, cf pistes-sweep-live-21-10) ──
+          ('⭐A-trail repli10/gap5-20/trail', dict(retrace_pct=0.10, gap_max=20.0, capit_ratio=1.3,
+                                                   pullback_dvol_min=0, exit_mode='trail',
+                                                   activate_pct=0.10, trail_pct=0.02)),
+          ('⭐A repli10/gap5-20/eod',  dict(retrace_pct=0.10, gap_max=20.0, capit_ratio=1.3, pullback_dvol_min=0)),
+          ('⭐B repli5/no-capit/trail', dict(retrace_pct=0.05, capit_ratio=-1, pullback_dvol_min=0,
+                                             exit_mode='trail', activate_pct=0.10, trail_pct=0.02))]
     return V
 
 RISKS = [0.005, 0.01, 0.02]        # sizing par le risque : % du capital risqué par trade
