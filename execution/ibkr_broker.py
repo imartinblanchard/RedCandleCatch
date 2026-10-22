@@ -198,8 +198,11 @@ class IBKRBroker:
         except Exception as e:
             self._log('BARS_ERR', ticker, str(e))
             return []
+        # IB historical TRADES volume = lots de 100 -> ×100 pour des ACTIONS (comme fetch_universe_bars).
+        # SANS ce ×100, le volume était 100× trop petit -> filtres $-vol du terminator (MIN_DIP_DOLLAR_VOL,
+        # PULLBACK_DVOL_MIN) ~100× trop stricts -> sur-skip massif (bug corrigé 22/10, cf écart backtest/live).
         return [{'t': b.date, 'o': b.open, 'h': b.high, 'l': b.low,
-                 'c': b.close, 'v': b.volume} for b in bars]
+                 'c': b.close, 'v': b.volume * 100} for b in bars]
 
     # ---- orders (marketable LIMIT, outsideRth so it fills pre-market) ----
     def _place(self, ticker: str, action: str, qty: int, limit: float,
