@@ -60,7 +60,15 @@ def variants():
                                                             exit_mode='trail', activate_pct=0.10, trail_pct=0.02)),
           ('⭐⭐S3 tp20 5-50/10-midi/noCapit', dict(gap_min=5.0, gap_max=50.0, entry_start=600, entry_end=720,
                                                    retrace_pct=0.08, capit_ratio=-1, pullback_dvol_min=0,
-                                                   exit_mode='tp', tp_pct=0.20))]
+                                                   exit_mode='tp', tp_pct=0.20)),
+          # ── +INDICATEUR « HOD en séance » (25/10) : améliore toutes les bases, cf carnet ──
+          ('⭐⭐⭐S1+HOD 5-10/capit2/hodRTH/trail', dict(gap_min=5.0, gap_max=10.0, retrace_pct=0.08,
+                                                        capit_ratio=2.0, hod_in_rth=True, exit_mode='trail',
+                                                        activate_pct=0.10, trail_pct=0.02)),
+          ('⭐⭐⭐S2+HOD 5-50/10:30/noCapit/hodRTH/trail', dict(gap_min=5.0, gap_max=50.0, entry_start=630,
+                                                              retrace_pct=0.12, capit_ratio=-1, pullback_dvol_min=0,
+                                                              hod_in_rth=True, exit_mode='trail',
+                                                              activate_pct=0.10, trail_pct=0.02))]
     return V
 
 RISKS = [0.005, 0.01, 0.02]        # sizing par le risque : % du capital risqué par trade
