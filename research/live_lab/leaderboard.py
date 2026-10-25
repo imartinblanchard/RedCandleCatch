@@ -50,7 +50,17 @@ def variants():
                                                    activate_pct=0.10, trail_pct=0.02)),
           ('⭐A repli10/gap5-20/eod',  dict(retrace_pct=0.10, gap_max=20.0, capit_ratio=1.3, pullback_dvol_min=0)),
           ('⭐B repli5/no-capit/trail', dict(retrace_pct=0.05, capit_ratio=-1, pullback_dvol_min=0,
-                                             exit_mode='trail', activate_pct=0.10, trail_pct=0.02))]
+                                             exit_mode='trail', activate_pct=0.10, trail_pct=0.02)),
+          # ── CARNET recherche large 25/10 (cf carnet-strategies-candidates) — archétypes distincts ──
+          ('⭐⭐S1 qualité 5-10/capit2/trail', dict(gap_min=5.0, gap_max=10.0, retrace_pct=0.08,
+                                                    capit_ratio=2.0, exit_mode='trail',
+                                                    activate_pct=0.10, trail_pct=0.02)),
+          ('⭐⭐S2 hautefréq 5-50/10:30/noCapit/trail', dict(gap_min=5.0, gap_max=50.0, entry_start=630,
+                                                            retrace_pct=0.12, capit_ratio=-1, pullback_dvol_min=0,
+                                                            exit_mode='trail', activate_pct=0.10, trail_pct=0.02)),
+          ('⭐⭐S3 tp20 5-50/10-midi/noCapit', dict(gap_min=5.0, gap_max=50.0, entry_start=600, entry_end=720,
+                                                   retrace_pct=0.08, capit_ratio=-1, pullback_dvol_min=0,
+                                                   exit_mode='tp', tp_pct=0.20))]
     return V
 
 RISKS = [0.005, 0.01, 0.02]        # sizing par le risque : % du capital risqué par trade
