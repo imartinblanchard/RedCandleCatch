@@ -60,3 +60,4 @@ Thumbs.db
 
 # Résultats de recherche régénérables (gros CSV) — on garde results/runs/*.txt + README
 research/live_lab/results/*.csv
+research/live_lab/results/*.pdf
