@@ -50,6 +50,8 @@ LIVE = dict(
     recent_window=10,                      # fenêtre (min) pour la liquidité récente
     recent_dvol_min=0,                     # $vol MOYEN/min sur les recent_window dernières minutes
     active_frac_min=0,                     # fraction min de minutes ACTIVES (v>0) depuis l'ouverture
+    recent_active_min=0,                   # fraction min des N DERNIÈRES minutes calendaires avec un trade (0=off)
+    recent_active_window=10,               # N (minutes) pour recent_active_min
     # ── filtres ADDITIONNELS (tous neutres par défaut => LIVE reste fidèle) ──
     rvol_min=0,                            # volume relatif intraday de la bougie d'entrée (v/moy. avant)
     float_rot_min=0,                       # rotation du float : actions cumulées / float (turnover)
@@ -266,6 +268,10 @@ def _entry_index(g, P):
         recent_dvol = float((v[lo:i + 1] * c[lo:i + 1]).mean())
         sess = (mins >= P['entry_start']) & (mins <= mins[i])
         active_frac = float((v[sess] > 0).mean()) if sess.any() else 0.0
+        # ACTIVITÉ RÉCENTE (causale) : fraction des N dernieres minutes CALENDAIRES avec un trade
+        # (capture aussi les minutes absentes). recent_active_min=0 => off. "bougie chaque minute recemment".
+        wa = P.get('recent_active_window', 10)
+        recent_active = float(((mins > mins[i] - wa) & (mins <= mins[i]) & (v > 0)).sum()) / wa
         # PROXY CATALYSEUR (données seules) : activité anormale = rvol amplifié par la rotation du float
         cat_score = rvol * (1 + (float_rot or 0.0))
         # filtres additionnels (neutres par défaut ; float_rot permissif si float inconnu)
@@ -274,6 +280,7 @@ def _entry_index(g, P):
               and v[i] * c[i] >= P['bar_dvol_min']
               and (P['recent_dvol_min'] <= 0 or recent_dvol >= P['recent_dvol_min'])
               and (P['active_frac_min'] <= 0 or active_frac >= P['active_frac_min'])
+              and (P.get('recent_active_min', 0) <= 0 or recent_active >= P['recent_active_min'])
               and (P['rvol_min'] <= 0 or rvol >= P['rvol_min'])
               and (P['cat_min'] <= 0 or cat_score >= P['cat_min'])
               and (P['float_rot_min'] <= 0 or float_rot is None or float_rot >= P['float_rot_min'])
