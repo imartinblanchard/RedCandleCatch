@@ -12,7 +12,7 @@ LIVE DATA UNIQUEMENT (règle 21/10).
 import os, sys
 import numpy as np, pandas as pd
 HERE = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, os.path.dirname(os.path.dirname(HERE)))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(HERE))))  # racine projet (studies/ = +1 niveau)
 from research.live_lab import backtest as bt
 from research.live_lab.leaderboard import portfolio
 

@@ -1,0 +1,47 @@
+Journal v3-era : 10 trades réels sur 7 séances (2026-10-07..2026-10-21)
+  P&L réel moyen : -2.43%/tr  (somme -24.3%)
+
+Backtest v3 sur ces MÊMES 7 séances : 20 trades, exp +1.80%/tr
+
+=== COMMUN (pris par les DEUX) -> mesure le slippage de FILL ===
+ticker       date  bt_entry  real_entry  bt_pnl  real_pnl  entry_slip%  pnl_gap
+  GLWG 2026-10-09    12.670     12.7300   5.681      5.42     0.473560   -0.261
+   IRD 2026-10-15     4.091      4.0850  -1.362     -1.10    -0.146663    0.262
+  NOWL 2026-10-16     8.430      8.4250 -10.320    -10.01    -0.059312    0.310
+  ASTX 2026-10-21     4.350      4.3395  -0.916     -0.45    -0.241379    0.466
+
+  slippage entrée moyen : +0.01%  | écart P&L moyen (réel−bt) : +0.19%/tr
+
+=== BACKTEST-ONLY (backtest prend, bot RATE) -> effet SÉLECTION : 16 trades ===
+      date ticker entry_time   entry  gap    pnl
+2026-10-07   BOLT      15:23  3.3810  8.0  5.830
+2026-10-07   JDZG      14:21  5.1800  5.6  6.524
+2026-10-08   LEXX      10:08  3.3200  5.8  0.294
+2026-10-08   STDN      11:21 13.6600  5.6 -2.197
+2026-10-09   AIAI      12:26  3.0900  7.2  1.277
+2026-10-09   BBGI      11:47 10.1200  7.6 -0.398
+2026-10-09   FOIL      11:42 18.5900  9.4  9.890
+2026-10-09    LSE      15:47  4.7500 10.0  6.483
+2026-10-15     MF      10:24  8.9500  9.9 19.153
+2026-10-15   OPNW      09:50  3.0100  7.5 -5.268
+2026-10-15   PIII      09:39  4.2400  7.6 -5.857
+2026-10-15     TP      11:14  7.8200  9.9  3.311
+2026-10-16   TANH      10:47 12.4900  5.8  4.171
+2026-10-16   UCAR      12:12  3.2500  9.9 -0.614
+2026-10-21   FGRU      15:54  5.6300  6.8 -0.531
+2026-10-21   LIMN      09:49  3.1111  7.3  0.915
+  P&L moyen de ces trades ratés : +2.69%/tr (somme +43.0%)
+
+=== JOURNAL-ONLY (bot prend, backtest NON) : 6 ===
+      date ticker entry_time  entry  gap  pnl_pct reason
+2026-10-07   AARD      15:52  4.920  5.8     0.30    EOD
+2026-10-08   GLAS      10:08  5.020  6.2   -10.55   STOP
+2026-10-09   APUS      09:39  5.530  9.9   -10.67   STOP
+2026-10-09   EROC      09:35 11.940  7.1     0.35    EOD
+2026-10-14   GMEU      15:30 10.725  5.5     0.34    EOD
+2026-10-15   RZAI      13:13  9.560  9.8     2.09    EOD
+
+=== VERDICT ===
+  réel -2.43%/tr  vs  backtest(mêmes jours) +1.80%/tr
+  part FILL (trades communs, écart P&L) : +0.19%/tr
+  part SÉLECTION (trades ratés) : +2.69%/tr sur 16 trades que le bot n'a pas pris

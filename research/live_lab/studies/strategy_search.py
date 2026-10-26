@@ -15,7 +15,7 @@ Les "indicateurs" (vwap, bougie verte, above-open, hod-rth) : passe marginale sÃ
 import os, sys, itertools
 import numpy as np, pandas as pd
 HERE = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, os.path.dirname(os.path.dirname(HERE)))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(HERE))))  # racine projet (studies/ = +1 niveau)
 from research.live_lab import backtest as bt
 from research.live_lab.leaderboard import portfolio
 
@@ -72,7 +72,7 @@ def main():
                          e_te=round(e_te, 2), t_te=round(t_te, 2), e_trim=round(e_trim, 2),
                          cpte=round(cpte, 1), cpte_oos=round(cpte_o, 1), robust=robust))
     r = pd.DataFrame(rows)
-    out = os.path.join(HERE, 'strategy_search_results.csv')
+    out = os.path.join(HERE, '..', 'results', 'strategy_search_results.csv')
     r.sort_values('cpte', ascending=False).to_csv(out, index=False)
     print(f"{len(r)} combos avec n>={N_MIN}. CSV complet -> {out}\n")
 

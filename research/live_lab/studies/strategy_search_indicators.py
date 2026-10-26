@@ -10,7 +10,7 @@ Garde-fous anti-bruit (⚠️ 19 j, des milliers de combos = faux positifs ÉNOR
 import os, sys, itertools, time
 import numpy as np, pandas as pd
 HERE = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, os.path.dirname(os.path.dirname(HERE)))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(HERE))))  # racine projet (studies/ = +1 niveau)
 from research.live_lab import backtest as bt
 from research.live_lab.leaderboard import portfolio
 
@@ -26,7 +26,7 @@ EXITS  = [('eod', dict(exit_mode='eod')),
 HOD    = [('', False), ('hodRTH', True)]              # indicateur 1
 GREEN  = [('', False), ('green', True)]               # indicateur 2
 VWAP   = [('', None), ('vw<', 'below')]               # indicateur 3 (above exclu = trade-killer)
-OUT = os.path.join(HERE, 'strategy_search_indic_results.csv')
+OUT = os.path.join(HERE, '..', 'results', 'strategy_search_indic_results.csv')
 
 
 def substat(a):

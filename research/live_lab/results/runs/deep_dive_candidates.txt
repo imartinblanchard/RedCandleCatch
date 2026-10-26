@@ -1,0 +1,14 @@
+17 séances live (2026-09-24→2026-10-21), OOS ≥ 2026-10-14 (5 j test)
+P&L COMPTE = portefeuille composé, sizing contraint capital (posfrac=min(risque/stop, budget/tr_jour, 20%)), slip ON
+
+CONFIG                                  n  tr/j  exp/tr     t | OOS n OOS exp     t | CPTE 2% F CPTE 2% OOS CPTE 1% F | exp -top3 CPTE2% -top3
+----------------------------------------------------------------------------------------------------------------------------------------------
+v3 LIVE (actuel)                       41   2.9  +2.03% +2.39 |    14  +0.66% +0.37 |    +17.9%       +1.8%     +8.6% |    +1.09%        +8.5%
+A: repli10 gap5-20 eod                 74   4.6  +1.38% +1.69 |    24  +2.29% +2.40 |    +21.8%      +11.3%    +10.6% |    +0.44%        +6.0%
+A2: repli10 gap5-20 capit1.6 eod       67   4.2  +1.57% +1.77 |    21  +2.46% +2.30 |    +22.6%      +10.6%    +10.9% |    +0.53%        +6.7%
+A-trail: repli10 gap5-20 trail         74   4.6  +1.14% +1.72 |    24  +2.80% +2.62 |    +17.8%      +14.1%     +8.7% |    +0.70%        +9.8%
+B: repli5 sans-capit gap5-10 trail    332  19.5  +0.51% +2.16 |    76  +1.11% +2.05 |     +9.3%       +4.7%     +9.3% |    +0.38%        +7.0%
+B-eod: repli5 sans-capit gap5-10 eod  332  19.5  +0.39% +1.68 |    76  +0.99% +1.81 |     +7.5%       +4.5%     +7.5% |    +0.24%        +4.3%
+
+CPTE 2% F = P&L compte % période complète à risque 2% ; OOS = sur les jours de test ;
+CPTE 1% F = idem risque 1% ; -top3 = en retirant les 3 meilleurs trades (fragilité).

@@ -9,7 +9,7 @@ collected_live uniquement ; colonnes compte incluses.
 """
 import os, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, os.path.dirname(os.path.dirname(HERE)))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(HERE))))  # racine projet (studies/ = +1 niveau)
 from research.live_lab import backtest as bt
 from research.live_lab.leaderboard import portfolio
 
