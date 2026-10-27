@@ -1,0 +1,22 @@
+21 séances, OOS≥2026-10-20. recent_active=0.7. sizing 2%, trail, hold->cloture.
+
+########## SANS filtre activité ##########
+-- stratégies individuelles --
+  A 5-10/9:30/r8/capit2/hodRTH       n= 24  1.8/j exp=+5.02% t=+4.66 win= 75% | OOS +2.03% | CPTE  +26.8% / OOS  +3.3%
+  B 5-50/10:30/r12/noCapit/hodRTH    n= 90  4.3/j exp=+2.08% t=+2.68 win= 58% | OOS +2.63% | CPTE  +43.6% / OOS +15.5%
+  C 5-50/10:00/r10/noCapit/green     n= 85  4.2/j exp=+1.71% t=+2.53 win= 52% | OOS +2.10% | CPTE  +33.8% / OOS +11.6%
+  D 10-20/9:30/r10/noCapit           n=160  7.6/j exp=+0.31% t=+0.68 win= 47% | OOS +2.31% | CPTE   +5.6% / OOS +12.0%
+-- PORTEFEUILLE COMBINÉ (union, 1/ticker/jour) --
+  COMBINÉ A+B+C+D                    n=284 13.5/j exp=+0.88% t=+2.34 win= 50% | OOS +1.74% | CPTE  +21.2% / OOS  +9.4%
+     (trades bruts 359 -> 284 après dédup ticker/jour ; chevauchement 75)
+
+########## AVEC filtre activité (>=0.7) ##########
+-- stratégies individuelles --
+  A 5-10/9:30/r8/capit2/hodRTH       n= 10  1.2/j exp=+6.26% t=+3.64 win= 90% | OOS +2.55% | CPTE  +13.1% / OOS  +1.0%
+  B 5-50/10:30/r12/noCapit/hodRTH    n= 34  2.1/j exp=+0.74% t=+0.61 win= 50% | OOS +0.75% | CPTE   +4.8% / OOS  +1.3%
+  C 5-50/10:00/r10/noCapit/green     n= 14  1.6/j exp=+1.60% t=+0.87 win= 50% | OOS +3.00% | CPTE   +4.4% / OOS  +3.0%
+  D 10-20/9:30/r10/noCapit           n= 65  3.8/j exp=-0.18% t=-0.23 win= 49% | OOS +2.68% | CPTE   -4.2% / OOS  +8.8%
+-- PORTEFEUILLE COMBINÉ (union, 1/ticker/jour) --
+  COMBINÉ A+B+C+D                    n=110  5.2/j exp=+0.75% t=+1.15 win= 54% | OOS +2.39% | CPTE  +18.8% / OOS +12.9%
+     (trades bruts 123 -> 110 après dédup ticker/jour ; chevauchement 13)
+
