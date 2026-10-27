@@ -1,0 +1,10 @@
+21 séances, recent_active=0.9, hodRTH, trail. Pool=24.
+
+4 stratégies survivent au filtre strict (n>=8, exp>0).
+
+Étape | +stratégie                 | trades/j | exp/tr | CPTE | OOS
+----------------------------------------------------------------------------
+   1  | 10-20/600/r8               |   2.2/j  | +1.59% |  +7.7% |  +0.1%
+
+Portefeuille retenu (1 strat) : 10-20/600/r8
+-> 24 trades, 2.2/j, exp +1.59%, CPTE +7.7% / OOS +0.1%, maxDD -4.6%

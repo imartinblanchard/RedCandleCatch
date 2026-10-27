@@ -15,7 +15,7 @@ from research.live_lab import backtest as bt
 from research.live_lab.leaderboard import portfolio
 
 TRAIL = dict(exit_mode='trail', activate_pct=0.10, trail_pct=0.02)
-RA = 0.7
+RA = 0.9
 # pool curé : gaps/heures/replis/capit/vert variés, tous hodRTH + activité + trail
 POOL = {
     'a 5-10/9:30/r8/cap2':     dict(gap_min=5, gap_max=10, entry_start=570, retrace_pct=0.08, capit_ratio=2.0),
@@ -62,7 +62,7 @@ def main():
         comb = pd.concat([sims[a]['tr'], sims[b]['tr'], sims[c]['tr']], ignore_index=True)
         comb = comb.sort_values('entry_min').drop_duplicates(['ticker', 'date'], keep='first')
         n = len(comb); trj = n / comb.date.nunique()
-        if not (3.0 <= trj <= 8.0):          # cible ~5 trades/jour (bande 3-8)
+        if not (2.0 <= trj <= 8.0):          # cible ~5 trades/jour (bande 3-8)
             continue
         pnl = comb.pnl.to_numpy()
         exp = pnl.mean(); sd = pnl.std(ddof=1) if n > 1 else 0
@@ -76,7 +76,10 @@ def main():
         rows.append(dict(trio=f"{a.split()[0]}+{b.split()[0]}+{c.split()[0]}", n=n, trj=round(trj, 1),
                          exp=round(exp, 2), t=round(t, 2), oos=round(oexp, 2),
                          cpte=round(cp, 1), cpte_oos=round(cpo, 1), maxDD=round(dd, 1), corr=round(corr, 2)))
-    r = pd.DataFrame(rows).sort_values('cpte_oos', ascending=False)
+    r = pd.DataFrame(rows)
+    if not len(r):
+        print('Aucun trio >=2 tr/j : le filtre strict laisse trop peu de trades.'); return
+    r = r.sort_values('cpte_oos', ascending=False)
     r.to_csv(os.path.join(HERE, '..', 'results', 'best_trio_results.csv'), index=False)
     print(f"\n{len(r)} trios dans la bande 3-8 tr/j. TOP 15 par OOS compte :\n", flush=True)
     print(r.head(15).to_string(index=False), flush=True)
