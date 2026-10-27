@@ -1,0 +1,41 @@
+21 séances, OOS≥2026-10-20. recent_active=0.7, hodRTH, trail. Pool=16.
+
+10 stratégies retenues (n>=10, exp>0) :
+  a 5-10/9:30/r8/cap2        n= 10 1.2/j exp=+6.26%
+  c 3-10/9:30/r8/cap1.6      n= 11 1.2/j exp=+5.71%
+  l 5-20/10:00/r12/capOFF    n= 19 2.1/j exp=+2.13%
+  j 5-50/10:30/r8/green      n= 21 1.6/j exp=+1.74%
+  k 5-50/10:00/r12/capOFF    n= 43 2.7/j exp=+1.68%
+  i 5-50/10:00/r10/green     n= 14 1.6/j exp=+1.60%
+  e 10-20/10:00/r10/capOFF   n= 26 2.4/j exp=+1.34%
+  b 5-10/9:30/r8/capOFF      n= 52 3.1/j exp=+1.20%
+  m 5-20/10:30/r10/capOFF    n= 25 1.8/j exp=+1.01%
+  h 5-50/10:30/r12/capOFF    n= 34 2.1/j exp=+0.74%
+
+78 trios dans la bande 3-8 tr/j. TOP 15 par OOS compte :
+
+ trio   n  trj  exp    t  oos  cpte  cpte_oos  maxDD  corr
+c+j+k  74  3.5 2.36 3.23 2.34  40.6      10.7   -3.6 -0.09
+a+j+k  73  3.5 2.39 3.23 2.34  40.5      10.7   -3.6 -0.09
+b+i+k  99  5.0 1.48 2.39 2.03  33.7      10.5   -4.1  0.09
+a+i+k  58  3.4 2.51 2.82 3.13  32.7      10.3   -4.3  0.18
+c+i+k  59  3.5 2.47 2.82 3.13  32.8      10.3   -4.3  0.18
+e+i+k  57  3.4 1.39 1.64 3.06  17.6      10.0   -6.2  0.15
+b+j+k 114  5.4 1.53 2.77 1.68  38.4      10.0   -3.3 -0.12
+i+k+m  64  3.6 1.40 1.82 2.27  19.0       9.8   -6.5  0.03
+j+k+l  63  3.0 1.77 2.25 2.32  24.4       9.6   -4.9  0.11
+e+j+k  73  3.5 1.59 2.20 2.21  26.6       9.5   -5.5 -0.01
+b+k+m 107  5.3 1.31 2.34 1.66  29.8       9.2   -3.2  0.03
+i+j+k  67  3.2 1.65 2.15 2.23  24.1       9.2   -5.8 -0.00
+j+k+m  74  3.5 1.46 2.09 1.68  23.6       8.7   -5.5  0.00
+a+b+k  94  4.7 1.44 2.31 1.82  30.3       8.6   -3.4  0.19
+b+k+l  94  4.7 1.44 2.31 1.82  30.3       8.6   -3.4  0.04
+
+Meilleur trio PEU CORRÉLÉ (corr<=0.2, parmi top OOS) :
+Traceback (most recent call last):
+  File "/home/martin/dev/stock-journal-long/research/live_lab/studies/best_trio.py", line 89, in <module>
+    main()
+  File "/home/martin/dev/stock-journal-long/research/live_lab/studies/best_trio.py", line 84, in main
+    lowc = r[r.corr <= 0.2].head(5)
+             ^^^^^^^^^^^^^
+TypeError: '<=' not supported between instances of 'method' and 'float'
