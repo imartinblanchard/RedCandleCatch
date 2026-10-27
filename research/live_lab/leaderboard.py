@@ -84,7 +84,11 @@ def variants():
           ('⭐⭐⭐⭐F4 5-50/10:30/r12/hodRTH+green/trail', dict(gap_min=5.0, gap_max=50.0, entry_start=630,
                                                              retrace_pct=0.12, capit_ratio=-1, hod_in_rth=True,
                                                              require_green=True, exit_mode='trail',
-                                                             activate_pct=0.10, trail_pct=0.02))]
+                                                             activate_pct=0.10, trail_pct=0.02)),
+          # ── composante 'c' du trio c+j+k (j=F1, k=F3 déjà suivis) — cf meilleur-trio-strategies ──
+          ('⭐⭐⭐⭐c 3-10/9:30/r8/cap1.6/hodRTH/trail', dict(gap_min=3.0, gap_max=10.0, entry_start=570,
+                                                           retrace_pct=0.08, capit_ratio=1.6, hod_in_rth=True,
+                                                           exit_mode='trail', activate_pct=0.10, trail_pct=0.02))]
     return V
 
 RISKS = [0.005, 0.01, 0.02]        # sizing par le risque : % du capital risqué par trade
