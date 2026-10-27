@@ -68,7 +68,23 @@ def variants():
           ('⭐⭐⭐S2+HOD 5-50/10:30/noCapit/hodRTH/trail', dict(gap_min=5.0, gap_max=50.0, entry_start=630,
                                                               retrace_pct=0.12, capit_ratio=-1, pullback_dvol_min=0,
                                                               hod_in_rth=True, exit_mode='trail',
-                                                              activate_pct=0.10, trail_pct=0.02))]
+                                                              activate_pct=0.10, trail_pct=0.02)),
+          # ── TOP recherche COMPLÈTE 26/10 (famille gaps larges + HOD + bougie verte, cf carnet) ──
+          ('⭐⭐⭐⭐F1 5-50/10:30/r8/hodRTH+green/trail', dict(gap_min=5.0, gap_max=50.0, entry_start=630,
+                                                            retrace_pct=0.08, capit_ratio=-1, hod_in_rth=True,
+                                                            require_green=True, exit_mode='trail',
+                                                            activate_pct=0.10, trail_pct=0.02)),
+          ('⭐⭐⭐⭐F2 5-50/10:00/r10/hodRTH+green/trail', dict(gap_min=5.0, gap_max=50.0, entry_start=600,
+                                                             retrace_pct=0.10, capit_ratio=-1, hod_in_rth=True,
+                                                             require_green=True, exit_mode='trail',
+                                                             activate_pct=0.10, trail_pct=0.02)),
+          ('⭐⭐⭐⭐F3 5-50/10:00/r12/hodRTH/trail', dict(gap_min=5.0, gap_max=50.0, entry_start=600,
+                                                       retrace_pct=0.12, capit_ratio=-1, hod_in_rth=True,
+                                                       exit_mode='trail', activate_pct=0.10, trail_pct=0.02)),
+          ('⭐⭐⭐⭐F4 5-50/10:30/r12/hodRTH+green/trail', dict(gap_min=5.0, gap_max=50.0, entry_start=630,
+                                                             retrace_pct=0.12, capit_ratio=-1, hod_in_rth=True,
+                                                             require_green=True, exit_mode='trail',
+                                                             activate_pct=0.10, trail_pct=0.02))]
     return V
 
 RISKS = [0.005, 0.01, 0.02]        # sizing par le risque : % du capital risqué par trade
@@ -146,7 +162,18 @@ def main(top):
                 couvre=f"{dates[0]}..{dates[-1]}", top1=best.strategie, top1_risque=best.risque,
                 top1_profit=round(best.profit, 2), live_baseline_exp=round(rows[0]['exp_tr'], 3))
     pd.DataFrame([line]).to_csv(hist, mode='a', header=not os.path.exists(hist), index=False)
-    print(f"\n→ classement complet : leaderboard_latest.csv | historique : leaderboard_history.csv")
+
+    # historique PAR VARIANTE (suivi longitudinal, 1 ligne/variante/soir, sizing risque 2%)
+    vh = os.path.join(HERE, 'variant_history.csv')
+    run = dt.datetime.now().isoformat(timespec='seconds')
+    per = r[r.risque == '2.0%'][['strategie', 'n', 'tr_day', 'exp_tr', 'exp_test', 'profit', 'profit_oos']].copy()
+    per = per.round({'tr_day': 2, 'exp_tr': 3, 'exp_test': 3, 'profit': 2, 'profit_oos': 2})
+    per.insert(0, 'couvre', f"{dates[0]}..{dates[-1]}")
+    per.insert(0, 'n_days', len(dates))
+    per.insert(0, 'run', run)
+    per.to_csv(vh, mode='a', header=not os.path.exists(vh), index=False)
+    print(f"\n→ classement complet : leaderboard_latest.csv | hist top1 : leaderboard_history.csv "
+          f"| hist par variante : variant_history.csv")
 
 
 if __name__ == '__main__':
