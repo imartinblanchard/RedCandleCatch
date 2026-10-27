@@ -83,6 +83,16 @@ GAP_OPEN_MIN = 0.01            # gap ENCORE actif & FRANC à l'open : (open_séa
 CAPIT_MIN_BARS = 4             # nb de bougies minimum du repli (pour juger la tendance du volume)
 CAPIT_RATIO = 1.3             # volume moyen 2e moitié / 1re moitié du repli > ce ratio = capitulation
 PULLBACK_DVOL_MIN = 300_000    # $ min de dollar-volume CUMULÉ sur tout le repli (liquidité, exécutable)
+# ── TRIO c+j+k (déployé live 28/10, 1 action = forward-test/bug-hunting ; cf meilleur-trio-strategies) ──
+# 3 configs évaluées indépendamment ; on entre sur la 1re qui matche (1/ticker/jour). Chacune garde
+# runup>=2 / gap-open>=1 / dvol-repli>=300K (hérités). HOD-en-séance + bougie verte = filtres ajoutés.
+# Sortie TRAIL 10/2 (activate +10% puis TRAIL 2%). USE_TRIO=False -> revient à la v3 mono-config.
+USE_TRIO = True
+TRIO = [
+    dict(name='c', gap_min=3.0,  gap_max=10.0, start=(9, 30),  retrace=0.08, capit=1.6, green=False, hod_rth=True, activate=0.10),
+    dict(name='j', gap_min=5.0,  gap_max=50.0, start=(10, 30), retrace=0.08, capit=-1,  green=True,  hod_rth=True, activate=0.10),
+    dict(name='k', gap_min=5.0,  gap_max=50.0, start=(10, 0),  retrace=0.12, capit=-1,  green=False, hod_rth=True, activate=0.10),
+]
 # --- sortie EN DEUX PHASES ---
 STOP = 0.10             # phase 1 : STOP fixe -10% (survit au repli initial)
 # ACTIVATION ADAPTATIVE (18/09) : l'effet du seuil d'activation est OPPOSÉ selon la population
@@ -410,10 +420,14 @@ class RedCandleCatchTerminator:
         except Exception as e:
             print(f"    log_eval err {tk}: {e}")
 
-    def _retrace_signal(self, tk: str, r: dict, allbars):
-        """STRATÉGIE v3 : repli >=RETRACE_PCT du HOD + capitulation (volume qui accélère) +
-        liquidité cumulée. -> (entry, activate, desc) ou None. Sortie hold-to-EOD (activate=jamais)."""
-        if hm(r['t']) < RTH_OPEN:                        # v3 = SÉANCE seulement (validé post-open)
+    def _retrace_signal(self, tk: str, r: dict, allbars, cfg=None):
+        """Repli >=cfg.retrace du HOD + capitulation + liquidité. cfg=None -> v3 mono (globals).
+        Ajouts trio : fenêtre par config, HOD-en-séance, bougie verte. -> (entry, activate, desc) ou None."""
+        if cfg is None:                                  # rétro-compat v3 (globals, hold-to-EOD)
+            cfg = dict(name='v3', gap_min=GAP_MIN, gap_max=GAP_MAX, start=RTH_OPEN,
+                       retrace=RETRACE_PCT, capit=CAPIT_RATIO, green=False, hod_rth=False, activate=999.0)
+        nm = cfg['name']
+        if hm(r['t']) < cfg['start']:                    # fenêtre d'entrée propre à la config
             return None
         pc = self._pc.get(tk)
         if pc is None:
@@ -425,12 +439,13 @@ class RedCandleCatchTerminator:
             return None
         hod = max(b['h'] for b in up)
         gap = (hod - pc) / pc * 100
-        if not (GAP_MIN <= gap <= GAP_MAX):
+        if not (cfg['gap_min'] <= gap <= cfg['gap_max']):
             return None
         if not (PRICE_MIN <= r['c'] <= PRICE_MAX):
             return None
-        # ANTI "COUTEAU QUI TOMBE" (08/10, GLAS) : le gap doit être ENCORE actif à l'open ET le titre
-        # doit avoir MONTÉ en séance avant le repli. Sinon = spike pré-marché retombé qui saigne.
+        if cfg['green'] and r['c'] < r['o']:             # bougie d'entrée doit être VERTE
+            return None
+        # ANTI "COUTEAU QUI TOMBE" : gap ENCORE actif à l'open ET montée en séance avant le repli.
         rth = [b for b in up if hm(b['t']) >= RTH_OPEN]
         if not rth:
             return None
@@ -440,21 +455,22 @@ class RedCandleCatchTerminator:
             rth_hod = max(b['h'] for b in rth)
             runup = (rth_hod - sess_open) / sess_open * 100
             if gap_open < GAP_OPEN_MIN * 100 or runup < RUNUP_MIN * 100:
-                print(f"[{now_et():%H:%M}] SKIP {tk} {r['t']:%H:%M} gap-open {gap_open:+.1f}% "
+                print(f"[{now_et():%H:%M}] SKIP {tk}[{nm}] {r['t']:%H:%M} gap-open {gap_open:+.1f}% "
                       f"run-up {runup:+.1f}% -> SKIP-couteau-qui-tombe")
                 return None
         drop = (hod - r['c']) / hod * 100
-        if drop < RETRACE_PCT * 100:                     # pas assez reculé du sommet
+        if drop < cfg['retrace'] * 100:                  # pas assez reculé du sommet
             return None
-        # FIDÉLITÉ BACKTEST : n'évaluer qu'au PREMIER franchissement du repli -RETRACE_PCT (one-shot,
-        # comme combined_config). Si la bougie PRÉCÉDENTE était déjà >= repli, on a déjà eu notre
-        # chance -> on n'entre pas (sinon on entre plus tard/plus profond, hors validation).
+        # FIDÉLITÉ BACKTEST : one-shot au PREMIER franchissement du repli (sinon hors validation).
         if len(up) >= 2:
             hod_prev = max(b['h'] for b in up[:-1])
             drop_prev = (hod_prev - up[-2]['c']) / hod_prev * 100 if hod_prev > 0 else 0
-            if drop_prev >= RETRACE_PCT * 100:
+            if drop_prev >= cfg['retrace'] * 100:
                 return None
-        hidx = max(range(len(up)), key=lambda i: up[i]['h'])   # bougie du sommet
+        hidx = max(range(len(up)), key=lambda i: up[i]['h'])   # bougie du sommet (HOD)
+        if cfg['hod_rth'] and hm(up[hidx]['t']) < RTH_OPEN:    # HOD-EN-SÉANCE : sommet fait en RTH, pas en PM
+            print(f"[{now_et():%H:%M}] SKIP {tk}[{nm}] {r['t']:%H:%M} HOD en pré-marché -> SKIP-hod-PM")
+            return None
         pull = up[hidx + 1:]                             # le repli (sommet -> maintenant)
         if len(pull) < CAPIT_MIN_BARS:
             return None
@@ -463,20 +479,18 @@ class RedCandleCatchTerminator:
         half = len(dv) // 2
         a1 = sum(dv[:half]) / max(half, 1); a2 = sum(dv[half:]) / max(len(dv) - half, 1)
         ratio = (a2 / a1) if a1 > 0 else 0
-        # DÉCISION + LOG TEMPS RÉEL : chaque opportunité (1er repli 8%) est enregistrée avec TOUTES
-        # ses valeurs, à l'instant où le bot la voit -> donnée FIABLE (pas de reconstruction post-hoc).
         if pb_dvol < PULLBACK_DVOL_MIN:
             decision = f'SKIP-illiquide-{pb_dvol/1e3:.0f}K'
-        elif ratio <= CAPIT_RATIO:
+        elif ratio <= cfg['capit']:                      # capit=-1 => jamais skip (filtre OFF)
             decision = f'SKIP-pas-capit-x{ratio:.1f}'
         else:
             decision = 'ENTER'
         self._log_eval(tk, r, pc, hod, gap, drop, ratio, pb_dvol, len(pull), decision)
         if decision != 'ENTER':
-            print(f"[{now_et():%H:%M}] SKIP {tk} {r['t']:%H:%M} repli -{drop:.0f}% gap {gap:.0f}% -> {decision}")
+            print(f"[{now_et():%H:%M}] SKIP {tk}[{nm}] {r['t']:%H:%M} repli -{drop:.0f}% gap {gap:.0f}% -> {decision}")
             return None
-        desc = f"repli -{drop:.0f}% du HOD, gap {gap:.0f}%, capitulation vol x{ratio:.1f} (repli {len(pull)} bougies)"
-        return r['c'], 999.0, desc                        # activate=999 -> jamais activé = HOLD-TO-EOD
+        desc = f"[{nm}] repli -{drop:.0f}% du HOD, gap {gap:.0f}%, capit x{ratio:.1f} ({len(pull)} bougies)"
+        return r['c'], cfg['activate'], desc             # activate: 0.10 (trail) pour le trio, 999 pour v3
 
     def _dip_signal(self, tk: str, r: dict, allbars):
         """ANCIENNE stratégie (dip mono-bougie). -> (entry, activate, desc) ou None."""
@@ -503,7 +517,17 @@ class RedCandleCatchTerminator:
         if self.last_bar.get(tk) == r['t']:          # DÉDUP : 1 bougie = 1 décision
             return
         self.last_bar[tk] = r['t']
-        sig = self._retrace_signal(tk, r, allbars) if ENTRY_MODE == 'retrace' else self._dip_signal(tk, r, allbars)
+        if ENTRY_MODE == 'retrace':
+            if USE_TRIO:
+                sig = None
+                for cfg in TRIO:                         # c+j+k : 1re config qui matche
+                    sig = self._retrace_signal(tk, r, allbars, cfg)
+                    if sig is not None:
+                        break
+            else:
+                sig = self._retrace_signal(tk, r, allbars)
+        else:
+            sig = self._dip_signal(tk, r, allbars)
         if sig is None:
             return
         entry, activate, desc = sig

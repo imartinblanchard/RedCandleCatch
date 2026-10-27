@@ -46,7 +46,8 @@ except Exception:
 # bande post-open validée OOS est 5-10% (dip 1.5-2%, trail 2%, act +10% : train +0,43%/t2,6,
 # test +0,68%/t4,0). Gros gaps (30-100%) = perdants nets. ⚠️ edge modeste et sensible à la
 # définition -> le bot 1-action sert de FORWARD-TEST de cette bande, pas de martingale.
-GAP_MIN, GAP_MAX = 5.0, 10.0         # fourchette de gap, % (était 10-20 avant le 22/09)
+GAP_MIN, GAP_MAX = 3.0, 50.0         # fourchette ÉLARGIE pour le trio c+j+k (28/10 ; était 5-10 pour v3).
+                                     # evaluate() garde le filtrage ; le terminator filtre par config (c:3-10, j/k:5-50).
 PRICE_MIN, PRICE_MAX = 3.0, 20.0
 MARKET_CAP_MAX = 500_000_000         # DÉPRÉCIÉ 22/09 : le filtre small-cap se fait maintenant
                                      # sur le FLOAT (FLOAT_MAX_HARD dans evaluate), pas le market cap.
@@ -370,20 +371,29 @@ def gap_pct(broker, tk: str, today_bars: List[dict]) -> Optional[float]:
         return None
     return (max(b['h'] for b in win) - pc) / pc * 100
 
+# Bandes %-change du scanner IBKR (28/10, trio c+j+k) : on scanne PAR BANDE pour couvrir 3-50 %
+# sans que les gros gaps écrasent les petits (IBKR cape à 50 lignes/scan). Union des symboles.
+SCAN_BANDS = [(3, 7), (7, 13), (13, 25), (25, 50)]
+
+
 def scan_universe(broker, limit: int = SCAN_LIMIT) -> List[str]:
-    """Univers : TOP_PERC_GAIN small-caps < 500M, prix 3-20$, %-change filtré sur la bande
-    (8-25%) pour cibler directement nos gappers 10-20 et ne pas être écrasé par les >20%."""
+    """Univers : TOP_PERC_GAIN small-caps, prix 3-20$, SCANNÉ PAR BANDE (3-50%) pour capter
+    à la fois les petits gaps (c: 3-10) et les gros (j/k: 5-50) sans crowding. Union des symboles."""
     try:
         from ib_insync import ScannerSubscription, TagValue
-        sub = ScannerSubscription(instrument='STK', locationCode='STK.US.MAJOR',
-                                  scanCode='TOP_PERC_GAIN', numberOfRows=limit)
-        sub.abovePrice = PRICE_MIN; sub.belowPrice = PRICE_MAX
-        # (plus de filtre market cap au scanner : on filtre le FLOAT dans evaluate, 22/09)
-        # filtre %-change (bande) : cible directement la zone, chaque ligne devient pertinente
-        filt = [TagValue('changePercAbove', str(SCAN_CHANGE_MIN)),
-                TagValue('changePercBelow', str(SCAN_CHANGE_MAX))]
-        rows = broker.ib.reqScannerData(sub, [], filt)
-        return [r.contractDetails.contract.symbol for r in rows[:limit]]
+        seen = {}
+        for lo, hi in SCAN_BANDS:
+            sub = ScannerSubscription(instrument='STK', locationCode='STK.US.MAJOR',
+                                      scanCode='TOP_PERC_GAIN', numberOfRows=limit)
+            sub.abovePrice = PRICE_MIN; sub.belowPrice = PRICE_MAX
+            filt = [TagValue('changePercAbove', str(lo)), TagValue('changePercBelow', str(hi))]
+            try:
+                rows = broker.ib.reqScannerData(sub, [], filt)
+            except Exception as e:
+                print(f"scan band {lo}-{hi}% err: {e}"); continue
+            for r in rows[:limit]:
+                seen[r.contractDetails.contract.symbol] = True
+        return list(seen)
     except Exception as e:
         print(f"scan error: {e}")
         return []
