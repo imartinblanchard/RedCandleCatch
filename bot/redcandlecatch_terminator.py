@@ -697,11 +697,19 @@ class RedCandleCatchTerminator:
 
     def run(self, interval: float = 20.0, once: bool = False):
         mode = 'LIVE — VRAIS ORDRES' if self.live else 'PAPER/journal'
-        pop = 'POST-OPEN seulement' if not TRADE_PM else 'PM + post-open'
-        print(f"RedCandleCatch — {mode}. {pop}. dip -{DIP*100:.0f}%/-{DIP_LIQUID*100:.1f}% | 2-phases: STOP -{STOP*100:.0f}% "
-              f"-> +{ACTIVATE_PM*100:.0f}%/{ACTIVATE_POST*100:.0f}% -> TRAIL {TRAIL*100:.0f}%, gap {GAP_MIN:.0f}-{GAP_MAX:.0f}%, prix {PRICE_MIN:.0f}-{PRICE_MAX:.0f}$, "
-              f"liq bougie-dip >= ${MIN_DIP_DOLLAR_VOL/1e3:.0f}K, "
-              f"{SHARES} titre(s)/trade, {len(self.state)} ouverte(s). Journal: {JOURNAL.name}")
+        if USE_TRIO and ENTRY_MODE == 'retrace':
+            trio = ' + '.join(f"{c['name']}({c['gap_min']:.0f}-{c['gap_max']:.0f}/{c['start'][0]}:{c['start'][1]:02d}"
+                              f"/r{c['retrace']*100:.0f}"
+                              f"{'/capit' + str(c['capit']) if c['capit'] > 0 else '/noCapit'}"
+                              f"{'/vert' if c['green'] else ''}{'/HODrth' if c['hod_rth'] else ''})" for c in TRIO)
+            print(f"RedCandleCatch — {mode}. TRIO = {trio}. Sortie: STOP -{STOP*100:.0f}% -> TRAIL {TRAIL*100:.0f}% (act +10%), "
+                  f"prix {PRICE_MIN:.0f}-{PRICE_MAX:.0f}$, dvol-repli >= ${PULLBACK_DVOL_MIN/1e3:.0f}K, "
+                  f"{SHARES} titre(s)/trade, 1/ticker/jour, {len(self.state)} ouverte(s). Journal: {JOURNAL.name}")
+        else:
+            pop = 'POST-OPEN seulement' if not TRADE_PM else 'PM + post-open'
+            print(f"RedCandleCatch — {mode} (v3 mono). {pop}. repli {RETRACE_PCT*100:.0f}% + capit x{CAPIT_RATIO}, "
+                  f"STOP -{STOP*100:.0f}% -> hold-EOD, gap {GAP_MIN:.0f}-{GAP_MAX:.0f}%, prix {PRICE_MIN:.0f}-{PRICE_MAX:.0f}$, "
+                  f"{SHARES} titre(s)/trade, {len(self.state)} ouverte(s). Journal: {JOURNAL.name}")
         while True:
             try: self.cycle()
             except Exception as e: print(f"cycle error: {e}")
@@ -720,8 +728,9 @@ def main():
     if not broker.connect():
         print("✗ IBKR indisponible (IB Gateway sur 4001 ?)"); return
     if args.live:
-        print("⚠️  MODE LIVE : le bot va passer de VRAIS ORDRES (multi-positions, "
-              f"{SHARES} titre(s)/trade, 1/ticker/jour, 2-phases STOP-{STOP*100:.0f}%/+{ACTIVATE_PM*100:.0f}%-{ACTIVATE_POST*100:.0f}%/TRAIL{TRAIL*100:.0f}%).")
+        strat = f"TRIO c+j+k (gap 3-50, HOD-séance, trail {TRAIL*100:.0f}%)" if USE_TRIO else "v3 mono (hold-EOD)"
+        print(f"⚠️  MODE LIVE : VRAIS ORDRES — {strat}, "
+              f"{SHARES} titre(s)/trade, 1/ticker/jour, STOP -{STOP*100:.0f}%.")
     tickers = [t.strip().upper() for t in args.tickers.split(',')] if args.tickers else None
     term = RedCandleCatchTerminator(broker, tickers=tickers, live=args.live)
     try:
