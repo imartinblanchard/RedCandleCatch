@@ -266,11 +266,14 @@ class RedCandleCatchTerminator:
             from ib_insync import Order
             c = self.broker._contract(tk)
             offset = round(max(0.01, (ref or 0.0) * STOP_LIMIT_OFFSET), 2)   # $ sous le déclencheur
+            # FIX 28/10 : IBKR exige trailStopPrice (prix de déclenchement INITIAL) sur un TRAIL LIMIT,
+            # sinon err 321 "Please enter a trailing stop price" -> ordre rejeté -> position NUE.
+            trig = round(max(0.01, (ref or 0.0) * (1 - TRAIL)), 2)           # ~2% sous le sommet courant
             o = Order(action='SELL', totalQuantity=shares, orderType='TRAIL LIMIT',
-                      trailingPercent=round(TRAIL * 100, 2), lmtPriceOffset=offset,
+                      trailingPercent=round(TRAIL * 100, 2), trailStopPrice=trig, lmtPriceOffset=offset,
                       tif='DAY', outsideRth=True)
             trade = self.broker.ib.placeOrder(c, o)
-            print(f"    TRAIL LIMIT {TRAIL*100:.0f}% posé (limite {offset:.2f}$ sous le déclencheur)")
+            print(f"    TRAIL LIMIT {TRAIL*100:.0f}% posé (déclencheur {trig:.2f}, limite {offset:.2f}$ dessous)")
             return trade
         except Exception as e:
             print(f"    ⚠️ TRAIL ÉCHEC {tk}: {e}")
