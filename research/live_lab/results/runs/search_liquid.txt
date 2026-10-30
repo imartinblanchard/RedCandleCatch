@@ -1,0 +1,40 @@
+21 séances, OOS≥2026-10-20, moitié@2026-10-12 | 23040 combos (11520/seuil × 2 seuils)
+  univers liq50: 5282 groupes — démarrage
+  1000/23040 (10min) — 96 combos n>=20
+  2000/23040 (20min) — 149 combos n>=20
+  3000/23040 (31min) — 318 combos n>=20
+  4000/23040 (41min) — 411 combos n>=20
+  5000/23040 (51min) — 559 combos n>=20
+  6000/23040 (62min) — 801 combos n>=20
+  7000/23040 (72min) — 937 combos n>=20
+  8000/23040 (82min) — 1242 combos n>=20
+  9000/23040 (93min) — 1458 combos n>=20
+  10000/23040 (103min) — 1574 combos n>=20
+  11000/23040 (112min) — 1599 combos n>=20
+  univers liq70: 3995 groupes — démarrage
+  12000/23040 (121min) — 1683 combos n>=20
+  13000/23040 (129min) — 1719 combos n>=20
+  14000/23040 (136min) — 1776 combos n>=20
+  15000/23040 (143min) — 1899 combos n>=20
+  16000/23040 (151min) — 1944 combos n>=20
+  17000/23040 (159min) — 2162 combos n>=20
+  18000/23040 (166min) — 2226 combos n>=20
+  19000/23040 (174min) — 2467 combos n>=20
+  20000/23040 (183min) — 2640 combos n>=20
+  21000/23040 (190min) — 2733 combos n>=20
+  22000/23040 (198min) — 2787 combos n>=20
+  23000/23040 (205min) — 2805 combos n>=20
+
+FINI en 205min. 2805 combos n>=20. CSV -> /home/martin/dev/stock-journal-long/research/live_lab/studies/../results/strategy_search_liquid_results.csv
+
+===== CANDIDATES EQUILIBREES (1) — top 30 par P&L compte =====
+ univ  gap      heures  repli  capit sortie  indic  n  trj  exp   t   pf  e_h1  e_h2  e_te  cpte  cpte_oos
+liq50 5-50 10:00>15:55   0.12   -1.0   tp20 hodRTH 37  2.3  3.2 2.3 2.96  2.56  4.55  5.87  26.6       9.6
+
+===== MEILLEURE par univers (CPTE) =====
+
+--- liq50 ---
+ univ  gap      heures  repli  capit sortie  indic  n  trj  exp   t   pf  e_h1  e_h2  e_te  cpte  cpte_oos
+liq50 5-50 10:00>15:55   0.12   -1.0   tp20 hodRTH 37  2.3  3.2 2.3 2.96  2.56  4.55  5.87  26.6       9.6
+
+--- liq70 --- aucune candidate équilibrée

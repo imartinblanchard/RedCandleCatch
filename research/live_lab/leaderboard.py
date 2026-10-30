@@ -134,27 +134,30 @@ def main(top):
         for risk in RISKS:
             prof, dd = portfolio(t, risk, P['stop_pct'])
             prof_oos, _ = portfolio(t, risk, P['stop_pct'], days=test_days)
-            daily = prof / len(dates)                       # profit moyen par jour de bourse
+            daily = prof / len(dates)                       # profit moyen par jour de bourse (FULL)
+            daily_oos = prof_oos / max(len(test_days), 1)   # profit moyen/jour sur l'OOS
             posfrac = min(min(risk / P['stop_pct'], POSCAP), EXPCAP / tr_day) if tr_day else 0
             rows.append(dict(strategie=label, risque=f"{risk*100:.1f}%", size=posfrac * 100,
                              profit=prof, maxDD=dd, profit_oos=prof_oos, n=n, tr_day=tr_day,
                              n_test=len(te), exp_tr=exp, exp_test=exp_te,
-                             m=daily * 21, q=daily * 63, y=daily * 252))   # proj. LINÉAIRE (21/63/252 j)
+                             m=daily * 21, q=daily * 63, y=daily * 252,       # proj. LINÉAIRE full (21/63/252 j)
+                             y_oos=daily_oos * 252))                          # annualisé OOS (comparable à y)
     r = pd.DataFrame(rows)
 
     hdr = (f"\n#  {'STRATÉGIE':<28} {'RISQ':>5} {'SIZE':>5} {'PROFIT':>7} {'OOS':>6} {'exp/tr':>7} {'tr/j':>5} "
-           f"| {'~MOIS':>6} {'~TRIM':>7} {'~AN':>8}")
+           f"| {'~MOIS':>6} {'~AN':>8} {'~AN_OOS':>8}")
     def show(df, title):
         print(title); print(hdr); print("─" * 104)
         for i, (_, x) in enumerate(df.head(top).iterrows()):
             print(f"{i+1:<2} {x.strategie:<28} {x.risque:>5} {x['size']:>4.0f}% {x.profit:>+6.1f}% {x.profit_oos:>+5.1f}% "
-                  f"{x.exp_tr:>+6.2f}% {x.tr_day:>5.1f} | {x.m:>+5.0f}% {x.q:>+6.0f}% {x.y:>+7.0f}%")
+                  f"{x.exp_tr:>+6.2f}% {x.tr_day:>5.1f} | {x.m:>+5.0f}% {x.y:>+7.0f}% {x.y_oos:>+7.0f}%")
 
     print(f"\nDonnées : {len(dates)} séances live ({dates[0]}..{dates[-1]}) | split OOS >= {split} "
           f"({len(test_days)} j. de test)")
     print(f"Sizing : CONTRAINT CAPITAL (budget {EXPCAP:.0%}/jour partagé, max {MAXPOS} pos), hold-EOD, slip ON")
-    print(f"⚠️  ~MOIS/~TRIM/~AN = projection LINÉAIRE du profit (×21/63/252 j de bourse) — "
-          f"FANTASME sur {len(dates)} jours, PAS une prévision.")
+    print(f"⚠️  ~MOIS/~AN = projection LINÉAIRE du profit full (×21/252 j) ; ~AN_OOS = idem sur l'OOS seul "
+          f"({len(test_days)} j). Comparer ~AN vs ~AN_OOS = POMMES-AVEC-POMMES (le PROFIT/OOS bruts couvrent")
+    print(f"   des nb de jours différents, donc PAS comparables). Tout = FANTASME sur {len(dates)} j, PAS une prévision.")
     r = r.sort_values('profit', ascending=False).reset_index(drop=True)
     show(r, "\n╔═ TOP STRATÉGIES × SIZING (classé par profit ; colonne OOS = jours de test) ═╗")
 

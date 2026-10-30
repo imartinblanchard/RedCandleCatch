@@ -1,0 +1,11 @@
+famille,statut,strategie,univers,n,tr_day,exp,exp_oos,win,cpte,cpte_oos,an,an_oos,maxDD,notes
+indic,candidate,vwap_reclaim rvol>=60,freq-filtré,101,4.6,3.53,1.59,76,95.5,9.3,1046,335,-3.2,"candidate n°1 : 4,6 tr/j, +3,53%/tr, CPTE +95%"
+repli,deployed,liq-eod 5-50/10:00/r12/hodRTH/eod,complet,140,6.1,2.41,5.39,49,66.0,44.3,723,1596,-7.7,config live (cf deploy-liq-eod-live)
+repli,candidate,F3 5-50/10:00/r12/hodRTH/trail,complet,140,6.1,1.98,3.05,55,57.2,25.8,627,927,-4.8,
+repli,candidate,S2+HOD 5-50/10:30/noCapit/hodRTH/trail,complet,110,4.8,1.98,3.14,56,52.5,29.4,575,1059,-4.8,
+repli,candidate,F1 5-50/10:30/r8/hodRTH+green/trail,complet,104,4.7,1.97,1.94,56,48.9,12.5,536,452,-3.4,
+indic,candidate,vwap_reclaim rvol>=30,freq-filtré,244,11.1,2.49,1.69,69,43.8,6.3,480,226,-5.0,
+indic,candidate,bb_breakout macd>=0.03,freq-filtré,286,13.0,1.71,2.04,64,36.8,6.8,403,243,-3.2,
+repli,candidate,c 3-10/9:30/r8/cap1.6/hodRTH/trail,complet,34,2.1,4.38,3.01,74,34.2,5.5,375,198,-0.0,
+repli,candidate,S1+HOD 5-10/capit2/hodRTH/trail,complet,27,1.9,4.75,1.48,74,28.7,2.3,315,84,-0.6,
+indic,candidate,macd_cross rvol>=2,freq-filtré,744,33.8,1.67,2.24,63,15.1,2.6,166,93,-0.7,

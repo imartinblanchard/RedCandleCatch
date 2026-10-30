@@ -36,6 +36,13 @@ Lancer une étude : `python research/live_lab/studies/<script>.py` (depuis la ra
 | `deep_dive_candidates.py` | `runs/deep_dive_candidates.txt` | Approfondissement des pistes + P&L compte | `pistes-sweep-live-21-10` |
 | `edge_nu_on_live.py` | (stdout) | L'« edge nu » de pit NE tient PAS sur le live | `edge-repli-nu-ouverture` |
 | `exit_study.py`, `extend_exit.py`, `pm_opportunity.py` | — | études antérieures (sorties/after-hours/PM) | — |
+| `build_liquid_universe.py` | `liquid_universe.csv` | Univers liquide RTH séance-entière (⚠️ look-ahead) ; moitié de l'univers trade <30% des min | `univers-liquide-prefiltre` |
+| `strategy_search_liquid.py` | `strategy_search_liquid_results.csv` | Recherche sur univers liquide (look-ahead) : filtrer TRIPLE l'exp/tr (+0,96→+3,2%), 1 seule robuste | `univers-liquide-prefiltre` |
+| `build_liquid_universe_pm.py` | `liquid_universe_pm.csv` | Fréquence PM CAUSALE (pm/latepm/near × frac) ; PM très clairsemé (médiane pm_frac 0,01) | `recherche-frequence-pm-causale` |
+| `build_pm_consec_table.py` | `pm_consec_table.csv` | Minutes PM CONSÉCUTIVES (max_consec + reachK) ; K=30 atteint par 6% des ticker-jours ~07:22 | `recherche-frequence-pm-causale` |
+| `strategy_search_liquid_pm.py` | `strategy_search_liquid_pm_results.csv`, `runs/search_liquid_pm.txt` | Recherche sur univers PM-causal : **15 robustes** (famille gap5-50/10:00/repli12/HOD), meilleure latepm02/EOD +29% CPTE | `recherche-frequence-pm-causale` |
+| `rank_stability_pm.py` | `rank_stability_pm.csv` | Classe les 15 PM-robustes par stabilité (e_trim sans 3 meilleurs, maxDD, dHalf, win) | `recherche-frequence-pm-causale`, `preferer-stabilite-sur-rendement` |
+| `strategy_search_pm_entry.py` | `strategy_search_pm_entry_results.csv` | Entrées PM dès 04:00 gatées par K min consécutives (recent_active=1.0/win=K), anti-couteau neutralisé | `recherche-frequence-pm-causale` |
 
 ## Enseignements transversaux (au 25/10, 19 séances)
 - **`trail 10/2` bat `hold-to-EOD` sur le live** (151/213 candidates équilibrées en trail).

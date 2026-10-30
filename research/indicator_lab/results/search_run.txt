@@ -1,0 +1,26 @@
+23 séances, OOS≥2026-10-21. Archétypes=6 × gap4 × win3 × rvol3 × exit2 = 432 combos.
+
+  vwap_reclaim terminé (72 lignes cumulées)
+  ema9_pullback terminé (144 lignes cumulées)
+  orb_breakout terminé (216 lignes cumulées)
+  rsi_bounce terminé (288 lignes cumulées)
+  macd_cross terminé (360 lignes cumulées)
+  bb_breakout terminé (432 lignes cumulées)
+
+432 combos n>=20. 0 ROBUSTES.
+
+AUCUN combo robuste — les entrées par indicateurs n'ont pas d'edge à ces réglages.
+TOP 10 par exp/tr (même négatifs) pour voir ce qui s'en rapproche :
+  archetype   gap   heure  rvol      exit  n  trj  exp    t  win  pf  e_te  e_trim  maxDD  cpte  cpte_ann  cpte_oos_ann
+ rsi_bounce 20-50 open-1h   1.0       eod 23  1.6 8.20 1.45   52 3.4 11.26    0.21   -5.4  41.5       454          1322
+ rsi_bounce 20-50 open-1h   2.0       eod 23  1.6 8.20 1.45   52 3.4 11.26    0.21   -5.4  41.5       454          1322
+ rsi_bounce 20-50 open-1h   3.0       eod 23  1.6 8.20 1.45   52 3.4 11.26    0.21   -5.4  41.5       454          1322
+ rsi_bounce 20-50 open-1h   1.0 trail10/2 23  1.6 5.30 1.07   52 2.6  3.09   -0.87   -5.4  24.6       269           337
+ rsi_bounce 20-50 open-1h   2.0 trail10/2 23  1.6 5.30 1.07   52 2.6  3.09   -0.87   -5.4  24.6       269           337
+ rsi_bounce 20-50 open-1h   3.0 trail10/2 23  1.6 5.30 1.07   52 2.6  3.09   -0.87   -5.4  24.6       269           337
+bb_breakout 20-50 open-1h   1.0       eod 66  3.5 1.21 0.61   44 1.4  3.22   -1.19  -17.3   5.7        63           741
+bb_breakout 20-50 open-1h   2.0       eod 65  3.4 1.11 0.55   43 1.3  3.22   -1.33  -18.2   4.6        50           739
+bb_breakout 20-50 open-1h   1.0 trail10/2 66  3.5 1.07 0.88   48 1.4  2.51   -0.38  -10.1   9.3       102           698
+bb_breakout 20-50 open-1h   3.0       eod 61  3.6 1.06 0.50   43 1.3  2.91   -1.55  -15.9   7.2        79           739
+
+CSV: /home/martin/dev/stock-journal-long/research/indicator_lab/results/indicator_search_results.csv

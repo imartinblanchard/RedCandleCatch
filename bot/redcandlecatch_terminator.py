@@ -28,6 +28,7 @@ except Exception:
 from execution.ibkr_broker import IBKRBroker
 from bot import redcandlecatch_scan as wscan
 from bot import eligible
+from bot.live_signals import vwap_reclaim_signal   # 2e track : reprise VWAP + rvol (détecteur pur, == backtest)
 
 # ---- paramètres de la stratégie (issus du backtest) ----
 # Config validée 2026-09-11 (backtest 9 mois) : gap 10-20% + dip -5% + trail 2%
@@ -83,16 +84,35 @@ GAP_OPEN_MIN = 0.01            # gap ENCORE actif & FRANC à l'open : (open_séa
 CAPIT_MIN_BARS = 4             # nb de bougies minimum du repli (pour juger la tendance du volume)
 CAPIT_RATIO = 1.3             # volume moyen 2e moitié / 1re moitié du repli > ce ratio = capitulation
 PULLBACK_DVOL_MIN = 300_000    # $ min de dollar-volume CUMULÉ sur tout le repli (liquidité, exécutable)
-# ── TRIO c+j+k (déployé live 28/10, 1 action = forward-test/bug-hunting ; cf meilleur-trio-strategies) ──
-# 3 configs évaluées indépendamment ; on entre sur la 1re qui matche (1/ticker/jour). Chacune garde
-# runup>=2 / gap-open>=1 / dvol-repli>=300K (hérités). HOD-en-séance + bougie verte = filtres ajoutés.
-# Sortie TRAIL 10/2 (activate +10% puis TRAIL 2%). USE_TRIO=False -> revient à la v3 mono-config.
+# FILTRE PM-LIQUIDITÉ *CAUSAL* (29/10) — le titre doit avoir déjà tradé en PRÉ-MARCHÉ pour être
+# jugé liquide AVANT l'open (fenêtre 8:00-9:30), sinon on ne le prend pas. Exclut les titres mous
+# type DRIO SANS look-ahead (le PM est connu avant toute entrée ≥10:00). Issu de la recherche
+# univers-liquide-PM (meilleure famille robuste = liq-eod + latepm_frac≥0,2). 0.0 = filtre OFF.
+PM_LIQ_LO, PM_LIQ_HI = 480, 570   # minutes ET : 8:00 -> 9:30
+PM_LIQ_MIN_FRAC = 0.20            # ≥20% des 90 min PM avec un trade (≈18 min). 0 = désactivé.
+# ── CONFIG "liq-eod" (déployée live 28/10 soir, 1 action = forward-test/bug-hunting ; cf univers-liquide-prefiltre) ──
+# CONFIG UNIQUE "liq-eod" (28/10) — issue de la recherche sur l'UNIVERS LIQUIDE (meilleure candidate
+# robuste, variante EOD : CPTE +26,1% / OOS +13,3%, n=37, exp +3,16%/tr sur le backtest liquide).
+#   gap 5-50 · entrée dès 10:00 · repli 12% du HOD · PAS de capit · HOD-EN-SÉANCE · HOLD-TO-EOD.
+# ⚠️ Le filtre "univers liquide" du backtest (active_frac séance >=0.5) est du LOOK-AHEAD, NON
+#    reproductible en live : le seul screen de liquidité CAUSAL ici reste dvol-repli >= 300K
+#    (PULLBACK_DVOL_MIN). Il n'exclut PAS les titres type DRIO (actifs pendant le repli puis morts).
+#    Donc le live ne reproduira PAS le +26% ; le run 1-action sert à mesurer le comportement réel.
+# activate=999 => HOLD-TO-EOD strict (jamais de trail -> le bug trailing err321 est hors-circuit).
+# runup>=2 / gap-open>=1 / dvol-repli>=300K hérités (globals). USE_TRIO=False -> v3 mono-config.
 USE_TRIO = True
 TRIO = [
-    dict(name='c', gap_min=3.0,  gap_max=10.0, start=(9, 30),  retrace=0.08, capit=1.6, green=False, hod_rth=True, activate=0.10),
-    dict(name='j', gap_min=5.0,  gap_max=50.0, start=(10, 30), retrace=0.08, capit=-1,  green=True,  hod_rth=True, activate=0.10),
-    dict(name='k', gap_min=5.0,  gap_max=50.0, start=(10, 0),  retrace=0.12, capit=-1,  green=False, hod_rth=True, activate=0.10),
+    dict(name='liq-eod', gap_min=5.0, gap_max=50.0, start=(10, 0), retrace=0.12, capit=-1, green=False, hod_rth=True, activate=999.0),
 ]
+# ── 2e TRACK (famille INDICATEURS) : vwap_reclaim + rvol>=60, 1re heure, sortie TRAIL 10/2 ──
+# Tourne EN PARALLÈLE de liq-eod (univers freq-filtré via le gate PM-liq, tous gaps). Détection =
+# bot.live_signals.vwap_reclaim_signal, PROUVÉE identique au backtest (research/.../verify_live_vwap).
+# Déployé en 1 action = forward-test (seuil rvol choisi in-sample ; la donnée volume TEMPS RÉEL est
+# la seule inconnue). USE_VWAP_TRACK=False -> désactive (retour à liq-eod seul).
+USE_VWAP_TRACK = True
+VWAP_RVOL_MIN = 60.0
+VWAP_WIN = (570, 630)       # 09:30 -> 10:30 (1re heure, où l'edge se concentre)
+VWAP_ACTIVATE = 0.10        # bascule TRAIL 10/2 (indépendant du hold-EOD de liq-eod)
 # --- sortie EN DEUX PHASES ---
 STOP = 0.10             # phase 1 : STOP fixe -10% (survit au repli initial)
 # ACTIVATION ADAPTATIVE (18/09) : l'effet du seuil d'activation est OPPOSÉ selon la population
@@ -132,7 +152,8 @@ JOURNAL = COMPUTED / 'redcandlecatch-journal.csv'
 JOURNAL_COLS = ['date','ticker','gap','entry_time','entry','exit_time','exit','reason',
                 'pnl_pct','mfe_pct','shares','dollars','mode',
                 # features de sélection (pour entraîner le modèle ML long plus tard)
-                'float_m','inst_pct','chart_r','volume_r','float_r','ssr']
+                'float_m','inst_pct','chart_r','volume_r','float_r','ssr',
+                'strat']   # 2e track : 'liq-eod' / 'vwap_reclaim' / … (ajout 30/10, en DERNIER = tolérant)
 
 
 def now_et() -> datetime:
@@ -440,6 +461,15 @@ class RedCandleCatchTerminator:
         up = [b for b in allbars if b['t'] <= r['t']]
         if not up:
             return None
+        # FILTRE PM-LIQUIDITÉ CAUSAL : le titre a-t-il tradé assez souvent en PM (8:00-9:30) ?
+        if PM_LIQ_MIN_FRAC > 0:
+            pm_active = sum(1 for b in allbars
+                            if PM_LIQ_LO <= tmin(b['t']) < PM_LIQ_HI and (b.get('v') or 0) > 0)
+            pm_frac = pm_active / (PM_LIQ_HI - PM_LIQ_LO)
+            if pm_frac < PM_LIQ_MIN_FRAC:
+                print(f"[{now_et():%H:%M}] SKIP {tk}[{nm}] {r['t']:%H:%M} PM-liq {pm_frac:.0%} "
+                      f"({pm_active}/90 min) < {PM_LIQ_MIN_FRAC:.0%} -> SKIP-pm-illiquide")
+                return None
         hod = max(b['h'] for b in up)
         gap = (hod - pc) / pc * 100
         if not (cfg['gap_min'] <= gap <= cfg['gap_max']):
@@ -495,6 +525,24 @@ class RedCandleCatchTerminator:
         desc = f"[{nm}] repli -{drop:.0f}% du HOD, gap {gap:.0f}%, capit x{ratio:.1f} ({len(pull)} bougies)"
         return r['c'], cfg['activate'], desc             # activate: 0.10 (trail) pour le trio, 999 pour v3
 
+    def _vwap_reclaim_signal(self, tk: str, r: dict, allbars):
+        """2e TRACK (famille indicateurs) : reprise au-dessus du VWAP + rvol>=60, 1re heure.
+        Univers = freq-filtré (MÊME gate PM-liq que le repli). Détection déléguée au détecteur
+        PUR bot.live_signals.vwap_reclaim_signal (prouvé == backtest). -> (entry, activate, desc) ou None."""
+        if not allbars:
+            return None
+        if PM_LIQ_MIN_FRAC > 0:                          # univers : titre liquide en PM (8:00-9:30)
+            pm_active = sum(1 for b in allbars
+                            if PM_LIQ_LO <= tmin(b['t']) < PM_LIQ_HI and (b.get('v') or 0) > 0)
+            if pm_active / (PM_LIQ_HI - PM_LIQ_LO) < PM_LIQ_MIN_FRAC:
+                return None
+        sig = vwap_reclaim_signal(allbars, r['t'], rvol_min=VWAP_RVOL_MIN,
+                                  win=VWAP_WIN, price=(PRICE_MIN, PRICE_MAX), activate=VWAP_ACTIVATE)
+        if sig is None:
+            return None
+        print(f"[{now_et():%H:%M}] {tk}[vwap] {r['t']:%H:%M} {sig[2]} -> ENTER (track indicateurs)")
+        return sig
+
     def _dip_signal(self, tk: str, r: dict, allbars):
         """ANCIENNE stratégie (dip mono-bougie). -> (entry, activate, desc) ou None."""
         premarket = hm(r['t']) < (9, 31)
@@ -520,17 +568,25 @@ class RedCandleCatchTerminator:
         if self.last_bar.get(tk) == r['t']:          # DÉDUP : 1 bougie = 1 décision
             return
         self.last_bar[tk] = r['t']
+        sig = None; strat = ''
         if ENTRY_MODE == 'retrace':
             if USE_TRIO:
-                sig = None
-                for cfg in TRIO:                         # c+j+k : 1re config qui matche
+                for cfg in TRIO:                         # liq-eod : 1re config qui matche (1 seule ici)
                     sig = self._retrace_signal(tk, r, allbars, cfg)
                     if sig is not None:
-                        break
+                        strat = cfg['name']; break
             else:
                 sig = self._retrace_signal(tk, r, allbars)
+                if sig is not None:
+                    strat = 'v3'
+            if sig is None and USE_VWAP_TRACK:           # 2e TRACK : vwap_reclaim (indépendant du repli)
+                sig = self._vwap_reclaim_signal(tk, r, allbars)
+                if sig is not None:
+                    strat = 'vwap_reclaim'
         else:
             sig = self._dip_signal(tk, r, allbars)
+            if sig is not None:
+                strat = 'dip'
         if sig is None:
             return
         entry, activate, desc = sig
@@ -545,7 +601,7 @@ class RedCandleCatchTerminator:
             self.orders[tk] = res.get('trade') if isinstance(res, dict) else None
             print(f"    achat placé, attente du fill (halt-check)... [{self._order_diag(tk)}]")
         ev = self.evals.get(tk, {}); fs = ev.get('float_shares')
-        self.state[tk] = {'entry': entry, 'gap': self.gap_ok.get(tk, ''),
+        self.state[tk] = {'entry': entry, 'gap': self.gap_ok.get(tk, ''), 'strat': strat,
                           'entry_time': r['t'].strftime('%H:%M'), 'peak': entry,
                           'activate': activate,       # 999 en mode repli = HOLD-TO-EOD (jamais de trail)
                           'shares': shares, 'last': entry, 'activated': False, 'confirmed': False,
@@ -685,7 +741,8 @@ class RedCandleCatchTerminator:
         base = pos.get('fill') or pos['entry']       # fill réel (live) sinon signal (paper)
         pnl = (exit_px - base) / base * 100
         mfe = (pos.get('peak', base) - base) / base * 100
-        append_journal({'date': now_et().strftime('%Y-%m-%d'), 'ticker': tk, 'gap': pos.get('gap', ''),
+        append_journal({'date': now_et().strftime('%Y-%m-%d'), 'ticker': tk, 'strat': pos.get('strat', ''),
+                        'gap': pos.get('gap', ''),
                         'entry_time': pos.get('entry_time', ''), 'entry': round(base, 4),
                         'exit_time': now_et().strftime('%H:%M'), 'exit': round(exit_px, 4),
                         'reason': reason, 'pnl_pct': round(pnl, 2), 'mfe_pct': round(mfe, 2),
@@ -705,8 +762,14 @@ class RedCandleCatchTerminator:
                               f"/r{c['retrace']*100:.0f}"
                               f"{'/capit' + str(c['capit']) if c['capit'] > 0 else '/noCapit'}"
                               f"{'/vert' if c['green'] else ''}{'/HODrth' if c['hod_rth'] else ''})" for c in TRIO)
-            print(f"RedCandleCatch — {mode}. TRIO = {trio}. Sortie: STOP -{STOP*100:.0f}% -> TRAIL {TRAIL*100:.0f}% (act +10%), "
-                  f"prix {PRICE_MIN:.0f}-{PRICE_MAX:.0f}$, dvol-repli >= ${PULLBACK_DVOL_MIN/1e3:.0f}K, "
+            exit_txt = (f"STOP -{STOP*100:.0f}% -> HOLD-EOD (sortie forcée 15:55)"
+                        if all(c['activate'] >= 999 for c in TRIO)
+                        else f"STOP -{STOP*100:.0f}% -> TRAIL {TRAIL*100:.0f}% (act +10%)")
+            pmliq = f"PM-liq>={PM_LIQ_MIN_FRAC:.0%}(8:00-9:30)" if PM_LIQ_MIN_FRAC > 0 else "PM-liq OFF"
+            track2 = (f" + TRACK2 vwap_reclaim(rvol>={VWAP_RVOL_MIN:.0f}/1re heure/TRAIL)"
+                      if USE_VWAP_TRACK else "")
+            print(f"RedCandleCatch — {mode}. CONFIG = {trio}{track2}. Sortie: {exit_txt}, "
+                  f"prix {PRICE_MIN:.0f}-{PRICE_MAX:.0f}$, dvol-repli >= ${PULLBACK_DVOL_MIN/1e3:.0f}K, {pmliq}, "
                   f"{SHARES} titre(s)/trade, 1/ticker/jour, {len(self.state)} ouverte(s). Journal: {JOURNAL.name}")
         else:
             pop = 'POST-OPEN seulement' if not TRADE_PM else 'PM + post-open'
@@ -731,7 +794,8 @@ def main():
     if not broker.connect():
         print("✗ IBKR indisponible (IB Gateway sur 4001 ?)"); return
     if args.live:
-        strat = f"TRIO c+j+k (gap 3-50, HOD-séance, trail {TRAIL*100:.0f}%)" if USE_TRIO else "v3 mono (hold-EOD)"
+        strat = ("liq-eod (gap 5-50, dès 10:00, repli 12%, HOD-séance, hold-EOD)" if USE_TRIO
+                 else "v3 mono (hold-EOD)")
         print(f"⚠️  MODE LIVE : VRAIS ORDRES — {strat}, "
               f"{SHARES} titre(s)/trade, 1/ticker/jour, STOP -{STOP*100:.0f}%.")
     tickers = [t.strip().upper() for t in args.tickers.split(',')] if args.tickers else None

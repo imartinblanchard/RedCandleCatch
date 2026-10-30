@@ -46,8 +46,8 @@ except Exception:
 # bande post-open validée OOS est 5-10% (dip 1.5-2%, trail 2%, act +10% : train +0,43%/t2,6,
 # test +0,68%/t4,0). Gros gaps (30-100%) = perdants nets. ⚠️ edge modeste et sensible à la
 # définition -> le bot 1-action sert de FORWARD-TEST de cette bande, pas de martingale.
-GAP_MIN, GAP_MAX = 3.0, 50.0         # fourchette ÉLARGIE pour le trio c+j+k (28/10 ; était 5-10 pour v3).
-                                     # evaluate() garde le filtrage ; le terminator filtre par config (c:3-10, j/k:5-50).
+GAP_MIN, GAP_MAX = 3.0, 50.0         # univers de COLLECTE large (3-50). Le TRADING est restreint par la
+                                     # config du terminator (liq-eod : trade seulement gap 5-50). Collecte = 3-50.
 PRICE_MIN, PRICE_MAX = 3.0, 20.0
 MARKET_CAP_MAX = 500_000_000         # DÉPRÉCIÉ 22/09 : le filtre small-cap se fait maintenant
                                      # sur le FLOAT (FLOAT_MAX_HARD dans evaluate), pas le market cap.
