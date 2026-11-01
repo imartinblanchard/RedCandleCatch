@@ -1,0 +1,31 @@
+Screen fondamental (yfinance, ratios actuels) : 503 titres de 'sp500'...
+
+425 titres notés. TOP 15 'QUALITÉ À PRIX RAISONNABLE' (score = valeur + qualité) :
+ticker  trailingPE  priceToBook  returnOnEquity  profitMargins  debtToEquity  dividendYield  value  quality  score
+  FSLR        10.1          1.7            19.0           37.0           3.0            0.0   92.0     81.0  174.0
+    MU        11.9          7.2            88.0           64.0           3.7            0.1   72.0     97.0  169.0
+   HIG         8.9          1.9            23.0           16.0          23.2            2.0   92.0     68.0  161.0
+   WDC        12.9         14.6           130.0           69.0           9.9            0.2   63.0     97.0  160.0
+   EXE         7.8          1.1            15.0           21.0          23.9            2.5   93.0     67.0  160.0
+  ACGL         8.7          1.6            19.0           23.0          18.6            0.0   86.0     73.0  159.0
+    CF         9.1          3.3            30.0           27.0          40.5            2.0   81.0     76.0  157.0
+  RDDT        18.7          4.9            32.0           32.0           0.9            0.0   67.0     88.0  155.0
+ GOOGL        14.6          5.2            44.0           50.0          22.2            0.3   65.0     90.0  155.0
+   FIS         5.9          1.2            22.0           28.0         132.5            4.6   97.0     58.0  155.0
+  GOOG        14.5          5.2            44.0           50.0          22.2            0.3   65.0     90.0  155.0
+   ALL         5.2          2.1            46.0           19.0          22.3            1.7   71.0     80.0  151.0
+  DECK        10.9          4.8            44.0           19.0          23.2            0.0   70.0     79.0  149.0
+   EOG        12.9          2.7            23.0           26.0          25.9            2.5   71.0     76.0  147.0
+   EQT        13.1          1.4            10.0           29.0          19.1            1.2   78.0     67.0  145.0
+
+BAS DE TABLEAU (chers / faible qualité) :
+ticker  trailingPE  priceToBook  returnOnEquity  profitMargins  debtToEquity  dividendYield  value  quality  score
+  AXON       177.5          9.5             6.0            6.0          50.4            0.0   23.0     31.0   53.0
+  EQIX        60.9          6.9            11.0           16.0         181.5            2.0   17.0     36.0   52.0
+   SJM        60.7          2.4             4.0            3.0         120.7            3.4   35.0     14.0   49.0
+   OMC        82.1          2.2            10.0            3.0         107.3            3.9   27.0     22.0   48.0
+   VTR       163.1          2.8             2.0            4.0          77.5            2.4   23.0     19.0   42.0
+
+LÉGENDE: ROE/marges en %, value/quality/score = percentiles (100=meilleur).
+⚠️ SCREEN actuel, pas un backtest. Facteur value en retard ~15 ans. Buffett ≠ ratios seuls.
+CSV: research/value_lab/results/value_screen_sp500.csv
