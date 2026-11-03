@@ -100,6 +100,9 @@ PM_LIQ_MIN_FRAC = 0.20            # ≥20% des 90 min PM avec un trade (≈18 mi
 #    Donc le live ne reproduira PAS le +26% ; le run 1-action sert à mesurer le comportement réel.
 # activate=999 => HOLD-TO-EOD strict (jamais de trail -> le bug trailing err321 est hors-circuit).
 # runup>=2 / gap-open>=1 / dvol-repli>=300K hérités (globals). USE_TRIO=False -> v3 mono-config.
+# TRACK REPLI (liq-eod) : USE_RETRACE_TRACK=False -> DÉSACTIVÉ (on garde vwap_reclaim seul).
+# Retiré le 03/11 (leaderboard : liq-eod fragile t=1,7 / win 45% vs vwap robuste t=6). Réversible = True.
+USE_RETRACE_TRACK = False
 USE_TRIO = True
 TRIO = [
     dict(name='liq-eod', gap_min=5.0, gap_max=50.0, start=(10, 0), retrace=0.12, capit=-1, green=False, hod_rth=True, activate=999.0),
@@ -570,15 +573,16 @@ class RedCandleCatchTerminator:
         self.last_bar[tk] = r['t']
         sig = None; strat = ''
         if ENTRY_MODE == 'retrace':
-            if USE_TRIO:
-                for cfg in TRIO:                         # liq-eod : 1re config qui matche (1 seule ici)
-                    sig = self._retrace_signal(tk, r, allbars, cfg)
+            if USE_RETRACE_TRACK:                        # track REPLI (liq-eod) ; False = désactivé
+                if USE_TRIO:
+                    for cfg in TRIO:                     # liq-eod : 1re config qui matche (1 seule ici)
+                        sig = self._retrace_signal(tk, r, allbars, cfg)
+                        if sig is not None:
+                            strat = cfg['name']; break
+                else:
+                    sig = self._retrace_signal(tk, r, allbars)
                     if sig is not None:
-                        strat = cfg['name']; break
-            else:
-                sig = self._retrace_signal(tk, r, allbars)
-                if sig is not None:
-                    strat = 'v3'
+                        strat = 'v3'
             if sig is None and USE_VWAP_TRACK:           # 2e TRACK : vwap_reclaim (indépendant du repli)
                 sig = self._vwap_reclaim_signal(tk, r, allbars)
                 if sig is not None:
@@ -762,13 +766,18 @@ class RedCandleCatchTerminator:
                               f"/r{c['retrace']*100:.0f}"
                               f"{'/capit' + str(c['capit']) if c['capit'] > 0 else '/noCapit'}"
                               f"{'/vert' if c['green'] else ''}{'/HODrth' if c['hod_rth'] else ''})" for c in TRIO)
-            exit_txt = (f"STOP -{STOP*100:.0f}% -> HOLD-EOD (sortie forcée 15:55)"
-                        if all(c['activate'] >= 999 for c in TRIO)
-                        else f"STOP -{STOP*100:.0f}% -> TRAIL {TRAIL*100:.0f}% (act +10%)")
-            pmliq = f"PM-liq>={PM_LIQ_MIN_FRAC:.0%}(8:00-9:30)" if PM_LIQ_MIN_FRAC > 0 else "PM-liq OFF"
-            track2 = (f" + TRACK2 vwap_reclaim(rvol>={VWAP_RVOL_MIN:.0f}/1re heure/TRAIL)"
+            track2 = (f"TRACK vwap_reclaim(rvol>={VWAP_RVOL_MIN:.0f}/1re heure/TRAIL)"
                       if USE_VWAP_TRACK else "")
-            print(f"RedCandleCatch — {mode}. CONFIG = {trio}{track2}. Sortie: {exit_txt}, "
+            if USE_RETRACE_TRACK:
+                cfg_txt = trio + (f" + {track2}" if track2 else "")
+                exit_txt = (f"STOP -{STOP*100:.0f}% -> HOLD-EOD (sortie forcée 15:55)"
+                            if all(c['activate'] >= 999 for c in TRIO)
+                            else f"STOP -{STOP*100:.0f}% -> TRAIL {TRAIL*100:.0f}% (act +10%)")
+            else:                                        # repli désactivé -> vwap_reclaim seul (sortie trail)
+                cfg_txt = track2 or "(AUCUN track actif !)"
+                exit_txt = f"STOP -{STOP*100:.0f}% -> TRAIL {TRAIL*100:.0f}% (act +{VWAP_ACTIVATE*100:.0f}%, forcée 15:55)"
+            pmliq = f"PM-liq>={PM_LIQ_MIN_FRAC:.0%}(8:00-9:30)" if PM_LIQ_MIN_FRAC > 0 else "PM-liq OFF"
+            print(f"RedCandleCatch — {mode}. CONFIG = {cfg_txt}. Sortie: {exit_txt}, "
                   f"prix {PRICE_MIN:.0f}-{PRICE_MAX:.0f}$, dvol-repli >= ${PULLBACK_DVOL_MIN/1e3:.0f}K, {pmliq}, "
                   f"{SHARES} titre(s)/trade, 1/ticker/jour, {len(self.state)} ouverte(s). Journal: {JOURNAL.name}")
         else:
