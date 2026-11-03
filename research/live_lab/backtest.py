@@ -342,6 +342,33 @@ def simulate(groups, P, slip=True, news_map=None):
     return df
 
 
+def entries(groups, P, news_map=None):
+    """Détecte les ENTRÉES (partie coûteuse) UNE fois pour une config d'ENTRÉE donnée. Renvoie
+    [(g, e), ...] (e = dict de _entry_index, filtré news). À réutiliser avec trades_from() pour
+    balayer les SORTIES gratuitement (l'entrée ne dépend pas des params de sortie)."""
+    nm = news_map if news_map is not None else NEWS
+    out = []
+    for g in groups:
+        e = _entry_index(g, P)
+        if e is None:
+            continue
+        nmins = nm.get((g['tk'], g['date']), [])
+        req = P.get('require_news')
+        if req == 'day' and not nmins:
+            continue
+        if req == 'before' and not any(m <= e['entry_min'] for m in nmins):
+            continue
+        out.append((g, e))
+    return out
+
+
+def trades_from(ents, P, slip=True):
+    """Trades (ticker,date,entry_min,gap,pnl) pour une config de SORTIE, à partir d'entrées détectées."""
+    rows = [dict(ticker=g['tk'], date=g['date'], entry_min=e['entry_min'], gap=round(e['gap'], 1),
+                 hour=e['entry_min'] // 60, pnl=round(_pnl(g, e['i'], P, slip), 3)) for g, e in ents]
+    return pd.DataFrame(rows)
+
+
 # ─────────────────────────────────── STATISTIQUES ─────────────────────────────────────
 def stat(a):
     a = np.asarray(a, float); n = len(a)

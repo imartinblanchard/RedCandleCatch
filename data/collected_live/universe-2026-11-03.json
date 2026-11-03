@@ -17,12 +17,12 @@
   "GDXD": {
     "first_seen": "04:31",
     "band": "5-7",
-    "last_seen": "07:22"
+    "last_seen": "15:51"
   },
   "LINT": {
     "first_seen": "04:31",
     "band": "5-7",
-    "last_seen": "09:43"
+    "last_seen": "11:05"
   },
   "IXHL": {
     "first_seen": "04:31",
@@ -37,7 +37,7 @@
   "SNDC": {
     "first_seen": "04:31",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "VIDA": {
     "first_seen": "04:31",
@@ -52,7 +52,7 @@
   "AAOX": {
     "first_seen": "04:31",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "12:09"
   },
   "CATX": {
     "first_seen": "04:31",
@@ -62,7 +62,7 @@
   "CIFU": {
     "first_seen": "04:31",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "FBGL": {
     "first_seen": "04:31",
@@ -72,12 +72,12 @@
   "SNDU": {
     "first_seen": "04:31",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "AXTL": {
     "first_seen": "04:31",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "WVVI": {
     "first_seen": "04:31",
@@ -87,17 +87,17 @@
   "OBAI": {
     "first_seen": "04:31",
     "band": "5-7",
-    "last_seen": "08:03"
+    "last_seen": "12:22"
   },
   "QNTU": {
     "first_seen": "04:31",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "15:37"
   },
   "SWMR": {
     "first_seen": "04:31",
     "band": "5-7",
-    "last_seen": "09:45"
+    "last_seen": "10:28"
   },
   "PLTD": {
     "first_seen": "04:31",
@@ -107,27 +107,27 @@
   "TTI": {
     "first_seen": "04:31",
     "band": "5-7",
-    "last_seen": "09:43"
+    "last_seen": "15:51"
   },
   "BSEM": {
     "first_seen": "04:31",
     "band": "5-7",
-    "last_seen": "09:32"
+    "last_seen": "12:01"
   },
   "LABX": {
     "first_seen": "04:31",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "13:36"
   },
   "SNXX": {
     "first_seen": "04:31",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "INT": {
     "first_seen": "04:31",
     "band": "5-7",
-    "last_seen": "09:43"
+    "last_seen": "10:22"
   },
   "PAVM": {
     "first_seen": "04:31",
@@ -137,17 +137,17 @@
   "CANG": {
     "first_seen": "04:31",
     "band": "7-10",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "MSC": {
     "first_seen": "04:31",
     "band": "7-10",
-    "last_seen": "07:16"
+    "last_seen": "15:59"
   },
   "UPWK": {
     "first_seen": "04:31",
     "band": "7-10",
-    "last_seen": "08:21"
+    "last_seen": "11:53"
   },
   "BKYI": {
     "first_seen": "04:31",
@@ -162,7 +162,7 @@
   "BEG": {
     "first_seen": "04:31",
     "band": "7-10",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "FUBO": {
     "first_seen": "04:31",
@@ -177,17 +177,17 @@
   "ONEG": {
     "first_seen": "04:31",
     "band": "7-10",
-    "last_seen": "08:01"
+    "last_seen": "11:25"
   },
   "GRAB": {
     "first_seen": "04:31",
     "band": "7-10",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "ZSTK": {
     "first_seen": "04:31",
     "band": "7-10",
-    "last_seen": "09:42"
+    "last_seen": "15:59"
   },
   "ONFO": {
     "first_seen": "04:31",
@@ -197,12 +197,12 @@
   "BEX": {
     "first_seen": "04:31",
     "band": "7-10",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "XLAB": {
     "first_seen": "04:31",
     "band": "7-10",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "GPRO": {
     "first_seen": "04:31",
@@ -212,7 +212,7 @@
   "MTVA": {
     "first_seen": "04:31",
     "band": "7-10",
-    "last_seen": "07:52"
+    "last_seen": "15:59"
   },
   "WXM": {
     "first_seen": "04:31",
@@ -222,17 +222,17 @@
   "LITG": {
     "first_seen": "04:31",
     "band": "7-10",
-    "last_seen": "09:46"
+    "last_seen": "09:51"
   },
   "AAOG": {
     "first_seen": "04:31",
     "band": "7-10",
-    "last_seen": "09:46"
+    "last_seen": "12:09"
   },
   "RFL": {
     "first_seen": "04:31",
     "band": "7-10",
-    "last_seen": "09:32"
+    "last_seen": "15:57"
   },
   "CETY": {
     "first_seen": "04:31",
@@ -242,12 +242,12 @@
   "BRAI": {
     "first_seen": "04:31",
     "band": "10-14",
-    "last_seen": "09:44"
+    "last_seen": "16:00"
   },
   "WYHG": {
     "first_seen": "04:31",
     "band": "10-14",
-    "last_seen": "09:42"
+    "last_seen": "16:00"
   },
   "LIFE": {
     "first_seen": "04:31",
@@ -257,7 +257,7 @@
   "WQEY": {
     "first_seen": "04:31",
     "band": "10-14",
-    "last_seen": "08:27"
+    "last_seen": "11:25"
   },
   "VTIX": {
     "first_seen": "04:31",
@@ -287,32 +287,32 @@
   "PLTZ": {
     "first_seen": "04:31",
     "band": "10-14",
-    "last_seen": "09:46"
+    "last_seen": "11:53"
   },
   "CMPS": {
     "first_seen": "04:31",
     "band": "10-14",
-    "last_seen": "09:40"
+    "last_seen": "12:43"
   },
   "CRIS": {
     "first_seen": "04:31",
     "band": "10-14",
-    "last_seen": "09:46"
+    "last_seen": "15:42"
   },
   "FNG": {
     "first_seen": "04:31",
     "band": "14-20",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "HLIT": {
     "first_seen": "04:31",
     "band": "14-20",
-    "last_seen": "09:45"
+    "last_seen": "10:20"
   },
   "CCG": {
     "first_seen": "04:31",
     "band": "14-20",
-    "last_seen": "09:34"
+    "last_seen": "15:59"
   },
   "CHNR": {
     "first_seen": "04:31",
@@ -322,17 +322,17 @@
   "GRAG": {
     "first_seen": "04:31",
     "band": "14-20",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "AEHG": {
     "first_seen": "04:31",
     "band": "20-30",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "EHGO": {
     "first_seen": "04:31",
     "band": "20-30",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "SGRX": {
     "first_seen": "04:31",
@@ -342,27 +342,27 @@
   "PARA": {
     "first_seen": "04:31",
     "band": "30-50",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "BLZE": {
     "first_seen": "04:31",
     "band": "30-50",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "PMN": {
     "first_seen": "04:32",
     "band": "5-7",
-    "last_seen": "09:44"
+    "last_seen": "16:00"
   },
   "AXTX": {
     "first_seen": "04:32",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "SNDG": {
     "first_seen": "04:33",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "WHLR": {
     "first_seen": "04:34",
@@ -387,32 +387,32 @@
   "MULL": {
     "first_seen": "04:37",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "11:07"
   },
   "KAPA": {
     "first_seen": "04:37",
     "band": "10-14",
-    "last_seen": "08:01"
+    "last_seen": "16:00"
   },
   "AMDL": {
     "first_seen": "04:38",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "15:48"
   },
   "MUU": {
     "first_seen": "04:38",
     "band": "5-7",
-    "last_seen": "09:45"
+    "last_seen": "11:06"
   },
   "INTW": {
     "first_seen": "04:39",
     "band": "5-7",
-    "last_seen": "09:43"
+    "last_seen": "10:19"
   },
   "AXTU": {
     "first_seen": "04:41",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "15:59"
   },
   "CGTX": {
     "first_seen": "04:41",
@@ -422,27 +422,27 @@
   "SMCX": {
     "first_seen": "04:44",
     "band": "5-7",
-    "last_seen": "09:42"
+    "last_seen": "16:00"
   },
   "IREX": {
     "first_seen": "04:45",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "IRE": {
     "first_seen": "04:45",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "COHX": {
     "first_seen": "04:45",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "15:41"
   },
   "IREG": {
     "first_seen": "04:45",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "JF": {
     "first_seen": "04:47",
@@ -452,7 +452,7 @@
   "CRDU": {
     "first_seen": "04:48",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "III": {
     "first_seen": "04:49",
@@ -462,32 +462,32 @@
   "NBIL": {
     "first_seen": "04:51",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "15:56"
   },
   "NEBX": {
     "first_seen": "04:52",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "15:59"
   },
   "CRWG": {
     "first_seen": "04:53",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "15:54"
   },
   "EVER": {
     "first_seen": "04:53",
     "band": "7-10",
-    "last_seen": "09:36"
+    "last_seen": "16:00"
   },
   "LITU": {
     "first_seen": "04:57",
     "band": "5-7",
-    "last_seen": "09:43"
+    "last_seen": "09:47"
   },
   "NBIG": {
     "first_seen": "04:58",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "15:57"
   },
   "AZ": {
     "first_seen": "04:59",
@@ -497,17 +497,17 @@
   "XMAX": {
     "first_seen": "05:01",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "10:05"
   },
   "IQST": {
     "first_seen": "05:02",
     "band": "5-7",
-    "last_seen": "09:32"
+    "last_seen": "16:00"
   },
   "CWVX": {
     "first_seen": "05:04",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "LITX": {
     "first_seen": "05:04",
@@ -517,42 +517,42 @@
   "DLLL": {
     "first_seen": "05:04",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "15:49"
   },
   "RIOX": {
     "first_seen": "05:04",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "ASTY": {
     "first_seen": "05:05",
     "band": "5-7",
-    "last_seen": "09:45"
+    "last_seen": "14:40"
   },
   "AMBO": {
     "first_seen": "05:05",
     "band": "20-30",
-    "last_seen": "08:14"
+    "last_seen": "16:00"
   },
   "KORU": {
     "first_seen": "05:06",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "13:47"
   },
   "ARMG": {
     "first_seen": "05:07",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "13:18"
   },
   "LIMN": {
     "first_seen": "05:07",
     "band": "10-14",
-    "last_seen": "09:41"
+    "last_seen": "15:59"
   },
   "BETA": {
     "first_seen": "05:08",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "LASE": {
     "first_seen": "05:08",
@@ -562,22 +562,22 @@
   "KLAG": {
     "first_seen": "05:10",
     "band": "5-7",
-    "last_seen": "09:39"
+    "last_seen": "11:05"
   },
   "STXL": {
     "first_seen": "05:10",
     "band": "5-7",
-    "last_seen": "09:45"
+    "last_seen": "11:07"
   },
   "SMCL": {
     "first_seen": "05:12",
     "band": "5-7",
-    "last_seen": "09:43"
+    "last_seen": "16:00"
   },
   "HKPD": {
     "first_seen": "05:12",
     "band": "7-10",
-    "last_seen": "09:32"
+    "last_seen": "10:29"
   },
   "CRGO": {
     "first_seen": "05:12",
@@ -587,7 +587,7 @@
   "NVTX": {
     "first_seen": "05:16",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "SLDB": {
     "first_seen": "05:16",
@@ -596,7 +596,7 @@
   "CSEX": {
     "first_seen": "05:18",
     "band": "5-7",
-    "last_seen": "09:43"
+    "last_seen": "14:57"
   },
   "BBCI": {
     "first_seen": "05:20",
@@ -606,12 +606,12 @@
   "MBAI": {
     "first_seen": "05:25",
     "band": "5-7",
-    "last_seen": "07:21"
+    "last_seen": "16:00"
   },
   "NEOV": {
     "first_seen": "05:25",
     "band": "10-14",
-    "last_seen": "07:14"
+    "last_seen": "15:57"
   },
   "CHGG": {
     "first_seen": "05:32",
@@ -621,7 +621,7 @@
   "ENGN": {
     "first_seen": "05:33",
     "band": "7-10",
-    "last_seen": "09:29"
+    "last_seen": "16:00"
   },
   "WATR": {
     "first_seen": "05:34",
@@ -636,32 +636,32 @@
   "ENLV": {
     "first_seen": "05:39",
     "band": "7-10",
-    "last_seen": "09:34"
+    "last_seen": "10:27"
   },
   "TOYO": {
     "first_seen": "05:40",
     "band": "5-7",
-    "last_seen": "06:13"
+    "last_seen": "15:42"
   },
   "AMA": {
     "first_seen": "05:40",
     "band": "5-7",
-    "last_seen": "09:43"
+    "last_seen": "11:07"
   },
   "DFLI": {
     "first_seen": "05:47",
     "band": "7-10",
-    "last_seen": "07:15"
+    "last_seen": "16:00"
   },
   "HCTI": {
     "first_seen": "05:49",
     "band": "7-10",
-    "last_seen": "09:46"
+    "last_seen": "12:18"
   },
   "TTMX": {
     "first_seen": "05:50",
     "band": "7-10",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "CIG": {
     "first_seen": "05:52",
@@ -676,7 +676,7 @@
   "CHGA": {
     "first_seen": "05:54",
     "band": "5-7",
-    "last_seen": "07:09"
+    "last_seen": "15:25"
   },
   "RC": {
     "first_seen": "05:55",
@@ -686,27 +686,27 @@
   "FMST": {
     "first_seen": "06:00",
     "band": "5-7",
-    "last_seen": "06:30"
+    "last_seen": "15:59"
   },
   "RDAC": {
     "first_seen": "06:00",
     "band": "14-20",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "RMTI": {
     "first_seen": "06:02",
     "band": "10-14",
-    "last_seen": "09:36"
+    "last_seen": "16:00"
   },
   "PENU": {
     "first_seen": "06:03",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "AIIO": {
     "first_seen": "06:04",
     "band": "10-14",
-    "last_seen": "07:30"
+    "last_seen": "10:20"
   },
   "SKYQ": {
     "first_seen": "06:08",
@@ -735,22 +735,22 @@
   "CHWM": {
     "first_seen": "06:13",
     "band": "5-7",
-    "last_seen": "09:42"
+    "last_seen": "11:53"
   },
   "FPSX": {
     "first_seen": "06:14",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "LIDR": {
     "first_seen": "06:15",
     "band": "5-7",
-    "last_seen": "07:21"
+    "last_seen": "12:26"
   },
   "SUIG": {
     "first_seen": "06:15",
     "band": "10-14",
-    "last_seen": "07:00"
+    "last_seen": "12:27"
   },
   "PHG": {
     "first_seen": "06:16",
@@ -765,22 +765,22 @@
   "NTRP": {
     "first_seen": "06:22",
     "band": "7-10",
-    "last_seen": "06:30"
+    "last_seen": "16:00"
   },
   "EOSU": {
     "first_seen": "06:24",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "ASSX": {
     "first_seen": "06:26",
     "band": "5-7",
-    "last_seen": "09:43"
+    "last_seen": "12:18"
   },
   "CMCO": {
     "first_seen": "06:30",
     "band": "7-10",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "DFSC": {
     "first_seen": "06:33",
@@ -790,16 +790,17 @@
   "GCTS": {
     "first_seen": "06:36",
     "band": "5-7",
-    "last_seen": "09:44"
+    "last_seen": "15:46"
   },
   "TVRD": {
     "first_seen": "06:38",
     "band": "14-20",
-    "last_seen": "09:46"
+    "last_seen": "09:54"
   },
   "TV": {
     "first_seen": "06:41",
-    "band": "7-10"
+    "band": "7-10",
+    "last_seen": "15:57"
   },
   "DWTX": {
     "first_seen": "06:43",
@@ -818,7 +819,7 @@
   "BKHA": {
     "first_seen": "06:46",
     "band": "7-10",
-    "last_seen": "09:34"
+    "last_seen": "16:00"
   },
   "GLSI": {
     "first_seen": "06:48",
@@ -833,12 +834,12 @@
   "AEMD": {
     "first_seen": "06:51",
     "band": "10-14",
-    "last_seen": "09:29"
+    "last_seen": "16:00"
   },
   "CHSN": {
     "first_seen": "06:54",
     "band": "7-10",
-    "last_seen": "09:43"
+    "last_seen": "16:00"
   },
   "CLIR": {
     "first_seen": "06:56",
@@ -853,7 +854,7 @@
   "ACB": {
     "first_seen": "06:59",
     "band": "5-7",
-    "last_seen": "07:01"
+    "last_seen": "16:00"
   },
   "FENG": {
     "first_seen": "06:59",
@@ -868,17 +869,17 @@
   "SQNS": {
     "first_seen": "07:01",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "15:49"
   },
   "AHCO": {
     "first_seen": "07:01",
     "band": "5-7",
-    "last_seen": "09:31"
+    "last_seen": "15:59"
   },
   "PEW": {
     "first_seen": "07:01",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "15:59"
   },
   "CINT": {
     "first_seen": "07:01",
@@ -888,7 +889,7 @@
   "KITT": {
     "first_seen": "07:01",
     "band": "5-7",
-    "last_seen": "07:23"
+    "last_seen": "16:00"
   },
   "CYH": {
     "first_seen": "07:01",
@@ -903,7 +904,7 @@
   "DAIC": {
     "first_seen": "07:01",
     "band": "7-10",
-    "last_seen": "09:45"
+    "last_seen": "14:43"
   },
   "NARA": {
     "first_seen": "07:02",
@@ -913,7 +914,7 @@
   "VAI": {
     "first_seen": "07:02",
     "band": "5-7",
-    "last_seen": "08:31"
+    "last_seen": "16:00"
   },
   "FOA": {
     "first_seen": "07:02",
@@ -938,12 +939,12 @@
   "FWRG": {
     "first_seen": "07:06",
     "band": "5-7",
-    "last_seen": "07:26"
+    "last_seen": "14:34"
   },
   "SRAD": {
     "first_seen": "07:07",
     "band": "5-7",
-    "last_seen": "09:43"
+    "last_seen": "15:57"
   },
   "UPSX": {
     "first_seen": "07:07",
@@ -963,12 +964,12 @@
   "OCNL": {
     "first_seen": "07:11",
     "band": "10-14",
-    "last_seen": "09:46"
+    "last_seen": "09:53"
   },
   "KRRO": {
     "first_seen": "07:14",
     "band": "5-7",
-    "last_seen": "07:34"
+    "last_seen": "11:57"
   },
   "SEV": {
     "first_seen": "07:14",
@@ -978,7 +979,7 @@
   "RUBI": {
     "first_seen": "07:15",
     "band": "5-7",
-    "last_seen": "07:16"
+    "last_seen": "16:00"
   },
   "TXO": {
     "first_seen": "07:16",
@@ -988,7 +989,7 @@
   "XRPT": {
     "first_seen": "07:16",
     "band": "5-7",
-    "last_seen": "08:53"
+    "last_seen": "13:41"
   },
   "XXRP": {
     "first_seen": "07:16",
@@ -1003,12 +1004,12 @@
   "GPK": {
     "first_seen": "07:20",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "KATT": {
     "first_seen": "07:20",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "TRBG": {
     "first_seen": "07:21",
@@ -1018,17 +1019,17 @@
   "TYGO": {
     "first_seen": "07:21",
     "band": "10-14",
-    "last_seen": "09:29"
+    "last_seen": "10:12"
   },
   "MUG": {
     "first_seen": "07:22",
     "band": "5-7",
-    "last_seen": "09:41"
+    "last_seen": "11:05"
   },
   "CYPH": {
     "first_seen": "07:22",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "15:59"
   },
   "CTOR": {
     "first_seen": "07:22",
@@ -1038,22 +1039,22 @@
   "RAM": {
     "first_seen": "07:23",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "11:13"
   },
   "WDCX": {
     "first_seen": "07:25",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "11:06"
   },
   "CRD": {
     "first_seen": "07:25",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "VRTL": {
     "first_seen": "07:25",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "15:56"
   },
   "FLNA": {
     "first_seen": "07:26",
@@ -1068,47 +1069,47 @@
   "ADIU": {
     "first_seen": "07:30",
     "band": "5-7",
-    "last_seen": "09:32"
+    "last_seen": "11:52"
   },
   "STXX": {
     "first_seen": "07:31",
     "band": "5-7",
-    "last_seen": "09:43"
+    "last_seen": "10:59"
   },
   "ONG": {
     "first_seen": "07:31",
     "band": "7-10",
-    "last_seen": "09:32"
+    "last_seen": "15:54"
   },
   "PUR": {
     "first_seen": "07:32",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "SKHX": {
     "first_seen": "07:33",
     "band": "5-7",
-    "last_seen": "09:43"
+    "last_seen": "12:40"
   },
   "SK": {
     "first_seen": "07:33",
     "band": "5-7",
-    "last_seen": "09:33"
+    "last_seen": "12:34"
   },
   "SKUU": {
     "first_seen": "07:33",
     "band": "5-7",
-    "last_seen": "09:33"
+    "last_seen": "12:34"
   },
   "SKHL": {
     "first_seen": "07:33",
     "band": "5-7",
-    "last_seen": "09:38"
+    "last_seen": "12:33"
   },
   "SKHU": {
     "first_seen": "07:34",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "13:12"
   },
   "TPET": {
     "first_seen": "07:34",
@@ -1123,17 +1124,17 @@
   "OUSL": {
     "first_seen": "07:37",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "15:02"
   },
   "DRAL": {
     "first_seen": "07:38",
     "band": "5-7",
-    "last_seen": "09:33"
+    "last_seen": "11:30"
   },
   "ZCSH": {
     "first_seen": "07:39",
     "band": "5-7",
-    "last_seen": "08:43"
+    "last_seen": "15:46"
   },
   "JAGU": {
     "first_seen": "07:44",
@@ -1143,7 +1144,7 @@
   "CVGI": {
     "first_seen": "07:44",
     "band": "14-20",
-    "last_seen": "09:46"
+    "last_seen": "15:51"
   },
   "UPST": {
     "first_seen": "07:46",
@@ -1152,7 +1153,7 @@
   "DFDV": {
     "first_seen": "07:47",
     "band": "7-10",
-    "last_seen": "09:44"
+    "last_seen": "15:51"
   },
   "DCM": {
     "first_seen": "07:48",
@@ -1162,22 +1163,22 @@
   "XTLB": {
     "first_seen": "07:48",
     "band": "7-10",
-    "last_seen": "09:31"
+    "last_seen": "11:19"
   },
   "MXLL": {
     "first_seen": "07:49",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "14:01"
   },
   "PSHG": {
     "first_seen": "07:51",
     "band": "7-10",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "HYNX": {
     "first_seen": "07:52",
     "band": "5-7",
-    "last_seen": "09:33"
+    "last_seen": "12:34"
   },
   "UXRP": {
     "first_seen": "07:53",
@@ -1187,12 +1188,12 @@
   "POEL": {
     "first_seen": "07:53",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "15:59"
   },
   "MRVX": {
     "first_seen": "07:53",
     "band": "7-10",
-    "last_seen": "09:46"
+    "last_seen": "09:51"
   },
   "DTIL": {
     "first_seen": "07:53",
@@ -1207,17 +1208,17 @@
   "VWAV": {
     "first_seen": "07:55",
     "band": "5-7",
-    "last_seen": "08:32"
+    "last_seen": "11:09"
   },
   "MCRB": {
     "first_seen": "07:55",
     "band": "10-14",
-    "last_seen": "09:46"
+    "last_seen": "11:15"
   },
   "CIEG": {
     "first_seen": "07:56",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "15:54"
   },
   "CDLX": {
     "first_seen": "07:57",
@@ -1227,42 +1228,42 @@
   "LUNL": {
     "first_seen": "08:00",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "PLUR": {
     "first_seen": "08:01",
     "band": "5-7",
-    "last_seen": "09:34"
+    "last_seen": "13:27"
   },
   "STXU": {
     "first_seen": "08:01",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "11:04"
   },
   "TERG": {
     "first_seen": "08:03",
     "band": "5-7",
-    "last_seen": "09:35"
+    "last_seen": "16:00"
   },
   "SITX": {
     "first_seen": "08:04",
     "band": "5-7",
-    "last_seen": "09:44"
+    "last_seen": "16:00"
   },
   "EPSM": {
     "first_seen": "08:04",
     "band": "14-20",
-    "last_seen": "09:45"
+    "last_seen": "09:49"
   },
   "SMTG": {
     "first_seen": "08:05",
     "band": "7-10",
-    "last_seen": "09:46"
+    "last_seen": "15:59"
   },
   "HUTG": {
     "first_seen": "08:06",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "GANX": {
     "first_seen": "08:06",
@@ -1272,12 +1273,12 @@
   "BEC": {
     "first_seen": "08:07",
     "band": "10-14",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "UCTT": {
     "first_seen": "08:08",
     "band": "5-7",
-    "last_seen": "09:45"
+    "last_seen": "09:49"
   },
   "CRE": {
     "first_seen": "08:08",
@@ -1302,17 +1303,17 @@
   "CIFC": {
     "first_seen": "08:13",
     "band": "7-10",
-    "last_seen": "09:32"
+    "last_seen": "16:00"
   },
   "HELP": {
     "first_seen": "08:14",
     "band": "5-7",
-    "last_seen": "09:36"
+    "last_seen": "10:53"
   },
   "AMAU": {
     "first_seen": "08:16",
     "band": "5-7",
-    "last_seen": "09:29"
+    "last_seen": "09:53"
   },
   "CHOW": {
     "first_seen": "08:16",
@@ -1331,12 +1332,12 @@
   "UPC": {
     "first_seen": "08:20",
     "band": "5-7",
-    "last_seen": "09:31"
+    "last_seen": "11:58"
   },
   "SUPN": {
     "first_seen": "08:20",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "12:59"
   },
   "IEP": {
     "first_seen": "08:20",
@@ -1346,17 +1347,17 @@
   "AMKL": {
     "first_seen": "08:21",
     "band": "5-7",
-    "last_seen": "09:44"
+    "last_seen": "10:45"
   },
   "ICU": {
     "first_seen": "08:21",
     "band": "5-7",
-    "last_seen": "08:41"
+    "last_seen": "10:37"
   },
   "VIAG": {
     "first_seen": "08:27",
     "band": "7-10",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "TLSI": {
     "first_seen": "08:28",
@@ -1366,12 +1367,12 @@
   "CIFG": {
     "first_seen": "08:29",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "TSEG": {
     "first_seen": "08:29",
     "band": "7-10",
-    "last_seen": "09:31"
+    "last_seen": "16:00"
   },
   "LTBR": {
     "first_seen": "08:30",
@@ -1381,52 +1382,52 @@
   "COHH": {
     "first_seen": "08:30",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "15:59"
   },
   "ONTX": {
     "first_seen": "08:30",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "15:37"
   },
   "APLX": {
     "first_seen": "08:30",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "MIC": {
     "first_seen": "08:30",
     "band": "7-10",
-    "last_seen": "09:46"
+    "last_seen": "09:48"
   },
   "CLSX": {
     "first_seen": "08:31",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "CBRG": {
     "first_seen": "08:31",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "14:00"
   },
   "CBRX": {
     "first_seen": "08:31",
     "band": "5-7",
-    "last_seen": "09:43"
+    "last_seen": "13:41"
   },
   "BMNU": {
     "first_seen": "08:31",
     "band": "5-7",
-    "last_seen": "09:43"
+    "last_seen": "15:57"
   },
   "GFSG": {
     "first_seen": "08:31",
     "band": "5-7",
-    "last_seen": "08:56"
+    "last_seen": "15:32"
   },
   "VIP": {
     "first_seen": "08:31",
     "band": "10-14",
-    "last_seen": "09:46"
+    "last_seen": "09:50"
   },
   "USGG": {
     "first_seen": "08:32",
@@ -1436,12 +1437,12 @@
   "GLWG": {
     "first_seen": "08:32",
     "band": "5-7",
-    "last_seen": "09:44"
+    "last_seen": "13:47"
   },
   "CIFR": {
     "first_seen": "08:32",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "QCMU": {
     "first_seen": "08:32",
@@ -1451,7 +1452,7 @@
   "ASTX": {
     "first_seen": "08:32",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "14:01"
   },
   "RPGL": {
     "first_seen": "08:32",
@@ -1461,12 +1462,12 @@
   "RAML": {
     "first_seen": "08:32",
     "band": "7-10",
-    "last_seen": "09:38"
+    "last_seen": "11:09"
   },
   "ONDL": {
     "first_seen": "08:33",
     "band": "5-7",
-    "last_seen": "09:42"
+    "last_seen": "13:31"
   },
   "QCML": {
     "first_seen": "08:33",
@@ -1476,27 +1477,27 @@
   "WULX": {
     "first_seen": "08:33",
     "band": "7-10",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "ONDG": {
     "first_seen": "08:34",
     "band": "5-7",
-    "last_seen": "09:43"
+    "last_seen": "13:36"
   },
   "IONX": {
     "first_seen": "08:34",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "RKLX": {
     "first_seen": "08:34",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "IONL": {
     "first_seen": "08:34",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "URAA": {
     "first_seen": "08:35",
@@ -1506,27 +1507,27 @@
   "POET": {
     "first_seen": "08:35",
     "band": "5-7",
-    "last_seen": "09:42"
+    "last_seen": "15:49"
   },
   "BMNG": {
     "first_seen": "08:35",
     "band": "5-7",
-    "last_seen": "08:56"
+    "last_seen": "15:57"
   },
   "RDWU": {
     "first_seen": "08:35",
     "band": "5-7",
-    "last_seen": "09:45"
+    "last_seen": "13:16"
   },
   "NETG": {
     "first_seen": "08:38",
     "band": "5-7",
-    "last_seen": "09:26"
+    "last_seen": "15:59"
   },
   "ELTX": {
     "first_seen": "08:38",
     "band": "5-7",
-    "last_seen": "09:45"
+    "last_seen": "09:48"
   },
   "ACMR": {
     "first_seen": "08:38",
@@ -1535,12 +1536,12 @@
   "ASTG": {
     "first_seen": "08:39",
     "band": "5-7",
-    "last_seen": "09:29"
+    "last_seen": "15:35"
   },
   "BKKT": {
     "first_seen": "08:40",
     "band": "5-7",
-    "last_seen": "08:46"
+    "last_seen": "15:59"
   },
   "FOTO": {
     "first_seen": "08:41",
@@ -1550,12 +1551,12 @@
   "LITS": {
     "first_seen": "08:41",
     "band": "7-10",
-    "last_seen": "09:34"
+    "last_seen": "15:57"
   },
   "CRWU": {
     "first_seen": "08:42",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "ICHR": {
     "first_seen": "08:42",
@@ -1565,46 +1566,47 @@
   "ALMU": {
     "first_seen": "08:42",
     "band": "5-7",
-    "last_seen": "09:29"
+    "last_seen": "10:14"
   },
   "IFBD": {
     "first_seen": "08:42",
     "band": "7-10",
-    "last_seen": "09:45"
+    "last_seen": "16:00"
   },
   "SLNH": {
     "first_seen": "08:43",
-    "band": "5-7"
+    "band": "5-7",
+    "last_seen": "09:55"
   },
   "TEUP": {
     "first_seen": "08:43",
     "band": "7-10",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "MRAL": {
     "first_seen": "08:46",
     "band": "5-7",
-    "last_seen": "09:45"
+    "last_seen": "16:00"
   },
   "ASUP": {
     "first_seen": "08:46",
     "band": "5-7",
-    "last_seen": "09:40"
+    "last_seen": "15:35"
   },
   "BTDL": {
     "first_seen": "08:46",
     "band": "7-10",
-    "last_seen": "09:41"
+    "last_seen": "16:00"
   },
   "FLYT": {
     "first_seen": "08:50",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "GIFT": {
     "first_seen": "08:51",
     "band": "5-7",
-    "last_seen": "09:26"
+    "last_seen": "15:59"
   },
   "VRXA": {
     "first_seen": "08:53",
@@ -1619,27 +1621,27 @@
   "IREC": {
     "first_seen": "08:56",
     "band": "7-10",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "DNA": {
     "first_seen": "09:01",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "CIEX": {
     "first_seen": "09:01",
     "band": "7-10",
-    "last_seen": "09:46"
+    "last_seen": "15:05"
   },
   "HTCO": {
     "first_seen": "09:02",
     "band": "5-7",
-    "last_seen": "09:42"
+    "last_seen": "14:48"
   },
   "CABR": {
     "first_seen": "09:03",
     "band": "10-14",
-    "last_seen": "09:12"
+    "last_seen": "16:00"
   },
   "VELO": {
     "first_seen": "09:05",
@@ -1649,17 +1651,17 @@
   "LEUX": {
     "first_seen": "09:05",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "09:58"
   },
   "KEEX": {
     "first_seen": "09:06",
     "band": "7-10",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "BGIN": {
     "first_seen": "09:07",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "11:07"
   },
   "QQQG": {
     "first_seen": "09:10",
@@ -1669,7 +1671,7 @@
   "VELL": {
     "first_seen": "09:10",
     "band": "10-14",
-    "last_seen": "09:42"
+    "last_seen": "15:56"
   },
   "SSRM": {
     "first_seen": "09:12",
@@ -1683,17 +1685,17 @@
   "GLXU": {
     "first_seen": "09:14",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "BRUN": {
     "first_seen": "09:14",
     "band": "7-10",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "NAKA": {
     "first_seen": "09:14",
     "band": "7-10",
-    "last_seen": "09:25"
+    "last_seen": "10:55"
   },
   "CC": {
     "first_seen": "09:15",
@@ -1703,7 +1705,7 @@
   "INAB": {
     "first_seen": "09:15",
     "band": "10-14",
-    "last_seen": "09:46"
+    "last_seen": "15:59"
   },
   "ANIK": {
     "first_seen": "09:21",
@@ -1713,7 +1715,7 @@
   "TRT": {
     "first_seen": "09:22",
     "band": "5-7",
-    "last_seen": "09:45"
+    "last_seen": "16:00"
   },
   "STAK": {
     "first_seen": "09:22",
@@ -1723,7 +1725,7 @@
   "XOS": {
     "first_seen": "09:22",
     "band": "10-14",
-    "last_seen": "09:29"
+    "last_seen": "10:53"
   },
   "ANVS": {
     "first_seen": "09:25",
@@ -1733,12 +1735,12 @@
   "ORBS": {
     "first_seen": "09:25",
     "band": "5-7",
-    "last_seen": "09:29"
+    "last_seen": "16:00"
   },
   "EMAT": {
     "first_seen": "09:26",
     "band": "7-10",
-    "last_seen": "09:45"
+    "last_seen": "15:42"
   },
   "AVAT": {
     "first_seen": "09:26",
@@ -1747,37 +1749,38 @@
   },
   "BNC": {
     "first_seen": "09:27",
-    "band": "5-7"
+    "band": "5-7",
+    "last_seen": "11:01"
   },
   "ONX": {
     "first_seen": "09:27",
     "band": "5-7",
-    "last_seen": "09:31"
+    "last_seen": "11:42"
   },
   "TEMT": {
     "first_seen": "09:28",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "10:42"
   },
   "ARQQ": {
     "first_seen": "09:28",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "10:52"
   },
   "MPWX": {
     "first_seen": "09:28",
     "band": "7-10",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "STRZ": {
     "first_seen": "09:28",
     "band": "7-10",
-    "last_seen": "09:38"
+    "last_seen": "13:41"
   },
   "STLL": {
     "first_seen": "09:28",
     "band": "7-10",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "DOMH": {
     "first_seen": "09:28",
@@ -1787,12 +1790,12 @@
   "SPCL": {
     "first_seen": "09:28",
     "band": "7-10",
-    "last_seen": "09:29"
+    "last_seen": "15:05"
   },
   "NVDG": {
     "first_seen": "09:29",
     "band": "5-7",
-    "last_seen": "09:42"
+    "last_seen": "12:22"
   },
   "PASW": {
     "first_seen": "09:29",
@@ -1802,12 +1805,12 @@
   "UFG": {
     "first_seen": "09:29",
     "band": "14-20",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "INFH": {
     "first_seen": "09:31",
     "band": "5-7",
-    "last_seen": "09:42"
+    "last_seen": "16:00"
   },
   "BBTX": {
     "first_seen": "09:31",
@@ -1816,22 +1819,22 @@
   "BWEN": {
     "first_seen": "09:31",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "VOYG": {
     "first_seen": "09:31",
     "band": "5-7",
-    "last_seen": "09:40"
+    "last_seen": "10:01"
   },
   "KXIN": {
     "first_seen": "09:31",
     "band": "5-7",
-    "last_seen": "09:36"
+    "last_seen": "15:59"
   },
   "NORD": {
     "first_seen": "09:31",
     "band": "5-7",
-    "last_seen": "09:36"
+    "last_seen": "15:59"
   },
   "FTH": {
     "first_seen": "09:31",
@@ -1840,17 +1843,17 @@
   "WDCC": {
     "first_seen": "09:31",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "11:17"
   },
   "TDTH": {
     "first_seen": "09:31",
     "band": "5-7",
-    "last_seen": "09:32"
+    "last_seen": "15:59"
   },
   "ZJYL": {
     "first_seen": "09:31",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "COPR": {
     "first_seen": "09:31",
@@ -1858,7 +1861,8 @@
   },
   "BIVI": {
     "first_seen": "09:31",
-    "band": "5-7"
+    "band": "5-7",
+    "last_seen": "16:00"
   },
   "TAC": {
     "first_seen": "09:31",
@@ -1873,22 +1877,22 @@
   "SRTA": {
     "first_seen": "09:31",
     "band": "7-10",
-    "last_seen": "09:46"
+    "last_seen": "14:01"
   },
   "MACI": {
     "first_seen": "09:31",
     "band": "7-10",
-    "last_seen": "09:46"
+    "last_seen": "10:59"
   },
   "SMOX": {
     "first_seen": "09:31",
     "band": "7-10",
-    "last_seen": "09:46"
+    "last_seen": "09:47"
   },
   "INHD": {
     "first_seen": "09:31",
     "band": "7-10",
-    "last_seen": "09:45"
+    "last_seen": "10:36"
   },
   "BDRX": {
     "first_seen": "09:31",
@@ -1898,7 +1902,7 @@
   "MASK": {
     "first_seen": "09:31",
     "band": "7-10",
-    "last_seen": "09:33"
+    "last_seen": "14:18"
   },
   "OKLC": {
     "first_seen": "09:31",
@@ -1908,12 +1912,12 @@
   "EUVX": {
     "first_seen": "09:31",
     "band": "7-10",
-    "last_seen": "09:45"
+    "last_seen": "11:18"
   },
   "UCTX": {
     "first_seen": "09:31",
     "band": "10-14",
-    "last_seen": "09:46"
+    "last_seen": "13:05"
   },
   "ASPE": {
     "first_seen": "09:31",
@@ -1928,22 +1932,22 @@
   "PMTS": {
     "first_seen": "09:31",
     "band": "10-14",
-    "last_seen": "09:33"
+    "last_seen": "14:35"
   },
   "ELTK": {
     "first_seen": "09:31",
     "band": "20-30",
-    "last_seen": "09:46"
+    "last_seen": "10:36"
   },
   "ATYR": {
     "first_seen": "09:32",
     "band": "5-7",
-    "last_seen": "09:45"
+    "last_seen": "10:42"
   },
   "GMTL": {
     "first_seen": "09:32",
     "band": "5-7",
-    "last_seen": "09:45"
+    "last_seen": "15:49"
   },
   "GENK": {
     "first_seen": "09:32",
@@ -1972,22 +1976,22 @@
   "GEVX": {
     "first_seen": "09:32",
     "band": "7-10",
-    "last_seen": "09:40"
+    "last_seen": "16:00"
   },
   "GEVG": {
     "first_seen": "09:32",
     "band": "7-10",
-    "last_seen": "09:41"
+    "last_seen": "16:00"
   },
   "ENHA": {
     "first_seen": "09:32",
     "band": "7-10",
-    "last_seen": "09:46"
+    "last_seen": "10:54"
   },
   "ALA": {
     "first_seen": "09:32",
     "band": "7-10",
-    "last_seen": "09:46"
+    "last_seen": "14:43"
   },
   "IVF": {
     "first_seen": "09:32",
@@ -2001,7 +2005,7 @@
   "MTNB": {
     "first_seen": "09:32",
     "band": "10-14",
-    "last_seen": "09:33"
+    "last_seen": "09:48"
   },
   "PMI": {
     "first_seen": "09:32",
@@ -2011,26 +2015,27 @@
   "SIMX": {
     "first_seen": "09:33",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "MSOX": {
     "first_seen": "09:33",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "15:50"
   },
   "PACB": {
     "first_seen": "09:33",
     "band": "5-7",
-    "last_seen": "09:43"
+    "last_seen": "12:07"
   },
   "ALZN": {
     "first_seen": "09:33",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "NSPR": {
     "first_seen": "09:33",
-    "band": "5-7"
+    "band": "5-7",
+    "last_seen": "16:00"
   },
   "AACG": {
     "first_seen": "09:33",
@@ -2040,16 +2045,17 @@
   "HIMZ": {
     "first_seen": "09:33",
     "band": "5-7",
-    "last_seen": "09:37"
+    "last_seen": "09:57"
   },
   "VFF": {
     "first_seen": "09:33",
-    "band": "5-7"
+    "band": "5-7",
+    "last_seen": "16:00"
   },
   "CRMT": {
     "first_seen": "09:33",
     "band": "7-10",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "GOAI": {
     "first_seen": "09:33",
@@ -2059,12 +2065,12 @@
   "IMC": {
     "first_seen": "09:33",
     "band": "7-10",
-    "last_seen": "09:39"
+    "last_seen": "16:00"
   },
   "GEVC": {
     "first_seen": "09:33",
     "band": "10-14",
-    "last_seen": "09:44"
+    "last_seen": "16:00"
   },
   "MGNX": {
     "first_seen": "09:34",
@@ -2074,12 +2080,12 @@
   "RGTX": {
     "first_seen": "09:34",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "15:54"
   },
   "SGML": {
     "first_seen": "09:34",
     "band": "5-7",
-    "last_seen": "09:35"
+    "last_seen": "15:54"
   },
   "ZYBT": {
     "first_seen": "09:34",
@@ -2089,17 +2095,17 @@
   "BNR": {
     "first_seen": "09:34",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "HPEL": {
     "first_seen": "09:34",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "14:12"
   },
   "ORCU": {
     "first_seen": "09:34",
     "band": "5-7",
-    "last_seen": "09:40"
+    "last_seen": "16:00"
   },
   "YSG": {
     "first_seen": "09:34",
@@ -2108,7 +2114,7 @@
   "AVGU": {
     "first_seen": "09:34",
     "band": "5-7",
-    "last_seen": "09:42"
+    "last_seen": "14:36"
   },
   "ASMG": {
     "first_seen": "09:34",
@@ -2117,36 +2123,37 @@
   "ASTI": {
     "first_seen": "09:34",
     "band": "7-10",
-    "last_seen": "09:43"
+    "last_seen": "15:42"
   },
   "SHAZ": {
     "first_seen": "09:35",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "15:54"
   },
   "NVTS": {
     "first_seen": "09:35",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "15:57"
   },
   "MASS": {
     "first_seen": "09:35",
     "band": "5-7",
-    "last_seen": "09:37"
+    "last_seen": "12:16"
   },
   "AVL": {
     "first_seen": "09:35",
     "band": "5-7",
-    "last_seen": "09:42"
+    "last_seen": "13:12"
   },
   "GLE": {
     "first_seen": "09:35",
     "band": "5-7",
-    "last_seen": "09:39"
+    "last_seen": "15:57"
   },
   "RANI": {
     "first_seen": "09:35",
-    "band": "5-7"
+    "band": "5-7",
+    "last_seen": "12:13"
   },
   "ASMU": {
     "first_seen": "09:35",
@@ -2156,17 +2163,17 @@
   "DBVT": {
     "first_seen": "09:35",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "15:59"
   },
   "AVGX": {
     "first_seen": "09:35",
     "band": "5-7",
-    "last_seen": "09:39"
+    "last_seen": "14:08"
   },
   "NVDX": {
     "first_seen": "09:35",
     "band": "5-7",
-    "last_seen": "09:43"
+    "last_seen": "12:30"
   },
   "ATHR": {
     "first_seen": "09:35",
@@ -2175,7 +2182,7 @@
   "FOMG": {
     "first_seen": "09:35",
     "band": "10-14",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "CELU": {
     "first_seen": "09:35",
@@ -2195,67 +2202,67 @@
   "ABSI": {
     "first_seen": "09:36",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "11:13"
   },
   "AVGG": {
     "first_seen": "09:36",
     "band": "5-7",
-    "last_seen": "09:40"
+    "last_seen": "15:49"
   },
   "TSXU": {
     "first_seen": "09:36",
     "band": "5-7",
-    "last_seen": "09:42"
+    "last_seen": "11:06"
   },
   "PURR": {
     "first_seen": "09:36",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "15:04"
   },
   "UMAL": {
     "first_seen": "09:36",
     "band": "5-7",
-    "last_seen": "09:44"
+    "last_seen": "15:50"
   },
   "SATL": {
     "first_seen": "09:36",
     "band": "5-7",
-    "last_seen": "09:45"
+    "last_seen": "16:00"
   },
   "AMPU": {
     "first_seen": "09:36",
     "band": "7-10",
-    "last_seen": "09:46"
+    "last_seen": "15:57"
   },
   "KPRX": {
     "first_seen": "09:36",
     "band": "10-14",
-    "last_seen": "09:46"
+    "last_seen": "09:58"
   },
   "NVDB": {
     "first_seen": "09:37",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "09:52"
   },
   "BCAX": {
     "first_seen": "09:37",
     "band": "5-7",
-    "last_seen": "09:41"
+    "last_seen": "16:00"
   },
   "GASS": {
     "first_seen": "09:37",
     "band": "5-7",
-    "last_seen": "09:45"
+    "last_seen": "15:46"
   },
   "LUNG": {
     "first_seen": "09:37",
     "band": "5-7",
-    "last_seen": "09:43"
+    "last_seen": "14:08"
   },
   "GNTA": {
     "first_seen": "09:37",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "NVDL": {
     "first_seen": "09:37",
@@ -2265,61 +2272,62 @@
   "VUZI": {
     "first_seen": "09:37",
     "band": "5-7",
-    "last_seen": "09:44"
+    "last_seen": "10:22"
   },
   "ONDU": {
     "first_seen": "09:37",
     "band": "7-10",
-    "last_seen": "09:44"
+    "last_seen": "11:15"
   },
   "NMRA": {
     "first_seen": "09:37",
     "band": "7-10",
-    "last_seen": "09:45"
+    "last_seen": "16:00"
   },
   "BJDX": {
     "first_seen": "09:37",
     "band": "10-14",
-    "last_seen": "09:46"
+    "last_seen": "15:04"
   },
   "PLBY": {
     "first_seen": "09:38",
     "band": "5-7",
-    "last_seen": "09:39"
+    "last_seen": "16:00"
   },
   "GLXY": {
     "first_seen": "09:38",
     "band": "5-7",
-    "last_seen": "09:44"
+    "last_seen": "16:00"
   },
   "RCAX": {
     "first_seen": "09:38",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "11:22"
   },
   "RSI": {
     "first_seen": "09:38",
     "band": "5-7",
-    "last_seen": "09:41"
+    "last_seen": "16:00"
   },
   "XE": {
     "first_seen": "09:38",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "15:42"
   },
   "USDE": {
     "first_seen": "09:38",
     "band": "5-7",
-    "last_seen": "09:41"
+    "last_seen": "11:09"
   },
   "FRGT": {
     "first_seen": "09:38",
     "band": "5-7",
-    "last_seen": "09:42"
+    "last_seen": "16:00"
   },
   "SPCU": {
     "first_seen": "09:38",
-    "band": "5-7"
+    "band": "5-7",
+    "last_seen": "15:56"
   },
   "REPL": {
     "first_seen": "09:38",
@@ -2329,17 +2337,17 @@
   "NCNA": {
     "first_seen": "09:38",
     "band": "7-10",
-    "last_seen": "09:46"
+    "last_seen": "09:49"
   },
   "TROO": {
     "first_seen": "09:38",
     "band": "7-10",
-    "last_seen": "09:41"
+    "last_seen": "15:25"
   },
   "ETS": {
     "first_seen": "09:39",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "09:53"
   },
   "APVO": {
     "first_seen": "09:39",
@@ -2349,12 +2357,12 @@
   "CONL": {
     "first_seen": "09:39",
     "band": "5-7",
-    "last_seen": "09:40"
+    "last_seen": "14:47"
   },
   "OCGN": {
     "first_seen": "09:39",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "09:55"
   },
   "PLRZ": {
     "first_seen": "09:39",
@@ -2363,76 +2371,78 @@
   },
   "VSTL": {
     "first_seen": "09:39",
-    "band": "5-7"
+    "band": "5-7",
+    "last_seen": "15:49"
   },
   "SILO": {
     "first_seen": "09:39",
-    "band": "5-7"
+    "band": "5-7",
+    "last_seen": "14:01"
   },
   "MSAI": {
     "first_seen": "09:39",
     "band": "7-10",
-    "last_seen": "09:46"
+    "last_seen": "09:54"
   },
   "ETNG": {
     "first_seen": "09:39",
     "band": "10-14",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "RR": {
     "first_seen": "09:40",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "FLY": {
     "first_seen": "09:40",
     "band": "5-7",
-    "last_seen": "09:41"
+    "last_seen": "15:01"
   },
   "RLMD": {
     "first_seen": "09:40",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "15:35"
   },
   "FRVO": {
     "first_seen": "09:40",
     "band": "5-7",
-    "last_seen": "09:45"
+    "last_seen": "16:00"
   },
   "XAIR": {
     "first_seen": "09:40",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "10:09"
   },
   "HLF": {
     "first_seen": "09:40",
     "band": "5-7",
-    "last_seen": "09:44"
+    "last_seen": "15:32"
   },
   "PBLS": {
     "first_seen": "09:40",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "13:36"
   },
   "SIBN": {
     "first_seen": "09:40",
     "band": "7-10",
-    "last_seen": "09:41"
+    "last_seen": "16:00"
   },
   "PSIX": {
     "first_seen": "09:41",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "QMCO": {
     "first_seen": "09:41",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "15:49"
   },
   "GROV": {
     "first_seen": "09:41",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "15:59"
   },
   "INTJ": {
     "first_seen": "09:41",
@@ -2441,59 +2451,63 @@
   },
   "SNDX": {
     "first_seen": "09:41",
-    "band": "5-7"
+    "band": "5-7",
+    "last_seen": "16:00"
   },
   "CCXI": {
     "first_seen": "09:41",
     "band": "7-10",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "PRME": {
     "first_seen": "09:41",
     "band": "7-10",
-    "last_seen": "09:46"
+    "last_seen": "10:38"
   },
   "PTN": {
     "first_seen": "09:41",
     "band": "7-10",
-    "last_seen": "09:42"
+    "last_seen": "13:41"
   },
   "ENTL": {
     "first_seen": "09:41",
     "band": "7-10",
-    "last_seen": "09:45"
+    "last_seen": "12:17"
   },
   "PLUT": {
     "first_seen": "09:41",
     "band": "14-20",
-    "last_seen": "09:46"
+    "last_seen": "11:52"
   },
   "KEEL": {
     "first_seen": "09:42",
-    "band": "5-7"
+    "band": "5-7",
+    "last_seen": "16:00"
   },
   "WYFI": {
     "first_seen": "09:42",
     "band": "5-7",
-    "last_seen": "09:45"
+    "last_seen": "16:00"
   },
   "AIRO": {
     "first_seen": "09:42",
-    "band": "5-7"
+    "band": "5-7",
+    "last_seen": "11:13"
   },
   "IREN": {
     "first_seen": "09:42",
-    "band": "5-7"
+    "band": "5-7",
+    "last_seen": "15:49"
   },
   "SHLS": {
     "first_seen": "09:42",
     "band": "5-7",
-    "last_seen": "09:45"
+    "last_seen": "15:46"
   },
   "IMRX": {
     "first_seen": "09:42",
     "band": "5-7",
-    "last_seen": "09:44"
+    "last_seen": "15:46"
   },
   "AMCI": {
     "first_seen": "09:42",
@@ -2503,17 +2517,17 @@
   "GLXG": {
     "first_seen": "09:42",
     "band": "10-14",
-    "last_seen": "09:46"
+    "last_seen": "15:59"
   },
   "APHG": {
     "first_seen": "09:42",
     "band": "10-14",
-    "last_seen": "09:46"
+    "last_seen": "13:47"
   },
   "AXTC": {
     "first_seen": "09:42",
     "band": "10-14",
-    "last_seen": "09:46"
+    "last_seen": "15:57"
   },
   "GRCE": {
     "first_seen": "09:42",
@@ -2521,92 +2535,98 @@
   },
   "AOSL": {
     "first_seen": "09:43",
-    "band": "5-7"
+    "band": "5-7",
+    "last_seen": "10:04"
   },
   "AMPX": {
     "first_seen": "09:43",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "10:44"
   },
   "FLNC": {
     "first_seen": "09:43",
-    "band": "5-7"
+    "band": "5-7",
+    "last_seen": "10:28"
   },
   "NNE": {
     "first_seen": "09:43",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "09:57"
   },
   "CCUP": {
     "first_seen": "09:43",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "15:59"
   },
   "ABCL": {
     "first_seen": "09:43",
-    "band": "5-7"
+    "band": "5-7",
+    "last_seen": "16:00"
   },
   "NCTY": {
     "first_seen": "09:43",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "10:04"
   },
   "VIAV": {
     "first_seen": "09:43",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "15:31"
   },
   "WOLF": {
     "first_seen": "09:43",
     "band": "5-7",
-    "last_seen": "09:45"
+    "last_seen": "15:51"
   },
   "BTDR": {
     "first_seen": "09:43",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "SHMD": {
     "first_seen": "09:43",
-    "band": "5-7"
+    "band": "5-7",
+    "last_seen": "10:23"
   },
   "INIO": {
     "first_seen": "09:43",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "14:00"
   },
   "RDTL": {
     "first_seen": "09:43",
-    "band": "5-7"
+    "band": "5-7",
+    "last_seen": "15:38"
   },
   "NRGV": {
     "first_seen": "09:43",
     "band": "5-7",
-    "last_seen": "09:44"
+    "last_seen": "16:00"
   },
   "NUAI": {
     "first_seen": "09:43",
-    "band": "5-7"
+    "band": "5-7",
+    "last_seen": "16:00"
   },
   "VRM": {
     "first_seen": "09:43",
     "band": "7-10",
-    "last_seen": "09:46"
+    "last_seen": "10:12"
   },
   "COZX": {
     "first_seen": "09:43",
     "band": "7-10",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "NAUT": {
     "first_seen": "09:43",
     "band": "7-10",
-    "last_seen": "09:44"
+    "last_seen": "09:49"
   },
   "EOSE": {
     "first_seen": "09:43",
     "band": "7-10",
-    "last_seen": "09:46"
+    "last_seen": "15:31"
   },
   "IPWR": {
     "first_seen": "09:43",
@@ -2616,49 +2636,52 @@
   "WYFL": {
     "first_seen": "09:43",
     "band": "10-14",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "SYPR": {
     "first_seen": "09:44",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "15:42"
   },
   "JUNS": {
     "first_seen": "09:44",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "15:05"
   },
   "AMBQ": {
     "first_seen": "09:44",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "11:09"
   },
   "PLU": {
     "first_seen": "09:44",
-    "band": "5-7"
+    "band": "5-7",
+    "last_seen": "15:56"
   },
   "GRRR": {
     "first_seen": "09:44",
-    "band": "5-7"
+    "band": "5-7",
+    "last_seen": "16:00"
   },
   "RGC": {
     "first_seen": "09:44",
-    "band": "5-7"
+    "band": "5-7",
+    "last_seen": "10:59"
   },
   "STEM": {
     "first_seen": "09:44",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "11:14"
   },
   "VSH": {
     "first_seen": "09:44",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "QBTX": {
     "first_seen": "09:44",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "10:20"
   },
   "IVVD": {
     "first_seen": "09:44",
@@ -2667,123 +2690,2256 @@
   "IONQ": {
     "first_seen": "09:44",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "PDFS": {
     "first_seen": "09:44",
     "band": "5-7",
-    "last_seen": "09:45"
+    "last_seen": "15:54"
   },
   "CRCA": {
     "first_seen": "09:44",
     "band": "5-7",
-    "last_seen": "09:45"
+    "last_seen": "15:50"
   },
   "KDK": {
     "first_seen": "09:44",
-    "band": "5-7"
+    "band": "5-7",
+    "last_seen": "11:12"
   },
   "OPTX": {
     "first_seen": "09:44",
-    "band": "5-7"
+    "band": "5-7",
+    "last_seen": "10:26"
   },
   "QPUX": {
     "first_seen": "09:44",
     "band": "7-10",
-    "last_seen": "09:45"
+    "last_seen": "10:44"
   },
   "EBS": {
     "first_seen": "09:44",
     "band": "7-10",
-    "last_seen": "09:46"
+    "last_seen": "10:39"
   },
   "RDI": {
     "first_seen": "09:44",
     "band": "7-10",
-    "last_seen": "09:46"
+    "last_seen": "09:52"
   },
   "NBIC": {
     "first_seen": "09:44",
     "band": "10-14",
-    "last_seen": "09:46"
+    "last_seen": "15:51"
   },
   "WFF": {
     "first_seen": "09:44",
     "band": "10-14",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "MTC": {
     "first_seen": "09:45",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "10:18"
   },
   "DRK": {
     "first_seen": "09:45",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "15:59"
   },
   "EROC": {
     "first_seen": "09:45",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "OUST": {
     "first_seen": "09:45",
     "band": "5-7",
-    "last_seen": "09:46"
+    "last_seen": "13:36"
   },
   "WULF": {
     "first_seen": "09:45",
-    "band": "5-7"
+    "band": "5-7",
+    "last_seen": "15:54"
   },
   "SECZ": {
     "first_seen": "09:45",
     "band": "7-10",
-    "last_seen": "09:46"
+    "last_seen": "13:45"
   },
   "ANEL": {
     "first_seen": "09:45",
     "band": "7-10",
-    "last_seen": "09:46"
+    "last_seen": "16:00"
   },
   "LWLG": {
     "first_seen": "09:46",
-    "band": "5-7"
+    "band": "5-7",
+    "last_seen": "10:18"
   },
   "PDSB": {
     "first_seen": "09:46",
-    "band": "5-7"
+    "band": "5-7",
+    "last_seen": "14:59"
   },
   "LGN": {
     "first_seen": "09:46",
-    "band": "5-7"
+    "band": "5-7",
+    "last_seen": "15:56"
   },
   "RIOT": {
     "first_seen": "09:46",
-    "band": "5-7"
+    "band": "5-7",
+    "last_seen": "16:00"
   },
   "MWH": {
     "first_seen": "09:46",
-    "band": "5-7"
+    "band": "5-7",
+    "last_seen": "15:59"
   },
   "CLSK": {
     "first_seen": "09:46",
-    "band": "5-7"
+    "band": "5-7",
+    "last_seen": "16:00"
   },
   "BTBT": {
     "first_seen": "09:46",
-    "band": "7-10"
+    "band": "7-10",
+    "last_seen": "16:00"
   },
   "COHC": {
     "first_seen": "09:46",
-    "band": "10-14"
+    "band": "10-14",
+    "last_seen": "15:57"
   },
   "MRAX": {
     "first_seen": "09:46",
-    "band": "10-14"
+    "band": "10-14",
+    "last_seen": "16:00"
   },
   "RMBX": {
     "first_seen": "09:46",
+    "band": "10-14",
+    "last_seen": "16:00"
+  },
+  "XTND": {
+    "first_seen": "09:47",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "HYLN": {
+    "first_seen": "09:47",
+    "band": "5-7",
+    "last_seen": "10:12"
+  },
+  "FPS": {
+    "first_seen": "09:47",
+    "band": "5-7",
+    "last_seen": "15:57"
+  },
+  "NCLD": {
+    "first_seen": "09:47",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "ARMA": {
+    "first_seen": "09:47",
+    "band": "7-10",
+    "last_seen": "12:18"
+  },
+  "TE": {
+    "first_seen": "09:47",
+    "band": "7-10",
+    "last_seen": "15:56"
+  },
+  "ORIC": {
+    "first_seen": "09:47",
+    "band": "7-10",
+    "last_seen": "14:21"
+  },
+  "PUL": {
+    "first_seen": "09:47",
+    "band": "10-14",
+    "last_seen": "16:00"
+  },
+  "CNL": {
+    "first_seen": "09:48",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "WGMI": {
+    "first_seen": "09:48",
+    "band": "5-7",
+    "last_seen": "15:28"
+  },
+  "EEIQ": {
+    "first_seen": "09:48",
+    "band": "7-10",
+    "last_seen": "09:49"
+  },
+  "WSHP": {
+    "first_seen": "09:48",
+    "band": "7-10",
+    "last_seen": "16:00"
+  },
+  "CONX": {
+    "first_seen": "09:48",
+    "band": "7-10",
+    "last_seen": "15:41"
+  },
+  "ORAC": {
+    "first_seen": "09:48",
+    "band": "7-10",
+    "last_seen": "15:04"
+  },
+  "ORCX": {
+    "first_seen": "09:48",
+    "band": "7-10",
+    "last_seen": "15:49"
+  },
+  "COIG": {
+    "first_seen": "09:48",
+    "band": "7-10",
+    "last_seen": "15:14"
+  },
+  "SMXT": {
+    "first_seen": "09:48",
+    "band": "10-14",
+    "last_seen": "09:50"
+  },
+  "NVTC": {
+    "first_seen": "09:48",
+    "band": "14-20",
+    "last_seen": "16:00"
+  },
+  "MTSG": {
+    "first_seen": "09:48",
+    "band": "14-20",
+    "last_seen": "16:00"
+  },
+  "FJET": {
+    "first_seen": "09:49",
+    "band": "5-7",
+    "last_seen": "11:25"
+  },
+  "DFNS": {
+    "first_seen": "09:49",
+    "band": "5-7"
+  },
+  "APLD": {
+    "first_seen": "09:49",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "SMUP": {
+    "first_seen": "09:49",
+    "band": "5-7",
+    "last_seen": "09:54"
+  },
+  "CTSO": {
+    "first_seen": "09:49",
+    "band": "7-10",
+    "last_seen": "15:51"
+  },
+  "LRCC": {
+    "first_seen": "09:49",
+    "band": "7-10"
+  },
+  "FOXX": {
+    "first_seen": "09:49",
+    "band": "14-20",
+    "last_seen": "15:54"
+  },
+  "GENB": {
+    "first_seen": "09:50",
+    "band": "5-7",
+    "last_seen": "10:17"
+  },
+  "KARD": {
+    "first_seen": "09:50",
+    "band": "5-7"
+  },
+  "FCEL": {
+    "first_seen": "09:50",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "SNDL": {
+    "first_seen": "09:50",
+    "band": "5-7",
+    "last_seen": "14:47"
+  },
+  "SDEV": {
+    "first_seen": "09:50",
+    "band": "5-7",
+    "last_seen": "09:54"
+  },
+  "NWCL": {
+    "first_seen": "09:50",
+    "band": "7-10",
+    "last_seen": "15:51"
+  },
+  "NXXT": {
+    "first_seen": "09:50",
+    "band": "7-10",
+    "last_seen": "16:00"
+  },
+  "CEPL": {
+    "first_seen": "09:50",
+    "band": "7-10",
+    "last_seen": "15:54"
+  },
+  "STKS": {
+    "first_seen": "09:50",
+    "band": "7-10",
+    "last_seen": "15:05"
+  },
+  "RGTU": {
+    "first_seen": "09:50",
+    "band": "10-14",
+    "last_seen": "14:47"
+  },
+  "FNUC": {
+    "first_seen": "09:51",
+    "band": "5-7",
+    "last_seen": "09:54"
+  },
+  "APPX": {
+    "first_seen": "09:51",
+    "band": "5-7",
+    "last_seen": "15:19"
+  },
+  "BLNE": {
+    "first_seen": "09:51",
+    "band": "5-7",
+    "last_seen": "12:18"
+  },
+  "IMDX": {
+    "first_seen": "09:51",
+    "band": "7-10",
+    "last_seen": "09:53"
+  },
+  "OPRA": {
+    "first_seen": "09:52",
+    "band": "5-7",
+    "last_seen": "12:52"
+  },
+  "APPS": {
+    "first_seen": "09:52",
+    "band": "5-7",
+    "last_seen": "15:59"
+  },
+  "MSOS": {
+    "first_seen": "09:52",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "SLS": {
+    "first_seen": "09:52",
+    "band": "5-7",
+    "last_seen": "10:20"
+  },
+  "CRCG": {
+    "first_seen": "09:52",
+    "band": "5-7",
+    "last_seen": "15:59"
+  },
+  "DFTX": {
+    "first_seen": "09:52",
+    "band": "5-7"
+  },
+  "MSTU": {
+    "first_seen": "09:52",
+    "band": "5-7",
+    "last_seen": "15:12"
+  },
+  "AKTX": {
+    "first_seen": "09:52",
+    "band": "7-10",
+    "last_seen": "10:20"
+  },
+  "LWLX": {
+    "first_seen": "09:52",
+    "band": "7-10",
+    "last_seen": "11:35"
+  },
+  "CSIQ": {
+    "first_seen": "09:53",
+    "band": "5-7",
+    "last_seen": "15:14"
+  },
+  "SPAI": {
+    "first_seen": "09:53",
+    "band": "5-7",
+    "last_seen": "09:59"
+  },
+  "POAS": {
+    "first_seen": "09:53",
+    "band": "7-10"
+  },
+  "LENZ": {
+    "first_seen": "09:53",
+    "band": "7-10",
+    "last_seen": "15:59"
+  },
+  "ROLR": {
+    "first_seen": "09:53",
+    "band": "7-10",
+    "last_seen": "13:18"
+  },
+  "CRWX": {
+    "first_seen": "09:53",
+    "band": "10-14",
+    "last_seen": "16:00"
+  },
+  "ARRY": {
+    "first_seen": "09:54",
+    "band": "7-10",
+    "last_seen": "16:00"
+  },
+  "YQ": {
+    "first_seen": "09:54",
+    "band": "7-10",
+    "last_seen": "10:04"
+  },
+  "HYPD": {
+    "first_seen": "09:55",
+    "band": "5-7"
+  },
+  "GTN A": {
+    "first_seen": "09:55",
+    "band": "10-14",
+    "last_seen": "10:34"
+  },
+  "AZI": {
+    "first_seen": "09:55",
+    "band": "10-14",
+    "last_seen": "09:56"
+  },
+  "NNVC": {
+    "first_seen": "09:56",
+    "band": "5-7",
+    "last_seen": "12:18"
+  },
+  "RUN": {
+    "first_seen": "09:56",
+    "band": "5-7",
+    "last_seen": "15:49"
+  },
+  "LTGO": {
+    "first_seen": "09:56",
+    "band": "7-10",
+    "last_seen": "15:59"
+  },
+  "TURB": {
+    "first_seen": "09:56",
+    "band": "14-20",
+    "last_seen": "16:00"
+  },
+  "APHU": {
+    "first_seen": "09:56",
+    "band": "14-20",
+    "last_seen": "12:01"
+  },
+  "DTST": {
+    "first_seen": "09:56",
+    "band": "20-30",
+    "last_seen": "10:41"
+  },
+  "RBLU": {
+    "first_seen": "09:57",
+    "band": "5-7",
+    "last_seen": "15:59"
+  },
+  "RDDC": {
+    "first_seen": "09:58",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "DPC": {
+    "first_seen": "09:58",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "ADCT": {
+    "first_seen": "09:58",
+    "band": "5-7",
+    "last_seen": "10:39"
+  },
+  "QMLS": {
+    "first_seen": "09:59",
+    "band": "5-7",
+    "last_seen": "15:57"
+  },
+  "RENT": {
+    "first_seen": "09:59",
+    "band": "5-7",
+    "last_seen": "11:35"
+  },
+  "COIA": {
+    "first_seen": "09:59",
+    "band": "7-10",
+    "last_seen": "14:48"
+  },
+  "ZDAI": {
+    "first_seen": "09:59",
+    "band": "10-14",
+    "last_seen": "15:32"
+  },
+  "GLAS": {
+    "first_seen": "10:00",
+    "band": "5-7",
+    "last_seen": "10:45"
+  },
+  "MSTP": {
+    "first_seen": "10:00",
+    "band": "5-7",
+    "last_seen": "15:25"
+  },
+  "RCKT": {
+    "first_seen": "10:00",
+    "band": "5-7"
+  },
+  "HTZ": {
+    "first_seen": "10:00",
+    "band": "5-7",
+    "last_seen": "14:26"
+  },
+  "RKX": {
+    "first_seen": "10:00",
+    "band": "10-14",
+    "last_seen": "16:00"
+  },
+  "STI": {
+    "first_seen": "10:01",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "GRML": {
+    "first_seen": "10:02",
+    "band": "5-7",
+    "last_seen": "10:17"
+  },
+  "CNTN": {
+    "first_seen": "10:02",
+    "band": "5-7"
+  },
+  "SPCM": {
+    "first_seen": "10:03",
+    "band": "5-7",
+    "last_seen": "15:56"
+  },
+  "SPCF": {
+    "first_seen": "10:03",
+    "band": "5-7",
+    "last_seen": "15:57"
+  },
+  "SPCH": {
+    "first_seen": "10:03",
+    "band": "5-7",
+    "last_seen": "15:56"
+  },
+  "SPAL": {
+    "first_seen": "10:03",
+    "band": "5-7",
+    "last_seen": "15:57"
+  },
+  "ANIX": {
+    "first_seen": "10:03",
+    "band": "5-7",
+    "last_seen": "10:42"
+  },
+  "CHR": {
+    "first_seen": "10:03",
+    "band": "5-7",
+    "last_seen": "10:41"
+  },
+  "SPAX": {
+    "first_seen": "10:03",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "LOFF": {
+    "first_seen": "10:03",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "ENPH": {
+    "first_seen": "10:03",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "VRAX": {
+    "first_seen": "10:03",
+    "band": "5-7",
+    "last_seen": "10:04"
+  },
+  "MVST": {
+    "first_seen": "10:04",
+    "band": "5-7",
+    "last_seen": "10:48"
+  },
+  "HQ": {
+    "first_seen": "10:04",
+    "band": "5-7"
+  },
+  "ZDGE": {
+    "first_seen": "10:04",
+    "band": "5-7",
+    "last_seen": "14:34"
+  },
+  "CGC": {
+    "first_seen": "10:05",
+    "band": "5-7",
+    "last_seen": "10:41"
+  },
+  "BOT": {
+    "first_seen": "10:07",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "CCXIU": {
+    "first_seen": "10:07",
+    "band": "20-30",
+    "last_seen": "15:59"
+  },
+  "YYAI": {
+    "first_seen": "10:08",
+    "band": "5-7",
+    "last_seen": "15:59"
+  },
+  "REVB": {
+    "first_seen": "10:08",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "CLLS": {
+    "first_seen": "10:09",
+    "band": "7-10",
+    "last_seen": "10:31"
+  },
+  "APWC": {
+    "first_seen": "10:09",
+    "band": "7-10",
+    "last_seen": "13:36"
+  },
+  "LUNR": {
+    "first_seen": "10:10",
+    "band": "5-7",
+    "last_seen": "15:59"
+  },
+  "FGC": {
+    "first_seen": "10:10",
+    "band": "7-10",
+    "last_seen": "15:59"
+  },
+  "LXEO": {
+    "first_seen": "10:12",
+    "band": "5-7",
+    "last_seen": "10:20"
+  },
+  "DXLG": {
+    "first_seen": "10:12",
+    "band": "5-7",
+    "last_seen": "10:20"
+  },
+  "CNSY": {
+    "first_seen": "10:12",
+    "band": "20-30",
+    "last_seen": "10:56"
+  },
+  "MARA": {
+    "first_seen": "10:12",
+    "band": "5-7",
+    "last_seen": "15:04"
+  },
+  "GCPU": {
+    "first_seen": "10:12",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "CHPT": {
+    "first_seen": "10:12",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "PALI": {
+    "first_seen": "10:12",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "IRD": {
+    "first_seen": "10:12",
+    "band": "5-7",
+    "last_seen": "15:59"
+  },
+  "FIXX": {
+    "first_seen": "10:12",
+    "band": "7-10",
+    "last_seen": "16:00"
+  },
+  "GAUZ": {
+    "first_seen": "10:12",
+    "band": "7-10",
+    "last_seen": "11:11"
+  },
+  "SEGG": {
+    "first_seen": "10:14",
+    "band": "5-7",
+    "last_seen": "15:57"
+  },
+  "ALGM": {
+    "first_seen": "10:14",
+    "band": "5-7",
+    "last_seen": "13:14"
+  },
+  "HGTY": {
+    "first_seen": "10:14",
+    "band": "5-7",
+    "last_seen": "15:59"
+  },
+  "JLHL": {
+    "first_seen": "10:14",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "TAOX": {
+    "first_seen": "10:14",
+    "band": "7-10",
+    "last_seen": "16:00"
+  },
+  "AKAN": {
+    "first_seen": "10:14",
+    "band": "5-7",
+    "last_seen": "15:05"
+  },
+  "IOVA": {
+    "first_seen": "10:14",
+    "band": "5-7",
+    "last_seen": "15:59"
+  },
+  "ODTX": {
+    "first_seen": "10:16",
+    "band": "5-7",
+    "last_seen": "15:42"
+  },
+  "JBIO": {
+    "first_seen": "10:16",
+    "band": "5-7"
+  },
+  "MJ": {
+    "first_seen": "10:16",
+    "band": "5-7",
+    "last_seen": "11:34"
+  },
+  "INO": {
+    "first_seen": "10:17",
+    "band": "5-7",
+    "last_seen": "10:26"
+  },
+  "NUR": {
+    "first_seen": "10:17",
+    "band": "5-7",
+    "last_seen": "11:18"
+  },
+  "COIW": {
+    "first_seen": "10:17",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "FISN": {
+    "first_seen": "10:17",
+    "band": "5-7",
+    "last_seen": "13:47"
+  },
+  "NVA": {
+    "first_seen": "10:18",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "MST": {
+    "first_seen": "10:18",
+    "band": "5-7",
+    "last_seen": "15:49"
+  },
+  "TERC": {
+    "first_seen": "10:18",
+    "band": "7-10",
+    "last_seen": "16:00"
+  },
+  "AZIO": {
+    "first_seen": "10:19",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "CORZ": {
+    "first_seen": "10:19",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "IPSC": {
+    "first_seen": "10:19",
+    "band": "7-10",
+    "last_seen": "11:57"
+  },
+  "YOLO": {
+    "first_seen": "10:19",
+    "band": "7-10",
+    "last_seen": "15:51"
+  },
+  "AGCC": {
+    "first_seen": "10:19",
+    "band": "10-14",
+    "last_seen": "10:42"
+  },
+  "APMD": {
+    "first_seen": "10:20",
+    "band": "5-7",
+    "last_seen": "10:26"
+  },
+  "SCLX": {
+    "first_seen": "10:20",
+    "band": "5-7",
+    "last_seen": "12:52"
+  },
+  "AVXL": {
+    "first_seen": "10:20",
+    "band": "5-7",
+    "last_seen": "15:28"
+  },
+  "BNAI": {
+    "first_seen": "10:20",
+    "band": "7-10",
+    "last_seen": "16:00"
+  },
+  "TLRY": {
+    "first_seen": "10:22",
+    "band": "5-7",
+    "last_seen": "10:52"
+  },
+  "MEME": {
+    "first_seen": "10:22",
+    "band": "5-7",
+    "last_seen": "11:07"
+  },
+  "STIM": {
+    "first_seen": "10:22",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "IMNN": {
+    "first_seen": "10:23",
+    "band": "5-7",
+    "last_seen": "11:32"
+  },
+  "BTCT": {
+    "first_seen": "10:25",
+    "band": "5-7",
+    "last_seen": "15:46"
+  },
+  "IVA": {
+    "first_seen": "10:25",
+    "band": "5-7",
+    "last_seen": "15:48"
+  },
+  "BBUL": {
+    "first_seen": "10:25",
+    "band": "5-7",
+    "last_seen": "15:59"
+  },
+  "KFIIU": {
+    "first_seen": "10:26",
+    "band": "5-7",
+    "last_seen": "10:55"
+  },
+  "IMMX": {
+    "first_seen": "10:27",
+    "band": "5-7",
+    "last_seen": "10:45"
+  },
+  "ZNB": {
+    "first_seen": "10:28",
+    "band": "5-7",
+    "last_seen": "15:59"
+  },
+  "TLSA": {
+    "first_seen": "10:28",
+    "band": "5-7"
+  },
+  "CEGX": {
+    "first_seen": "10:28",
+    "band": "5-7",
+    "last_seen": "13:18"
+  },
+  "RNTZ": {
+    "first_seen": "10:28",
+    "band": "14-20",
+    "last_seen": "11:01"
+  },
+  "KFII": {
+    "first_seen": "10:29",
+    "band": "5-7",
+    "last_seen": "10:38"
+  },
+  "LSTA": {
+    "first_seen": "10:31",
+    "band": "5-7",
+    "last_seen": "15:25"
+  },
+  "SMMT": {
+    "first_seen": "10:31",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "RELL": {
+    "first_seen": "10:31",
+    "band": "5-7",
+    "last_seen": "14:21"
+  },
+  "VNCE": {
+    "first_seen": "10:33",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "CETX": {
+    "first_seen": "10:34",
+    "band": "5-7",
+    "last_seen": "10:51"
+  },
+  "IBO": {
+    "first_seen": "10:34",
+    "band": "5-7",
+    "last_seen": "10:49"
+  },
+  "KLRA": {
+    "first_seen": "10:35",
+    "band": "5-7",
+    "last_seen": "11:18"
+  },
+  "JKS": {
+    "first_seen": "10:36",
+    "band": "5-7",
+    "last_seen": "15:49"
+  },
+  "AVGC": {
+    "first_seen": "10:36",
+    "band": "5-7",
+    "last_seen": "11:11"
+  },
+  "MSTX": {
+    "first_seen": "10:36",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "NGNE": {
+    "first_seen": "10:37",
+    "band": "5-7"
+  },
+  "OESX": {
+    "first_seen": "10:37",
+    "band": "5-7",
+    "last_seen": "11:58"
+  },
+  "STRO": {
+    "first_seen": "10:37",
+    "band": "5-7",
+    "last_seen": "11:56"
+  },
+  "KTUP": {
+    "first_seen": "10:37",
+    "band": "5-7",
+    "last_seen": "11:05"
+  },
+  "COAG": {
+    "first_seen": "10:37",
+    "band": "5-7",
+    "last_seen": "12:42"
+  },
+  "SPPL": {
+    "first_seen": "10:37",
+    "band": "7-10",
+    "last_seen": "15:59"
+  },
+  "ERAS": {
+    "first_seen": "10:38",
+    "band": "5-7",
+    "last_seen": "12:09"
+  },
+  "HDRN": {
+    "first_seen": "10:38",
+    "band": "5-7",
+    "last_seen": "15:59"
+  },
+  "ECHX": {
+    "first_seen": "10:39",
+    "band": "5-7",
+    "last_seen": "15:49"
+  },
+  "AMBR": {
+    "first_seen": "10:39",
+    "band": "7-10",
+    "last_seen": "10:50"
+  },
+  "THCH": {
+    "first_seen": "10:39",
+    "band": "20-30",
+    "last_seen": "16:00"
+  },
+  "MRVI": {
+    "first_seen": "10:40",
+    "band": "5-7",
+    "last_seen": "11:34"
+  },
+  "DAPP": {
+    "first_seen": "10:40",
+    "band": "5-7",
+    "last_seen": "15:31"
+  },
+  "RBLX": {
+    "first_seen": "10:40",
+    "band": "5-7",
+    "last_seen": "15:05"
+  },
+  "LEXX": {
+    "first_seen": "10:40",
+    "band": "10-14",
+    "last_seen": "15:49"
+  },
+  "SLMT": {
+    "first_seen": "10:41",
+    "band": "5-7",
+    "last_seen": "15:59"
+  },
+  "MARO": {
+    "first_seen": "10:41",
+    "band": "5-7",
+    "last_seen": "15:59"
+  },
+  "AVEX": {
+    "first_seen": "10:42",
+    "band": "5-7",
+    "last_seen": "10:48"
+  },
+  "CONY": {
+    "first_seen": "10:42",
+    "band": "5-7",
+    "last_seen": "12:40"
+  },
+  "POWI": {
+    "first_seen": "10:42",
+    "band": "5-7",
+    "last_seen": "15:49"
+  },
+  "PILL": {
+    "first_seen": "10:42",
+    "band": "5-7",
+    "last_seen": "10:44"
+  },
+  "CLVT": {
+    "first_seen": "10:43",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "BFRG": {
+    "first_seen": "10:43",
+    "band": "5-7",
+    "last_seen": "15:51"
+  },
+  "ABTC": {
+    "first_seen": "10:43",
+    "band": "5-7",
+    "last_seen": "15:50"
+  },
+  "CSQR": {
+    "first_seen": "10:43",
+    "band": "5-7",
+    "last_seen": "15:32"
+  },
+  "PLUL": {
+    "first_seen": "10:43",
+    "band": "7-10",
+    "last_seen": "15:59"
+  },
+  "BOXL": {
+    "first_seen": "10:44",
+    "band": "5-7",
+    "last_seen": "15:50"
+  },
+  "TNGX": {
+    "first_seen": "10:44",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "FLEL": {
+    "first_seen": "10:44",
+    "band": "10-14",
+    "last_seen": "15:25"
+  },
+  "FMFC": {
+    "first_seen": "10:45",
+    "band": "7-10",
+    "last_seen": "13:36"
+  },
+  "CYCU": {
+    "first_seen": "10:47",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "NN": {
+    "first_seen": "10:48",
+    "band": "5-7",
+    "last_seen": "12:09"
+  },
+  "TRLV": {
+    "first_seen": "10:48",
+    "band": "5-7",
+    "last_seen": "10:51"
+  },
+  "SVRN": {
+    "first_seen": "10:49",
+    "band": "5-7",
+    "last_seen": "11:44"
+  },
+  "HAWK": {
+    "first_seen": "10:49",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "LEDS": {
+    "first_seen": "10:50",
+    "band": "7-10",
+    "last_seen": "15:59"
+  },
+  "APPC": {
+    "first_seen": "10:51",
+    "band": "10-14",
+    "last_seen": "16:00"
+  },
+  "CLNN": {
+    "first_seen": "10:52",
+    "band": "5-7",
+    "last_seen": "13:19"
+  },
+  "ASYS": {
+    "first_seen": "10:53",
+    "band": "5-7",
+    "last_seen": "11:19"
+  },
+  "MSTW": {
+    "first_seen": "10:54",
+    "band": "5-7",
+    "last_seen": "10:59"
+  },
+  "SNSC": {
+    "first_seen": "10:54",
+    "band": "10-14",
+    "last_seen": "12:52"
+  },
+  "CHRS": {
+    "first_seen": "10:55",
+    "band": "5-7",
+    "last_seen": "14:57"
+  },
+  "LIME": {
+    "first_seen": "10:55",
+    "band": "7-10",
+    "last_seen": "16:00"
+  },
+  "CXAI": {
+    "first_seen": "10:55",
+    "band": "7-10",
+    "last_seen": "16:00"
+  },
+  "RDACU": {
+    "first_seen": "10:55",
+    "band": "50-100",
+    "last_seen": "16:00"
+  },
+  "LASC": {
+    "first_seen": "10:56",
+    "band": "7-10",
+    "last_seen": "12:59"
+  },
+  "BKHAU": {
+    "first_seen": "10:56",
+    "band": "20-30",
+    "last_seen": "16:00"
+  },
+  "NANO": {
+    "first_seen": "10:59",
+    "band": "5-7",
+    "last_seen": "15:51"
+  },
+  "ASTL": {
+    "first_seen": "10:59",
+    "band": "5-7",
+    "last_seen": "15:49"
+  },
+  "KLXE": {
+    "first_seen": "11:01",
+    "band": "7-10",
+    "last_seen": "11:15"
+  },
+  "IBLC": {
+    "first_seen": "11:02",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "CAMC": {
+    "first_seen": "11:03",
+    "band": "7-10",
+    "last_seen": "16:00"
+  },
+  "QNRX": {
+    "first_seen": "11:04",
+    "band": "5-7",
+    "last_seen": "11:19"
+  },
+  "CEVA": {
+    "first_seen": "11:04",
+    "band": "5-7",
+    "last_seen": "11:06"
+  },
+  "MPU": {
+    "first_seen": "11:05",
+    "band": "7-10",
+    "last_seen": "15:42"
+  },
+  "CBLL": {
+    "first_seen": "11:06",
+    "band": "5-7",
+    "last_seen": "15:28"
+  },
+  "RCEL": {
+    "first_seen": "11:06",
+    "band": "5-7",
+    "last_seen": "11:07"
+  },
+  "IPW": {
+    "first_seen": "11:06",
+    "band": "7-10",
+    "last_seen": "11:33"
+  },
+  "ADVB": {
+    "first_seen": "11:07",
+    "band": "5-7",
+    "last_seen": "15:56"
+  },
+  "GRAN": {
+    "first_seen": "11:07",
+    "band": "5-7"
+  },
+  "RIBBU": {
+    "first_seen": "11:07",
+    "band": "10-14",
+    "last_seen": "16:00"
+  },
+  "TCMD": {
+    "first_seen": "11:09",
+    "band": "5-7",
+    "last_seen": "15:57"
+  },
+  "TUSK": {
+    "first_seen": "11:11",
+    "band": "5-7",
+    "last_seen": "11:12"
+  },
+  "RTSN": {
+    "first_seen": "11:11",
+    "band": "5-7",
+    "last_seen": "15:14"
+  },
+  "AGIG": {
+    "first_seen": "11:11",
+    "band": "5-7",
+    "last_seen": "15:54"
+  },
+  "UNX": {
+    "first_seen": "11:12",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "PRTS": {
+    "first_seen": "11:12",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "IONC": {
+    "first_seen": "11:12",
+    "band": "10-14",
+    "last_seen": "13:23"
+  },
+  "VITL": {
+    "first_seen": "11:13",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "VATE": {
+    "first_seen": "11:13",
+    "band": "5-7",
+    "last_seen": "11:41"
+  },
+  "MDCX": {
+    "first_seen": "11:14",
+    "band": "5-7",
+    "last_seen": "15:57"
+  },
+  "NTAL": {
+    "first_seen": "11:14",
+    "band": "5-7",
+    "last_seen": "12:49"
+  },
+  "LMB": {
+    "first_seen": "11:14",
+    "band": "5-7",
+    "last_seen": "15:22"
+  },
+  "HOLO": {
+    "first_seen": "11:15",
+    "band": "5-7",
+    "last_seen": "15:51"
+  },
+  "ULH": {
+    "first_seen": "11:15",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "ORGO": {
+    "first_seen": "11:15",
+    "band": "5-7",
+    "last_seen": "15:38"
+  },
+  "WOK": {
+    "first_seen": "11:15",
+    "band": "5-7",
+    "last_seen": "15:25"
+  },
+  "MDBH": {
+    "first_seen": "11:15",
+    "band": "7-10",
+    "last_seen": "16:00"
+  },
+  "EHTH": {
+    "first_seen": "11:17",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "INBS": {
+    "first_seen": "11:17",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "MKZR": {
+    "first_seen": "11:18",
+    "band": "10-14",
+    "last_seen": "13:25"
+  },
+  "DJTU": {
+    "first_seen": "11:19",
+    "band": "5-7",
+    "last_seen": "15:59"
+  },
+  "ERNA": {
+    "first_seen": "11:22",
+    "band": "5-7",
+    "last_seen": "11:30"
+  },
+  "CALC": {
+    "first_seen": "11:24",
+    "band": "5-7",
+    "last_seen": "12:09"
+  },
+  "VOR": {
+    "first_seen": "11:24",
+    "band": "5-7",
+    "last_seen": "12:00"
+  },
+  "TSAT": {
+    "first_seen": "11:25",
+    "band": "5-7",
+    "last_seen": "15:19"
+  },
+  "SRTS": {
+    "first_seen": "11:25",
+    "band": "7-10",
+    "last_seen": "16:00"
+  },
+  "CGEM": {
+    "first_seen": "11:27",
+    "band": "5-7",
+    "last_seen": "14:48"
+  },
+  "DWSN": {
+    "first_seen": "11:29",
+    "band": "5-7",
+    "last_seen": "11:30"
+  },
+  "LHAI": {
+    "first_seen": "11:29",
+    "band": "7-10",
+    "last_seen": "11:35"
+  },
+  "IHRT": {
+    "first_seen": "11:30",
+    "band": "7-10",
+    "last_seen": "16:00"
+  },
+  "GLND": {
+    "first_seen": "11:32",
+    "band": "7-10"
+  },
+  "FBDT": {
+    "first_seen": "11:33",
+    "band": "5-7",
+    "last_seen": "11:35"
+  },
+  "CVKD": {
+    "first_seen": "11:34",
+    "band": "7-10",
+    "last_seen": "15:12"
+  },
+  "CLIK": {
+    "first_seen": "11:35",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "MAIR": {
+    "first_seen": "11:38",
+    "band": "5-7",
+    "last_seen": "15:35"
+  },
+  "ATHE": {
+    "first_seen": "11:40",
+    "band": "30-50",
+    "last_seen": "16:00"
+  },
+  "MODD": {
+    "first_seen": "11:41",
+    "band": "5-7",
+    "last_seen": "11:44"
+  },
+  "UEIC": {
+    "first_seen": "11:42",
+    "band": "5-7",
+    "last_seen": "15:59"
+  },
+  "TVGN": {
+    "first_seen": "11:44",
+    "band": "5-7",
+    "last_seen": "15:59"
+  },
+  "PHOE": {
+    "first_seen": "11:44",
+    "band": "10-14",
+    "last_seen": "11:51"
+  },
+  "MNTS": {
+    "first_seen": "11:44",
+    "band": "20-30",
+    "last_seen": "12:30"
+  },
+  "BIAF": {
+    "first_seen": "11:51",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "ADAG": {
+    "first_seen": "11:51",
+    "band": "5-7",
+    "last_seen": "13:30"
+  },
+  "SLSN": {
+    "first_seen": "11:51",
+    "band": "5-7",
+    "last_seen": "11:52"
+  },
+  "AIFU": {
+    "first_seen": "11:52",
+    "band": "5-7"
+  },
+  "TWAV": {
+    "first_seen": "11:52",
+    "band": "5-7",
+    "last_seen": "14:01"
+  },
+  "BRFH": {
+    "first_seen": "11:53",
+    "band": "5-7",
+    "last_seen": "14:34"
+  },
+  "EPR PRG": {
+    "first_seen": "11:53",
+    "band": "5-7",
+    "last_seen": "12:09"
+  },
+  "AZR": {
+    "first_seen": "11:56",
+    "band": "7-10",
+    "last_seen": "16:00"
+  },
+  "XBP": {
+    "first_seen": "11:56",
+    "band": "10-14",
+    "last_seen": "15:49"
+  },
+  "PRZO": {
+    "first_seen": "11:57",
+    "band": "5-7",
+    "last_seen": "15:57"
+  },
+  "YTRA": {
+    "first_seen": "11:58",
+    "band": "5-7",
+    "last_seen": "12:00"
+  },
+  "EXOZ": {
+    "first_seen": "11:59",
+    "band": "5-7",
+    "last_seen": "14:11"
+  },
+  "GWAV": {
+    "first_seen": "12:00",
+    "band": "5-7",
+    "last_seen": "12:59"
+  },
+  "SUGP": {
+    "first_seen": "12:01",
+    "band": "5-7",
+    "last_seen": "12:07"
+  },
+  "AMKX": {
+    "first_seen": "12:01",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "SOC": {
+    "first_seen": "12:01",
+    "band": "5-7"
+  },
+  "MCHG": {
+    "first_seen": "12:01",
+    "band": "7-10",
+    "last_seen": "14:58"
+  },
+  "NXPG": {
+    "first_seen": "12:06",
+    "band": "5-7",
+    "last_seen": "15:05"
+  },
+  "XLO": {
+    "first_seen": "12:06",
+    "band": "7-10",
+    "last_seen": "12:59"
+  },
+  "ETRA": {
+    "first_seen": "12:07",
+    "band": "5-7",
+    "last_seen": "15:57"
+  },
+  "VRA": {
+    "first_seen": "12:09",
+    "band": "5-7",
+    "last_seen": "15:51"
+  },
+  "RXT": {
+    "first_seen": "12:09",
+    "band": "5-7",
+    "last_seen": "15:57"
+  },
+  "NVNO": {
+    "first_seen": "12:12",
+    "band": "7-10",
+    "last_seen": "13:45"
+  },
+  "NA": {
+    "first_seen": "12:13",
+    "band": "7-10",
+    "last_seen": "14:13"
+  },
+  "JTAI": {
+    "first_seen": "12:16",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "SVCO": {
+    "first_seen": "12:17",
+    "band": "5-7",
+    "last_seen": "15:12"
+  },
+  "NCEL": {
+    "first_seen": "12:17",
+    "band": "5-7",
+    "last_seen": "13:58"
+  },
+  "BTLN": {
+    "first_seen": "12:18",
+    "band": "5-7",
+    "last_seen": "15:38"
+  },
+  "SMHU": {
+    "first_seen": "12:22",
+    "band": "5-7",
+    "last_seen": "13:47"
+  },
+  "EVC": {
+    "first_seen": "12:22",
+    "band": "5-7",
+    "last_seen": "15:51"
+  },
+  "FIEE": {
+    "first_seen": "12:22",
+    "band": "7-10"
+  },
+  "AUC": {
+    "first_seen": "12:22",
+    "band": "10-14",
+    "last_seen": "15:57"
+  },
+  "FTFT": {
+    "first_seen": "12:23",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "MOVE": {
+    "first_seen": "12:25",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "SFWL": {
+    "first_seen": "12:25",
+    "band": "10-14",
+    "last_seen": "13:36"
+  },
+  "AIXI": {
+    "first_seen": "12:26",
+    "band": "5-7",
+    "last_seen": "15:37"
+  },
+  "VRCA": {
+    "first_seen": "12:26",
+    "band": "5-7",
+    "last_seen": "13:51"
+  },
+  "DH": {
+    "first_seen": "12:27",
+    "band": "5-7",
+    "last_seen": "12:34"
+  },
+  "ZONE": {
+    "first_seen": "12:30",
+    "band": "7-10",
+    "last_seen": "16:00"
+  },
+  "SNAG": {
+    "first_seen": "12:33",
+    "band": "5-7",
+    "last_seen": "13:47"
+  },
+  "FEMY": {
+    "first_seen": "12:34",
+    "band": "7-10",
+    "last_seen": "12:43"
+  },
+  "CADL": {
+    "first_seen": "12:40",
+    "band": "5-7",
+    "last_seen": "15:59"
+  },
+  "COIX": {
+    "first_seen": "12:40",
+    "band": "14-20",
+    "last_seen": "16:00"
+  },
+  "ISPC": {
+    "first_seen": "12:42",
+    "band": "5-7",
+    "last_seen": "12:59"
+  },
+  "CNTY": {
+    "first_seen": "12:43",
+    "band": "5-7",
+    "last_seen": "15:56"
+  },
+  "ALGS": {
+    "first_seen": "12:48",
+    "band": "5-7",
+    "last_seen": "14:57"
+  },
+  "CSTE": {
+    "first_seen": "12:49",
+    "band": "5-7",
+    "last_seen": "13:58"
+  },
+  "MPWC": {
+    "first_seen": "12:52",
+    "band": "14-20",
+    "last_seen": "16:00"
+  },
+  "CLRB": {
+    "first_seen": "12:59",
+    "band": "5-7",
+    "last_seen": "15:59"
+  },
+  "MRKR": {
+    "first_seen": "13:05",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "TANH": {
+    "first_seen": "13:05",
+    "band": "7-10",
+    "last_seen": "15:59"
+  },
+  "STCE": {
+    "first_seen": "13:07",
+    "band": "5-7",
+    "last_seen": "15:57"
+  },
+  "SEDG": {
+    "first_seen": "13:07",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "GLX": {
+    "first_seen": "13:07",
+    "band": "20-30",
+    "last_seen": "16:00"
+  },
+  "PLUG": {
+    "first_seen": "13:12",
+    "band": "5-7",
+    "last_seen": "15:00"
+  },
+  "LRMR": {
+    "first_seen": "13:13",
+    "band": "5-7",
+    "last_seen": "15:56"
+  },
+  "CVM": {
+    "first_seen": "13:14",
+    "band": "5-7",
+    "last_seen": "15:59"
+  },
+  "GP": {
+    "first_seen": "13:15",
+    "band": "5-7",
+    "last_seen": "13:19"
+  },
+  "PAYS": {
+    "first_seen": "13:15",
+    "band": "5-7",
+    "last_seen": "13:18"
+  },
+  "MNGU": {
+    "first_seen": "13:16",
+    "band": "5-7",
+    "last_seen": "14:00"
+  },
+  "ALLR": {
+    "first_seen": "13:18",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "TLF": {
+    "first_seen": "13:18",
+    "band": "5-7",
+    "last_seen": "13:19"
+  },
+  "AQB": {
+    "first_seen": "13:19",
+    "band": "5-7",
+    "last_seen": "15:56"
+  },
+  "NNNN": {
+    "first_seen": "13:23",
+    "band": "5-7",
+    "last_seen": "13:27"
+  },
+  "ANNX": {
+    "first_seen": "13:25",
+    "band": "5-7",
+    "last_seen": "14:08"
+  },
+  "INTZ": {
+    "first_seen": "13:27",
+    "band": "5-7",
+    "last_seen": "13:31"
+  },
+  "CHRN": {
+    "first_seen": "13:30",
+    "band": "5-7",
+    "last_seen": "15:01"
+  },
+  "MAZE": {
+    "first_seen": "13:31",
+    "band": "5-7",
+    "last_seen": "13:33"
+  },
+  "CIR": {
+    "first_seen": "13:33",
     "band": "10-14"
+  },
+  "NODE": {
+    "first_seen": "13:36",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "CCM": {
+    "first_seen": "13:36",
+    "band": "5-7",
+    "last_seen": "14:36"
+  },
+  "BVC": {
+    "first_seen": "13:40",
+    "band": "5-7",
+    "last_seen": "14:30"
+  },
+  "STDN": {
+    "first_seen": "13:41",
+    "band": "5-7",
+    "last_seen": "13:45"
+  },
+  "CDTG": {
+    "first_seen": "13:45",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "TKLF": {
+    "first_seen": "13:47",
+    "band": "5-7",
+    "last_seen": "15:57"
+  },
+  "PUSA": {
+    "first_seen": "13:51",
+    "band": "5-7",
+    "last_seen": "15:22"
+  },
+  "PRPO": {
+    "first_seen": "13:55",
+    "band": "5-7",
+    "last_seen": "14:35"
+  },
+  "SNES": {
+    "first_seen": "13:58",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "DRMA": {
+    "first_seen": "13:59",
+    "band": "7-10",
+    "last_seen": "16:00"
+  },
+  "QVCG": {
+    "first_seen": "14:00",
+    "band": "5-7",
+    "last_seen": "15:35"
+  },
+  "PMAX": {
+    "first_seen": "14:01",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "ANTA": {
+    "first_seen": "14:08",
+    "band": "5-7",
+    "last_seen": "15:57"
+  },
+  "JFU": {
+    "first_seen": "14:10",
+    "band": "5-7",
+    "last_seen": "14:20"
+  },
+  "KTTA": {
+    "first_seen": "14:10",
+    "band": "30-50",
+    "last_seen": "16:00"
+  },
+  "AMDC": {
+    "first_seen": "14:11",
+    "band": "7-10",
+    "last_seen": "16:00"
+  },
+  "SXTC": {
+    "first_seen": "14:12",
+    "band": "5-7",
+    "last_seen": "14:20"
+  },
+  "REED": {
+    "first_seen": "14:12",
+    "band": "10-14",
+    "last_seen": "16:00"
+  },
+  "AAME": {
+    "first_seen": "14:13",
+    "band": "7-10",
+    "last_seen": "16:00"
+  },
+  "PBM": {
+    "first_seen": "14:18",
+    "band": "5-7"
+  },
+  "EZRA": {
+    "first_seen": "14:19",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "BHV": {
+    "first_seen": "14:20",
+    "band": "5-7",
+    "last_seen": "15:28"
+  },
+  "MYO": {
+    "first_seen": "14:20",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "PRCH": {
+    "first_seen": "14:21",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "MRA": {
+    "first_seen": "14:21",
+    "band": "7-10",
+    "last_seen": "15:22"
+  },
+  "ZCMD": {
+    "first_seen": "14:26",
+    "band": "7-10",
+    "last_seen": "15:42"
+  },
+  "ALDX": {
+    "first_seen": "14:28",
+    "band": "5-7",
+    "last_seen": "14:48"
+  },
+  "LRE": {
+    "first_seen": "14:29",
+    "band": "5-7",
+    "last_seen": "14:30"
+  },
+  "BCHT": {
+    "first_seen": "14:30",
+    "band": "5-7",
+    "last_seen": "15:22"
+  },
+  "ARBK": {
+    "first_seen": "14:31",
+    "band": "5-7",
+    "last_seen": "15:14"
+  },
+  "DBGI": {
+    "first_seen": "14:31",
+    "band": "10-14",
+    "last_seen": "16:00"
+  },
+  "OPAD": {
+    "first_seen": "14:32",
+    "band": "7-10",
+    "last_seen": "16:00"
+  },
+  "BUUU": {
+    "first_seen": "14:34",
+    "band": "14-20",
+    "last_seen": "16:00"
+  },
+  "WKHS": {
+    "first_seen": "14:35",
+    "band": "5-7",
+    "last_seen": "15:59"
+  },
+  "REF": {
+    "first_seen": "14:36",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "NRXP": {
+    "first_seen": "14:38",
+    "band": "5-7",
+    "last_seen": "15:38"
+  },
+  "EGG": {
+    "first_seen": "14:40",
+    "band": "5-7",
+    "last_seen": "15:05"
+  },
+  "NHTC": {
+    "first_seen": "14:43",
+    "band": "5-7",
+    "last_seen": "15:59"
+  },
+  "SGLY": {
+    "first_seen": "14:43",
+    "band": "14-20",
+    "last_seen": "16:00"
+  },
+  "NVRI": {
+    "first_seen": "14:47",
+    "band": "5-7",
+    "last_seen": "15:49"
+  },
+  "CHCI": {
+    "first_seen": "14:48",
+    "band": "5-7"
+  },
+  "CLNE": {
+    "first_seen": "14:48",
+    "band": "5-7",
+    "last_seen": "15:56"
+  },
+  "GURE": {
+    "first_seen": "14:57",
+    "band": "10-14",
+    "last_seen": "15:48"
+  },
+  "EXYN": {
+    "first_seen": "14:58",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "IPST": {
+    "first_seen": "14:59",
+    "band": "10-14",
+    "last_seen": "15:59"
+  },
+  "SXTP": {
+    "first_seen": "15:00",
+    "band": "7-10",
+    "last_seen": "15:46"
+  },
+  "CAPR": {
+    "first_seen": "15:01",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "OSCX": {
+    "first_seen": "15:02",
+    "band": "7-10",
+    "last_seen": "15:38"
+  },
+  "MSFX": {
+    "first_seen": "15:04",
+    "band": "5-7",
+    "last_seen": "15:46"
+  },
+  "KBSX": {
+    "first_seen": "15:05",
+    "band": "7-10",
+    "last_seen": "15:59"
+  },
+  "AIFA": {
+    "first_seen": "15:12",
+    "band": "5-7"
+  },
+  "DTSS": {
+    "first_seen": "15:14",
+    "band": "5-7",
+    "last_seen": "15:59"
+  },
+  "AMST": {
+    "first_seen": "15:19",
+    "band": "7-10",
+    "last_seen": "15:22"
+  },
+  "YDES": {
+    "first_seen": "15:22",
+    "band": "5-7",
+    "last_seen": "15:51"
+  },
+  "BXBL": {
+    "first_seen": "15:22",
+    "band": "5-7"
+  },
+  "DAVI": {
+    "first_seen": "15:25",
+    "band": "5-7",
+    "last_seen": "15:46"
+  },
+  "CLDI": {
+    "first_seen": "15:25",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "GNPX": {
+    "first_seen": "15:25",
+    "band": "5-7",
+    "last_seen": "15:28"
+  },
+  "BGSF": {
+    "first_seen": "15:28",
+    "band": "5-7",
+    "last_seen": "15:54"
+  },
+  "DGXX": {
+    "first_seen": "15:28",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "CELZ": {
+    "first_seen": "15:31",
+    "band": "5-7",
+    "last_seen": "15:59"
+  },
+  "XBIT": {
+    "first_seen": "15:31",
+    "band": "7-10",
+    "last_seen": "15:51"
+  },
+  "ARTL": {
+    "first_seen": "15:32",
+    "band": "5-7",
+    "last_seen": "15:42"
+  },
+  "NUWE": {
+    "first_seen": "15:35",
+    "band": "5-7",
+    "last_seen": "15:59"
+  },
+  "AMRC": {
+    "first_seen": "15:37",
+    "band": "5-7",
+    "last_seen": "15:57"
+  },
+  "HIVE": {
+    "first_seen": "15:38",
+    "band": "5-7",
+    "last_seen": "15:54"
+  },
+  "AZTR": {
+    "first_seen": "15:38",
+    "band": "5-7",
+    "last_seen": "15:57"
+  },
+  "ALHC": {
+    "first_seen": "15:38",
+    "band": "5-7",
+    "last_seen": "15:42"
+  },
+  "FVNNU": {
+    "first_seen": "15:38",
+    "band": "10-14",
+    "last_seen": "16:00"
+  },
+  "JSM": {
+    "first_seen": "15:41",
+    "band": "5-7",
+    "last_seen": "15:54"
+  },
+  "YDKG": {
+    "first_seen": "15:42",
+    "band": "7-10",
+    "last_seen": "16:00"
+  },
+  "DMAC": {
+    "first_seen": "15:46",
+    "band": "5-7"
+  },
+  "AHT": {
+    "first_seen": "15:46",
+    "band": "5-7"
+  },
+  "PAVS": {
+    "first_seen": "15:48",
+    "band": "5-7",
+    "last_seen": "15:59"
+  },
+  "CLGN": {
+    "first_seen": "15:48",
+    "band": "5-7",
+    "last_seen": "15:57"
+  },
+  "ARMP": {
+    "first_seen": "15:49",
+    "band": "5-7",
+    "last_seen": "15:50"
+  },
+  "FPH": {
+    "first_seen": "15:49",
+    "band": "5-7"
+  },
+  "MTR": {
+    "first_seen": "15:50",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "NXGL": {
+    "first_seen": "15:50",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "TMCR": {
+    "first_seen": "15:51",
+    "band": "5-7",
+    "last_seen": "15:54"
+  },
+  "ZKIN": {
+    "first_seen": "15:51",
+    "band": "5-7",
+    "last_seen": "15:57"
+  },
+  "CBAT": {
+    "first_seen": "15:54",
+    "band": "5-7"
+  },
+  "INLX": {
+    "first_seen": "15:56",
+    "band": "5-7",
+    "last_seen": "15:57"
+  },
+  "FTK": {
+    "first_seen": "15:56",
+    "band": "5-7",
+    "last_seen": "15:57"
+  },
+  "RGNX": {
+    "first_seen": "15:57",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "SPWH": {
+    "first_seen": "15:57",
+    "band": "5-7",
+    "last_seen": "15:59"
+  },
+  "CUE": {
+    "first_seen": "15:59",
+    "band": "5-7"
+  },
+  "TH": {
+    "first_seen": "15:59",
+    "band": "5-7",
+    "last_seen": "16:00"
+  },
+  "FBLG": {
+    "first_seen": "15:59",
+    "band": "5-7"
+  },
+  "SCNX": {
+    "first_seen": "16:00",
+    "band": "5-7"
+  },
+  "ISPR": {
+    "first_seen": "16:00",
+    "band": "5-7"
+  },
+  "GGR": {
+    "first_seen": "16:00",
+    "band": "5-7"
+  },
+  "UPLD": {
+    "first_seen": "16:00",
+    "band": "5-7"
+  },
+  "NPT": {
+    "first_seen": "16:00",
+    "band": "5-7"
+  },
+  "TREE": {
+    "first_seen": "16:00",
+    "band": "5-7"
+  },
+  "TRUG": {
+    "first_seen": "16:00",
+    "band": "7-10"
   }
 }

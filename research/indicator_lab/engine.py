@@ -95,6 +95,30 @@ def simulate(groups, signal_name, P=None, slip=True):
     return df
 
 
+def entries(groups, signal_name, P=None):
+    """Détecte les ENTRÉES (partie coûteuse) UNE fois pour une config d'entrée donnée.
+    Renvoie [(g, ind, i), ...]. À réutiliser avec trades_from() pour balayer les SORTIES gratuitement."""
+    fn = S.REGISTRY[signal_name]
+    Q = dict(DEFAULTS); Q.update(P or {})
+    out = []
+    for g in groups:
+        ind = _ind(g)
+        i = _entry(g, ind, fn, Q)
+        if i is not None:
+            out.append((g, ind, i))
+    return out
+
+
+def trades_from(ents, exitP, slip=True):
+    """Calcule les trades (P&L) pour une config de SORTIE donnée, à partir d'entrées déjà détectées."""
+    Q = dict(DEFAULTS); Q.update(exitP)
+    rows = [dict(ticker=g['tk'], date=g['date'], entry_min=int(ind['mins'][i]),
+                 entry=round(float(ind['c'][i]), 4), gap=round(float(ind['gap'][i]), 1),
+                 rvol=round(float(ind['rvol'][i]), 2), pnl=round(bt._pnl(g, i, Q, slip), 3))
+            for g, ind, i in ents]
+    return pd.DataFrame(rows)
+
+
 def evaluate(df, dates, split, stop_pct=0.10):
     """Stats robustesse + CPTE full/OOS (+ annualisé pommes-avec-pommes)."""
     if not len(df):
