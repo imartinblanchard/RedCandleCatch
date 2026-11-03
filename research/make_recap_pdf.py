@@ -67,7 +67,10 @@ def main():
     H2(p, 'Track 1 - liq-eod (repli / achat du dip)', RED)
     bullet(p, "Gap 5-50% (plus-haut du jour vs cloture veille).")
     bullet(p, "Entree des 10:00, sur un repli de 12% depuis le plus-haut du jour.")
-    bullet(p, "Le plus-haut doit etre fait EN SEANCE (pas en pre-marche).")
+    bullet(p, "Le plus-haut du jour (d'ou part le repli) doit etre fait EN SEANCE : concretement, la "
+               "seance doit DEPASSER le sommet du pre-marche. Si le pic PM n'est jamais battu en seance, "
+               "le trade est REJETE (SKIP-hod-PM) -> on evite de fader un spike de pre-marche non confirme "
+               "par de la vraie force intraday (le pattern 'couteau qui tombe', ex. GLAS/APUS).")
     bullet(p, "Anti-couteau : montee RTH >= 2% + gap franc a l'open >= 1% (evite les titres qui saignent).")
     bullet(p, "Sortie : STOP -10% -> sinon HOLD jusqu'a la cloture (jamais de trailing), forcee 15:55.")
 

@@ -48,25 +48,28 @@ def main(top, status_filter):
             pnl = t.pnl.to_numpy(); n = len(pnl)
             te = t[t.date >= split].pnl if split else pd.Series(dtype=float)
             cp, dd = portfolio(t, 0.02, s.stop); cpo, _ = portfolio(t, 0.02, s.stop, days=tdays)
+            tstat = pnl.mean() / (pnl.std(ddof=1) / np.sqrt(n)) if n > 1 and pnl.std() > 0 else 0.0   # significativité
+            e_trim = np.sort(pnl)[:-3].mean() if n > 3 else pnl.mean()                                # non-fragile (sans 3 meilleurs)
             rows.append(dict(famille=s.family, statut=s.status, strategie=s.name, univers=s.universe,
                              n=n, tr_day=round(n / t.date.nunique(), 1), exp=round(pnl.mean(), 2),
+                             t=round(tstat, 1), e_trim=round(e_trim, 2),
                              exp_oos=round(te.mean(), 2) if len(te) else np.nan,
                              win=round((pnl > 0).mean() * 100), cpte=round(cp, 1), cpte_oos=round(cpo, 1),
                              an=round(cp * TY / nd), an_oos=round(cpo * TY / ndo), maxDD=round(dd, 1),
                              notes=s.notes))
     r = pd.DataFrame(rows).sort_values('cpte', ascending=False).reset_index(drop=True)
 
-    print(f"\nDonnées : {nd} séances live ({dates[0]}..{dates[-1]}) | OOS >= {split} ({ndo} j) | sizing 2%, slip ON")
-    print(f"⚠️  CPTE = % compte sur {nd} séances (PAS annualisé). ~AN/~AN_OOS = projection linéaire "
-          f"(COMPARER, pas prévoir). Univers 'complet' vs 'freq-filtré' affiché. Lire n + OOS.\n")
+    print(f"\nDonnées : {nd} séances live ({dates[0]}..{dates[-1]}) | sizing 2%, slip ON")
+    print(f"ROBUSTESSE (full, toutes séances) : t = significativité (|t|>2 ~ solide) ; "
+          f"eTrim = exp/tr SANS les 3 meilleurs trades (non-fragile). C_OOS = CPTE sur les {ndo} dernières")
+    print(f"séances = BRUIT (petit échantillon), simple SUIVI, ne PAS décider dessus. ~AN/CPTE_OOS/eOOS dans le CSV.\n")
     h = (f"#  {'FAM':<6}{'STATUT':<10}{'STRATÉGIE':<40}{'UNIV':<12}{'n':>4}{'t/j':>5}{'exp':>7}"
-         f"{'eOOS':>6}{'win':>5}{'CPTE':>7}{'C_OOS':>7}{'~AN':>7}{'~AN_OOS':>8}{'DD':>6}")
+         f"{'t':>5}{'eTrim':>7}{'win':>5}{'CPTE':>7}{'C_OOS':>7}{'DD':>6}")
     print(h); print("─" * len(h))
     for i, x in r.head(top).iterrows():
-        eo = f"{x.exp_oos:+.2f}" if pd.notna(x.exp_oos) else "  —"
         print(f"{i+1:<2} {x.famille:<6}{x.statut:<10}{x.strategie:<40}{x.univers:<12}{x.n:>4}{x.tr_day:>5.1f}"
-              f"{x.exp:>+6.2f}%{eo:>6}{x.win:>4.0f}%{x.cpte:>+6.1f}%{x.cpte_oos:>+6.1f}%"
-              f"{x.an:>+6.0f}%{x.an_oos:>+7.0f}%{x.maxDD:>+5.1f}%")
+              f"{x.exp:>+6.2f}%{x.t:>5.1f}{x.e_trim:>+6.2f}%{x.win:>4.0f}%{x.cpte:>+6.1f}%{x.cpte_oos:>+6.1f}%"
+              f"{x.maxDD:>+5.1f}%")
 
     r.to_csv(os.path.join(HERE, 'leaderboard_all_latest.csv'), index=False)
     hist = os.path.join(HERE, 'leaderboard_all_history.csv')

@@ -36,6 +36,10 @@ fi
 log "lancement du leaderboard"
 cd "$PROJ" || exit 1
 "$PROJ/.venv/bin/python" research/live_lab/leaderboard.py >> "$LOG" 2>&1
+# Régénère l'univers PM-liquidité (sinon les stratégies INDICATEURS du leaderboard restent figées
+# à la dernière date du CSV -> vwap/bb ne reflètent pas les nouveaux jours). DOIT précéder le leaderboard unifié.
+"$PROJ/.venv/bin/python" -m research.live_lab.studies.build_liquid_universe_pm >> "$LOG" 2>&1 \
+  && log "univers PM-liquidité régénéré (liquid_universe_pm.csv)" || log "⚠️ échec rebuild univers PM"
 # Leaderboard UNIFIÉ (toutes familles : repli + indicateurs) -> leaderboard_all_latest.csv + _history.csv
 "$PROJ/.venv/bin/python" research/core/leaderboard_all.py >> "$LOG" 2>&1 \
   && log "leaderboard unifié mis à jour (core/leaderboard_all_*.csv)" || log "⚠️ échec leaderboard unifié"
