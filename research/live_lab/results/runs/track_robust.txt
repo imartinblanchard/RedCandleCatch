@@ -1,0 +1,25 @@
+26 séances. Suivi walk-forward de 25 combos robustes (top-8 = persistant), de la séance 10 à 26.
+
+PERSISTANCE sur 17 points de contrôle (séances 10->26) :
+  combo                                                 %top8 rang_final exp_fin
+  5-50/10:30>15:55/r0.12/cap-1.0/tr10/2/s10/hodRTH        94%         18   +1.70
+  5-10/9:30>midi/r0.08/cap-1.0/tr10/2/s8/hodRTH+vw<       76%          6   +2.37
+  5-10/9:30>midi/r0.08/cap-1.0/tr10/2/s8/vw<              71%          4   +1.96
+  5-10/9:30>midi/r0.08/cap-1.0/tr10/2/s10/hodRTH+vw<      71%         15   +2.28
+  5-50/10:00>midi/r0.08/cap-1.0/tp30/s10/hodRTH           65%          3   +2.02
+  5-50/10:00>midi/r0.08/cap-1.0/tr10/5/s10/hodRTH+vw<     53%         21   +2.05
+  5-50/9:30>midi/r0.08/cap1.6/tp30/s8/hodRTH+vw<          47%          5   +3.93
+  5-50/10:00>midi/r0.08/cap-1.0/tr10/5/s10/hodRTH         47%         22   +1.82
+  5-10/9:30>midi/r0.08/cap-1.0/tp30/s8/—                  41%         10   +1.88
+  3-10/9:30>midi/r0.08/cap-1.0/tp15/s8/vw<                41%         16   +1.84
+  5-50/9:30>midi/r0.08/cap1.6/tr10/2/s10/—                35%          2   +1.97
+  5-50/9:30>midi/r0.08/cap1.6/eod/s8/hodRTH+vw<           35%          7   +3.87
+  5-10/9:30>midi/r0.08/cap-1.0/tp20/s8/—                  35%         11   +1.88
+  5-50/9:30>midi/r0.08/cap1.6/tp30/s10/—                  29%          1   +2.04
+  5-10/9:30>midi/r0.08/cap-1.0/tr10/2/s10/vw<             29%         19   +1.82
+  3-10/9:30>midi/r0.08/cap-1.0/eod/s8/—                   24%         20   +1.81
+  5-50/9:30>midi/r0.08/cap1.6/tp30/s10/hodRTH+vw<          6%          8   +3.82
+
+-> %top8 élevé = la combo RESTE en haut au fil des séances (robuste dans le temps).
+   %top8 bas / en chute = elle n'apparaissait que sur certaines fenêtres (bruit).
+CSV complet : /home/martin/dev/stock-journal-long/research/live_lab/studies/../results/robust_persistence.csv

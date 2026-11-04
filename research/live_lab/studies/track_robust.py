@@ -1,101 +1,100 @@
 #!/usr/bin/env python3
-"""PERSISTANCE walk-forward : rejoue la MÊME analyse à CHAQUE séance passée (fenêtre expansive,
-point-in-time) sur les combos ROBUSTES trouvés par strategy_search_full, pour voir lesquelles
-RESTENT en haut au fil des jours (= vraies) vs apparaissent/disparaissent (= bruit).
-
-Pour chaque jour D (de MIN_DAYS à la fin) : on ne garde que les séances <= D (chaque ticker-jour
-avec SON univers), on simule les combos, on les classe par CPTE. Sortie : score de persistance
-(part des jours où la combo était dans le top-K) + l'évolution + historique CSV.
-Relancé chaque soir par le cron (rebuild complet, cheap sur le sous-ensemble robuste)."""
+"""PERSISTANCE walk-forward des 2 FAMILLES : rejoue la MÊME analyse à CHAQUE séance passée (fenêtre
+expansive, point-in-time) sur les combos ROBUSTES des 2 recherches complètes, pour voir lesquelles
+RESTENT en haut au fil des jours (= vraies) vs apparaissent/disparaissent (= bruit du multiple-testing).
+  - REPLI     : strategy_search_full_results.csv, re-simulé via bt (univers complet).
+  - INDICATEURS : indicator_search_results.csv, re-simulé via E (univers freq-filtré).
+Sortie : robust_persistence.csv (famille, combo, %topK, rang/metrics finaux). Relancé chaque soir au cron."""
 import os, sys
 import numpy as np, pandas as pd
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(HERE))))
 from research.live_lab import backtest as bt
 from research.live_lab.leaderboard import portfolio
+from research.indicator_lab import engine as E
 
-RES = os.path.join(HERE, '..', 'results', 'strategy_search_full_results.csv')
+REPLI_CSV = os.path.join(HERE, '..', 'results', 'strategy_search_full_results.csv')
+INDIC_CSV = os.path.join(HERE, '..', '..', 'indicator_lab', 'results', 'indicator_search_results.csv')
 OUT = os.path.join(HERE, '..', 'results', 'robust_persistence.csv')
-STARTS = {'9:30': 570, '10:00': 600, '10:30': 630}
-ENDS = {'midi': 720, '15:55': 955}
-MIN_DAYS = 10            # on commence à classer quand on a au moins 10 séances
-TOPK = 8                # "dans le top-K" = considéré persistant ce jour-là
-N_TRACK = 25            # nb de combos robustes suivis
+STARTS = {'9:30': 570, '9:45': 585, '10:00': 600, '10:30': 630}
+ENDS = {'midi': 720, '15:55': 955, '10:30': 630}
+GAPMAP = {'all': (-100, 9999), '0-50': (0, 50), '50+': (50, 9999)}
+MIN_DAYS, TOPK, N_TRACK = 10, 8, 18
 
 
-def _parse_exit(P, exit_str):
-    """exit du format 'mode/s<stop>' (ex. 'tr10/2/s8', 'tp30/s10', 'eod/s8')."""
-    mode, stp = str(exit_str).rsplit('/', 1)
-    P['stop_pct'] = int(stp.lstrip('s')) / 100.0 if stp.startswith('s') else 0.10
-    if mode == 'eod':
-        P['exit_mode'] = 'eod'
-    elif mode.startswith('tr'):
-        a, t = mode[2:].split('/'); P.update(exit_mode='trail', activate_pct=int(a) / 100.0, trail_pct=int(t) / 100.0)
-    elif mode.startswith('tp'):
-        P.update(exit_mode='tp', tp_pct=int(mode[2:]) / 100.0)
+def _exit_into(P, exit_str, stop=0.10):
+    """'tr10/2/s8' (repli) ou 'trail10/2'/'tp30'/'eod' (indic)."""
+    s = str(exit_str)
+    if '/s' in s:
+        s, stp = s.rsplit('/', 1); stop = int(stp.lstrip('s')) / 100.0
+    P['stop_pct'] = stop
+    s = s.replace('trail', 'tr')
+    if s == 'eod': P['exit_mode'] = 'eod'
+    elif s.startswith('tr'):
+        a, t = s[2:].split('/'); P.update(exit_mode='trail', activate_pct=int(a) / 100.0, trail_pct=int(t) / 100.0)
+    elif s.startswith('tp'): P.update(exit_mode='tp', tp_pct=int(s[2:]) / 100.0)
 
 
-def build_P(row):
+def repli_P(row):
     P = dict(bt.LIVE)
     gmin, gmax = (float(x) for x in str(row['gap']).split('-'))
-    esl, eel = str(row['heures']).split('>')
-    ind = str(row['indic'])
+    esl, eel = str(row['heures']).split('>'); ind = str(row['indic'])
     P.update(gap_min=gmin, gap_max=gmax, entry_start=STARTS[esl], entry_end=ENDS[eel],
              retrace_pct=float(row['repli']), capit_ratio=float(row['capit']),
              hod_in_rth='hodRTH' in ind, require_green='green' in ind,
              vwap_side='below' if 'vw<' in ind else None,
              recent_active_min=0.8 if 'rAct' in ind else 0.0, recent_active_window=10)
-    _parse_exit(P, row['exit'])
+    _exit_into(P, row['exit'])
     return P
 
 
-def label(row):
-    return f"{row['gap']}/{row['heures']}/r{row['repli']}/cap{row['capit']}/{row['exit']}/{row['indic']}"
+def indic_cfg(row):
+    gmin, gmax = GAPMAP[str(row['gap'])]
+    esl, eel = str(row['heure']).split('>')
+    P = dict(gap_min=gmin, gap_max=gmax, entry_start=STARTS[esl], entry_end=ENDS[eel], rvol_gate=float(row['rvol']))
+    _exit_into(P, row['exit'])
+    return dict(archetype=str(row['archetype']), P=P)
+
+
+def pick(csv, key, n):
+    if not os.path.exists(csv): return []
+    d = pd.read_csv(csv)
+    d = d[d.robust & (d.t >= 2.3)].sort_values('cpte', ascending=False).drop_duplicates(subset=['n', 'exp', 'cpte'])
+    return [(key(row), row) for _, row in d.head(n).iterrows()]
 
 
 def main():
-    if not os.path.exists(RES):
-        print(f"❌ {RES} absent — lance d'abord strategy_search_full."); return
-    r = pd.read_csv(RES)
-    rob = r[r.robust & (r.t >= 2.3)].sort_values('cpte', ascending=False)
-    rob = rob.drop_duplicates(subset=['n', 'exp', 'pf', 'cpte']).head(N_TRACK)
-    if not len(rob):
-        print("Aucune combo robuste (t>=2.3) à suivre."); return
-    combos = [(label(row), build_P(row)) for _, row in rob.iterrows()]
-    groups, dates = bt.load_groups()
-    print(f"{len(dates)} séances. Suivi walk-forward de {len(combos)} combos robustes "
-          f"(top-{TOPK} = persistant), de la séance {MIN_DAYS} à {len(dates)}.\n", flush=True)
-
+    groups, dates = bt.load_groups(); liq = E.liquid_groups(groups)
+    rl = pick(REPLI_CSV, lambda r: f"[R] {r['gap']}/{r['heures']}/r{r['repli']}/cap{r['capit']}/{r['exit']}/{r['indic']}", N_TRACK)
+    il = pick(INDIC_CSV, lambda r: f"[I] {r['archetype']}/{r['gap']}/rv{r['rvol']}/{r['heure']}/{r['exit']}", N_TRACK)
+    combos = [('repli', lbl, repli_P(r)) for lbl, r in rl] + [('indic', lbl, indic_cfg(r)) for lbl, r in il]
+    print(f"{len(dates)} séances. Persistance walk-forward : {len(rl)} repli + {len(il)} indic "
+          f"(top-{TOPK}=persistant), séances {MIN_DAYS}->{len(dates)}.\n", flush=True)
     hist = []
     for i in range(MIN_DAYS - 1, len(dates)):
         upto = dates[i]
-        g_sub = [g for g in groups if g['date'] <= upto]
-        day_rows = []
-        for name, P in combos:
-            t = bt.simulate(g_sub, P, slip=True)
-            if not len(t):
-                continue
-            cp, _ = portfolio(t, 0.02, P['stop_pct'])
-            day_rows.append((name, cp, round(t.pnl.mean(), 2), len(t)))
-        day_rows.sort(key=lambda x: -x[1])
-        for rank, (name, cp, exp, n) in enumerate(day_rows, 1):
-            hist.append(dict(upto=upto, n_days=i + 1, combo=name, rank=rank, cpte=round(cp, 1), exp=exp, n=n))
-    h = pd.DataFrame(hist)
-    h.to_csv(OUT, index=False)
-
-    # score de persistance = part des jours où la combo était dans le top-K
-    chk = h.n_days.nunique()
+        gsub = [g for g in groups if g['date'] <= upto]; lsub = [g for g in liq if g['date'] <= upto]
+        day = []
+        for fam, lbl, cfg in combos:
+            t = bt.simulate(gsub, cfg, slip=True) if fam == 'repli' else E.simulate(lsub, cfg['archetype'], cfg['P'])
+            if not len(t): continue
+            stop = cfg['stop_pct'] if fam == 'repli' else cfg['P'].get('stop_pct', 0.10)
+            cp, _ = portfolio(t, 0.02, stop)
+            day.append((fam, lbl, cp, round(t.pnl.mean(), 2)))
+        day.sort(key=lambda x: -x[2])
+        for rank, (fam, lbl, cp, exp) in enumerate(day, 1):
+            hist.append(dict(upto=upto, n_days=i + 1, famille=fam, combo=lbl, rank=rank, cpte=round(cp, 1), exp=exp))
+    h = pd.DataFrame(hist); h.to_csv(OUT, index=False)
+    chk = h.n_days.nunique(); last = h[h.upto == dates[-1]].set_index('combo')
     persist = (h[h['rank'] <= TOPK].groupby('combo').size() / chk * 100).round().sort_values(ascending=False)
-    last = h[h.upto == dates[-1]].set_index('combo')
-    print(f"PERSISTANCE sur {chk} points de contrôle (séances {MIN_DAYS}->{len(dates)}) :")
-    print(f"  {'combo':<52}{'%top'+str(TOPK):>7}{'rang_final':>11}{'exp_fin':>8}")
-    for name, pct in persist.head(20).items():
+    print(f"PERSISTANCE sur {chk} points de contrôle (toutes familles mêlées, classées par CPTE chaque jour) :")
+    print(f"  {'combo':<58}{'%top'+str(TOPK):>7}{'rang_fin':>9}{'exp':>7}")
+    for name, pct in persist.head(22).items():
         rk = int(last.loc[name, 'rank']) if name in last.index else '-'
-        ex = last.loc[name, 'exp'] if name in last.index else '-'
-        print(f"  {name:<52}{pct:>6.0f}%{rk:>11}{ex:>+8.2f}")
-    print(f"\n-> %top{TOPK} élevé = la combo RESTE en haut au fil des séances (robuste dans le temps).")
-    print(f"   %top{TOPK} bas / en chute = elle n'apparaissait que sur certaines fenêtres (bruit).")
-    print(f"CSV complet : {OUT}")
+        ex = last.loc[name, 'exp'] if name in last.index else 0
+        print(f"  {name[:58]:<58}{pct:>6.0f}%{str(rk):>9}{ex:>+7.2f}")
+    print(f"\n-> %top{TOPK} élevé = RESTE en haut au fil des séances (robuste). [R]=repli [I]=indicateurs.")
+    print(f"CSV : {OUT}")
 
 
 if __name__ == '__main__':
