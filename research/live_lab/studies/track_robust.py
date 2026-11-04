@@ -73,10 +73,10 @@ def main():
     hist = []
     for i in range(MIN_DAYS - 1, len(dates)):
         upto = dates[i]
-        gsub = [g for g in groups if g['date'] <= upto]; lsub = [g for g in liq if g['date'] <= upto]
+        lsub = [g for g in liq if g['date'] <= upto]        # FREQ-FILTRÉ pour les 2 familles
         day = []
         for fam, lbl, cfg in combos:
-            t = bt.simulate(gsub, cfg, slip=True) if fam == 'repli' else E.simulate(lsub, cfg['archetype'], cfg['P'])
+            t = bt.simulate(lsub, cfg, slip=True) if fam == 'repli' else E.simulate(lsub, cfg['archetype'], cfg['P'])
             if not len(t): continue
             stop = cfg['stop_pct'] if fam == 'repli' else cfg['P'].get('stop_pct', 0.10)
             cp, _ = portfolio(t, 0.02, stop)

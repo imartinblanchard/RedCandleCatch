@@ -14,6 +14,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(HERE))))
 from research.live_lab import backtest as bt
 from research.live_lab.leaderboard import portfolio
+from research.indicator_lab.engine import liquid_groups    # univers freq-filtré = ce qu'on trade
 
 N_MIN = 20
 # ── dimensions d'ENTRÉE ──
@@ -49,6 +50,7 @@ def substat(a):
 
 def main():
     groups, dates = bt.load_groups()
+    groups = liquid_groups(groups)                          # FREQ-FILTRÉ uniquement (univers tradable)
     split = bt.oos_split(dates); tdays = [d for d in dates if d >= split]; mid = dates[len(dates) // 2]
     ecombos = list(itertools.product(GAPS, STARTS, ENDS, RETR, CAPIT, HOD, GREEN, VWAP, RECACT))
     print(f"{len(dates)} séances, OOS≥{split} | {len(ecombos)} configs d'ENTRÉE × {len(EXITS)} sorties "

@@ -17,7 +17,7 @@ def _sim(upd):
 def _strat(name, upd, status='candidate', notes=''):
     sim, stop = _sim(upd)
     return Strategy(name=name, family='repli', sim=sim, stop=stop,
-                    universe='complet', status=status, notes=notes)
+                    universe='freq-filtré', status=status, notes=notes)   # = ce qu'on trade en live (gate PM-liq)
 
 
 CANDIDATES = [
