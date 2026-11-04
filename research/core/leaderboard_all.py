@@ -30,6 +30,31 @@ UNIVERSES = {'complet': lambda g: g, 'freq-filtré': liquid_groups}
 TY = 252
 
 
+ROOT = os.path.dirname(os.path.dirname(HERE))
+SEARCHES = [('repli', os.path.join(ROOT, 'research/live_lab/results/strategy_search_full_results.csv'),
+             lambda x: f"{x['gap']}/{x['heures']}/r{x['repli']}/cap{x['capit']}/{x['exit']}/{x['indic']}"),
+            ('indic', os.path.join(ROOT, 'research/indicator_lab/results/indicator_search_results.csv'),
+             lambda x: f"{x['archetype']}/rv{x['rvol']}/{x['heure']}/{x['exit']}")]
+
+
+def search_rows(nd, ndo, per_family=48):
+    """Top-N robustes de CHAQUE recherche (déjà calculés sur l'univers freq-filtré) -> lignes leaderboard."""
+    out = []
+    for fam, path, namer in SEARCHES:
+        if not os.path.exists(path):
+            continue
+        d = pd.read_csv(path)
+        d = d[d.robust].sort_values('cpte', ascending=False).head(per_family)
+        for _, x in d.iterrows():
+            out.append(dict(famille=fam, statut='search', strategie=str(namer(x))[:48], univers='freq-filtré',
+                            n=int(x['n']), tr_day=round(x['trj'], 1), exp=round(x['exp'], 2), t=round(x['t'], 1),
+                            e_trim=round(x['e_trim'], 2), exp_oos=round(x.get('e_te', np.nan), 2),
+                            win=round(x['win']), cpte=round(x['cpte'], 1), cpte_oos=round(x['cpte_oos'], 1),
+                            an=round(x['cpte'] * TY / nd), an_oos=round(x['cpte_oos'] * TY / ndo),
+                            maxDD=round(x['maxDD'], 1), notes='top recherche'))
+    return out
+
+
 def main(top, status_filter):
     groups, dates = bt.load_groups()
     split = bt.oos_split(dates); tdays = [d for d in dates if split and d >= split]
@@ -57,7 +82,9 @@ def main(top, status_filter):
                              win=round((pnl > 0).mean() * 100), cpte=round(cp, 1), cpte_oos=round(cpo, 1),
                              an=round(cp * TY / nd), an_oos=round(cpo * TY / ndo), maxDD=round(dd, 1),
                              notes=s.notes))
-    r = pd.DataFrame(rows).sort_values('cpte', ascending=False).reset_index(drop=True)
+    if not status_filter:                       # ajoute le top des recherches (sauf si on filtre par statut)
+        rows += search_rows(nd, ndo)
+    r = pd.DataFrame(rows).drop_duplicates('strategie').sort_values('cpte', ascending=False).reset_index(drop=True)
 
     print(f"\nDonnées : {nd} séances live ({dates[0]}..{dates[-1]}) | sizing 2%, slip ON")
     print(f"ROBUSTESSE (full, toutes séances) : t = significativité (|t|>2 ~ solide) ; "
@@ -74,8 +101,8 @@ def main(top, status_filter):
     r.to_csv(os.path.join(HERE, 'leaderboard_all_latest.csv'), index=False)
     hist = os.path.join(HERE, 'leaderboard_all_history.csv')
     run_id = dt.datetime.now().isoformat(timespec='seconds')
-    h2 = r[['famille', 'statut', 'strategie', 'univers', 'n', 'tr_day', 'exp', 'exp_oos',
-            'cpte', 'cpte_oos', 'maxDD']].copy()
+    h2 = r[r.statut != 'search'][['famille', 'statut', 'strategie', 'univers', 'n', 'tr_day', 'exp', 'exp_oos',
+            'cpte', 'cpte_oos', 'maxDD']].copy()    # historique = candidates SUIVIES seulement (pas les 100 du search)
     h2.insert(0, 'couvre', f"{dates[0]}..{dates[-1]}"); h2.insert(0, 'n_days', nd); h2.insert(0, 'run', run_id)
     h2.to_csv(hist, mode='a', header=not os.path.exists(hist), index=False)
     print(f"\n→ leaderboard_all_latest.csv (classement complet) | leaderboard_all_history.csv (suivi longitudinal)")
@@ -83,6 +110,6 @@ def main(top, status_filter):
 
 if __name__ == '__main__':
     ap = argparse.ArgumentParser()
-    ap.add_argument('--top', type=int, default=40)
+    ap.add_argument('--top', type=int, default=100)
     ap.add_argument('--status', default=None, help='filtrer : deployed | candidate | archived')
     a = ap.parse_args(); main(a.top, a.status)

@@ -23,4 +23,7 @@ log "=== recherche complète quotidienne (repli ~23k + indicateurs ~540) ==="
 # PERSISTANCE walk-forward : quelles combos robustes RESTENT en haut au fil des séances (vs bruit)
 "$PY" -m research.live_lab.studies.track_robust >> "$LOG" 2>&1 \
   && log "persistance robuste mise à jour (robust_persistence.csv)" || log "⚠️ échec track_robust"
+# Rafraîchit le leaderboard unifié APRÈS les recherches (pour qu'il intègre le top du soir, pas la veille)
+"$PY" research/core/leaderboard_all.py >> "$LOG" 2>&1 \
+  && log "leaderboard unifié rafraîchi (post-recherche)" || log "⚠️ échec leaderboard post-recherche"
 log "=== terminé ==="
