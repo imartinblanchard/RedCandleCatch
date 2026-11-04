@@ -107,7 +107,7 @@ USE_TRIO = True
 TRIO = [
     dict(name='liq-eod', gap_min=5.0, gap_max=50.0, start=(10, 0), retrace=0.12, capit=-1, green=False, hod_rth=True, activate=999.0),
 ]
-# ── 2e TRACK (famille INDICATEURS) : vwap_reclaim + rvol>=60, 1re heure, sortie TRAIL 10/2 ──
+# ── 2e TRACK (famille INDICATEURS) : vwap_reclaim + rvol>=60, 1re heure, sortie TRAIL 10/5 ──
 # Tourne EN PARALLÈLE de liq-eod (univers freq-filtré via le gate PM-liq, tous gaps). Détection =
 # bot.live_signals.vwap_reclaim_signal, PROUVÉE identique au backtest (research/.../verify_live_vwap).
 # Déployé en 1 action = forward-test (seuil rvol choisi in-sample ; la donnée volume TEMPS RÉEL est
@@ -115,7 +115,7 @@ TRIO = [
 USE_VWAP_TRACK = True
 VWAP_RVOL_MIN = 60.0
 VWAP_WIN = (570, 630)       # 09:30 -> 10:30 (1re heure, où l'edge se concentre)
-VWAP_ACTIVATE = 0.10        # bascule TRAIL 10/2 (indépendant du hold-EOD de liq-eod)
+VWAP_ACTIVATE = 0.10        # bascule TRAIL 10/5 (indépendant du hold-EOD de liq-eod)
 # --- sortie EN DEUX PHASES ---
 STOP = 0.10             # phase 1 : STOP fixe -10% (survit au repli initial)
 # ACTIVATION ADAPTATIVE (18/09) : l'effet du seuil d'activation est OPPOSÉ selon la population
@@ -125,8 +125,10 @@ STOP = 0.10             # phase 1 : STOP fixe -10% (survit au repli initial)
 # comme le dip. Le seuil retenu est stocké dans pos['activate'] à l'entrée.
 ACTIVATE_PM = 0.05      # gappers PM (éligible avant 09:31) : bascule phase 2 à +5%
 ACTIVATE_POST = 0.10    # runners post-open (ajoutés après) : bascule à +10%
-TRAIL = 0.02            # phase 2 : TRAIL natif 2% (paramètre dominant ; ne PAS descendre
-                        # plus bas : sous 2% on passe sous la résolution des bougies 1-min)
+TRAIL = 0.05            # phase 2 : TRAIL natif 5% (04/11 : 2%->5% ; comparatif exits vwap_reclaim
+                        # rv60 sur le live = trail10/5 bat trail10/2 : CPTE +131% vs +126%, OOS
+                        # +30,8% vs +26,7%, même DD -3,2%, persistance 94%. Laisse courir les
+                        # gagnants vs couper trop tôt. Ne PAS descendre sous 2% : résolution 1-min.)
 # STOP/TRAIL en LIMITE (23/09) : les protections sont passées de STOP/TRAIL marché à STOP LIMIT /
 # TRAIL LIMIT pour s'exécuter aussi en pré-marché/extended (marché = bloqué hors RTH). COMPROMIS :
 # une limite peut NE PAS remplir si le prix traverse trop vite (gap-through). Coussin large = la

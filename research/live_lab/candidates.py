@@ -24,7 +24,7 @@ CANDIDATES = [
     _strat('liq-eod 5-50/10:00/r12/hodRTH/eod',
            dict(gap_min=5, gap_max=50, entry_start=600, retrace_pct=0.12, capit_ratio=-1,
                 hod_in_rth=True, exit_mode='eod'),
-           status='deployed', notes='config live (cf deploy-liq-eod-live)'),
+           status='archived', notes='ex-déployé ; retiré du terminator 03/11 (USE_RETRACE_TRACK=False)'),
     _strat('F3 5-50/10:00/r12/hodRTH/trail',
            dict(gap_min=5, gap_max=50, entry_start=600, retrace_pct=0.12, capit_ratio=-1,
                 hod_in_rth=True, **TRAIL)),
