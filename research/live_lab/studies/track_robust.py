@@ -23,6 +23,18 @@ TOPK = 8                # "dans le top-K" = considéré persistant ce jour-là
 N_TRACK = 25            # nb de combos robustes suivis
 
 
+def _parse_exit(P, exit_str):
+    """exit du format 'mode/s<stop>' (ex. 'tr10/2/s8', 'tp30/s10', 'eod/s8')."""
+    mode, stp = str(exit_str).rsplit('/', 1)
+    P['stop_pct'] = int(stp.lstrip('s')) / 100.0 if stp.startswith('s') else 0.10
+    if mode == 'eod':
+        P['exit_mode'] = 'eod'
+    elif mode.startswith('tr'):
+        a, t = mode[2:].split('/'); P.update(exit_mode='trail', activate_pct=int(a) / 100.0, trail_pct=int(t) / 100.0)
+    elif mode.startswith('tp'):
+        P.update(exit_mode='tp', tp_pct=int(mode[2:]) / 100.0)
+
+
 def build_P(row):
     P = dict(bt.LIVE)
     gmin, gmax = (float(x) for x in str(row['gap']).split('-'))
@@ -33,15 +45,12 @@ def build_P(row):
              hod_in_rth='hodRTH' in ind, require_green='green' in ind,
              vwap_side='below' if 'vw<' in ind else None,
              recent_active_min=0.8 if 'rAct' in ind else 0.0, recent_active_window=10)
-    s = row['sortie']
-    if s == 'trail10/2': P.update(exit_mode='trail', activate_pct=0.10, trail_pct=0.02)
-    elif s == 'tp20': P.update(exit_mode='tp', tp_pct=0.20)
-    else: P.update(exit_mode='eod')
+    _parse_exit(P, row['exit'])
     return P
 
 
 def label(row):
-    return f"{row['gap']}/{row['heures']}/r{row['repli']}/cap{row['capit']}/{row['sortie']}/{row['indic']}"
+    return f"{row['gap']}/{row['heures']}/r{row['repli']}/cap{row['capit']}/{row['exit']}/{row['indic']}"
 
 
 def main():
