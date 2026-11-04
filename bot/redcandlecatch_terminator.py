@@ -114,8 +114,16 @@ TRIO = [
 # la seule inconnue). USE_VWAP_TRACK=False -> désactive (retour à liq-eod seul).
 USE_VWAP_TRACK = True
 VWAP_RVOL_MIN = 60.0
-VWAP_WIN = (570, 630)       # 09:30 -> 10:30 (1re heure, où l'edge se concentre)
-VWAP_ACTIVATE = 0.10        # bascule TRAIL 10/5 (indépendant du hold-EOD de liq-eod)
+VWAP_WIN = (570, 955)       # 04/11 : 09:30 -> 15:55 (ex 570,630 1re heure). La variante #1 du
+                            # leaderboard (entrée toute la séance) domine en CPTE ET en persistance
+                            # (100% vs ~0% pour la 1re-heure-seule) : limiter à la 1re heure coûtait.
+# SORTIE du track vwap : 'tp' = TAKE-PROFIT +TAKE_PROFIT% (variante #1, j'aime bien le tp30 — Martin
+# 04/11) ; 'trail' = ancien trailing (VWAP_ACTIVATE -> TRAIL). En 'tp' : STOP -STOP% ET limite TP
+# posés ENSEMBLE en OCA (one-cancels-all) ; pas de trailing. Comparatif live : tp30 +136% CPTE /
+# OOS +31% / persist 100% (trail10/5 : +131% / +31% / 94% — quasi à égalité, tp30 préféré).
+VWAP_EXIT = 'tp'
+TAKE_PROFIT = 0.30          # tp30 : sortie à +30% du prix SIGNAL (si 'tp')
+VWAP_ACTIVATE = 0.10        # (mode 'trail' seulement) bascule TRAIL à +10%
 # --- sortie EN DEUX PHASES ---
 STOP = 0.10             # phase 1 : STOP fixe -10% (survit au repli initial)
 # ACTIVATION ADAPTATIVE (18/09) : l'effet du seuil d'activation est OPPOSÉ selon la population
@@ -249,6 +257,7 @@ class RedCandleCatchTerminator:
         self.done: set = set()                      # tickers déjà tradés aujourd'hui (1/jour)
         self.last_bar: Dict[str, object] = {}        # ticker -> horodatage de la dernière bougie CLÔTURÉE déjà évaluée (dédup : 1 bougie = 1 décision)
         self.orders: Dict[str, object] = {}         # ticker -> ordre de protection courant (STOP ou TRAIL)
+        self.tp_orders: Dict[str, object] = {}       # ticker -> ordre TAKE-PROFIT (mode tp ; en OCA avec le STOP)
         self.evals: Dict[str, dict] = {}             # ticker -> résultat redcandlecatch_scan.evaluate (ratings/flags)
         self._protected: set = set()                 # symboles avec un ordre de vente vivant (réconciliation)
         self._pc: Dict[str, float] = {}              # cache clôture-veille par ticker (recheck du gap à l'entrée)
@@ -281,6 +290,32 @@ class RedCandleCatchTerminator:
             print(f"    STOP fixe -{STOP*100:.0f}% posé @ {entry*(1-STOP):.2f}")
         return o
 
+    def _stop_and_tp(self, tk: str, shares: int, entry: float):
+        """Mode tp : pose SIMULTANÉMENT le STOP -STOP% ET la limite TAKE-PROFIT +TAKE_PROFIT%,
+        liés en OCA (ocaType=1 : quand l'un remplit, IBKR annule l'autre -> jamais de double-sell
+        ni d'ordre orphelin). Les DEUX sont suivis (self.orders=STOP, self.tp_orders=TP) pour pouvoir
+        tout annuler à la sortie forcée 15:55. -> (stop_trade, tp_trade) ou (None, None)."""
+        if not self.live:
+            return (None, None)
+        try:
+            from ib_insync import StopLimitOrder, LimitOrder
+            c = self.broker._contract(tk)
+            grp = f"RCC-{tk}-{now_et():%Y%m%d%H%M%S}"
+            sp = round(entry * (1 - STOP), 2)
+            slmt = round(sp * (1 - STOP_LIMIT_OFFSET), 2)
+            so = StopLimitOrder('SELL', shares, slmt, sp)
+            so.tif = 'DAY'; so.outsideRth = True; so.ocaGroup = grp; so.ocaType = 1
+            tp = round(entry * (1 + TAKE_PROFIT), 2)
+            to = LimitOrder('SELL', shares, tp)
+            to.tif = 'DAY'; to.outsideRth = True; to.ocaGroup = grp; to.ocaType = 1
+            st = self.broker.ib.placeOrder(c, so)
+            tt = self.broker.ib.placeOrder(c, to)
+            print(f"    STOP -{STOP*100:.0f}% @ {sp} + TP +{TAKE_PROFIT*100:.0f}% @ {tp} (OCA {grp})")
+            return (st, tt)
+        except Exception as e:
+            print(f"    ⚠️ STOP+TP ÉCHEC {tk}: {e}")
+            return (None, None)
+
     def _trailing_stop(self, tk: str, shares: int, ref: float = 0.0):
         """Phase 2 : TRAIL LIMIT IBKR à TRAIL% (suit le sommet), avec une LIMITE posée
         STOP_LIMIT_OFFSET sous le déclencheur -> exécutable en pré-marché/extended (23/09,
@@ -306,10 +341,11 @@ class RedCandleCatchTerminator:
             return None
 
     def _cancel_order(self, tk: str):
-        o = self.orders.pop(tk, None)
-        if o is not None:
-            try: self.broker.ib.cancelOrder(o.order)
-            except Exception as e: print(f"    ⚠️ annulation ordre {tk}: {e}")
+        for d in (self.orders, self.tp_orders):       # annule STOP *et* TP (mode tp : les deux en OCA)
+            o = d.pop(tk, None)
+            if o is not None:
+                try: self.broker.ib.cancelOrder(o.order)
+                except Exception as e: print(f"    ⚠️ annulation ordre {tk}: {e}")
 
     def _order_diag(self, tk: str) -> str:
         """Statut réel de l'ordre d'achat + messages (raison de rejet/halt)."""
@@ -610,6 +646,8 @@ class RedCandleCatchTerminator:
         self.state[tk] = {'entry': entry, 'gap': self.gap_ok.get(tk, ''), 'strat': strat,
                           'entry_time': r['t'].strftime('%H:%M'), 'peak': entry,
                           'activate': activate,       # 999 en mode repli = HOLD-TO-EOD (jamais de trail)
+                          'tp_pct': (TAKE_PROFIT if (strat == 'vwap_reclaim' and VWAP_EXIT == 'tp') else None),
+
                           'shares': shares, 'last': entry, 'activated': False, 'confirmed': False,
                           'pending': bool(self.live), 'wait': 0,
                           'float_m': round(fs / 1e6, 3) if fs else '', 'inst_pct': ev.get('inst_pct', ''),
@@ -648,8 +686,13 @@ class RedCandleCatchTerminator:
                     # PAS du fill (16/09, demande de Martin : aligner le live sur le chart).
                     self.orders.pop(tk, None)        # réf d'achat (rempli) -> on oublie
                     pos['stop_level'] = round(pos['entry'] * (1 - STOP), 2)
-                    self.orders[tk] = self._stop_at(tk, pos['shares'], pos['stop_level'])
-                    print(f"[{now_et():%H:%M}] {tk} achat CONFIRMÉ -> STOP -{STOP*100:.0f}% @ {pos['stop_level']}")
+                    if pos.get('tp_pct'):            # mode tp : STOP + TAKE-PROFIT posés ENSEMBLE (OCA)
+                        st, tt = self._stop_and_tp(tk, pos['shares'], pos['entry'])
+                        self.orders[tk] = st; self.tp_orders[tk] = tt
+                        print(f"[{now_et():%H:%M}] {tk} achat CONFIRMÉ -> STOP -{STOP*100:.0f}% + TP +{pos['tp_pct']*100:.0f}%")
+                    else:
+                        self.orders[tk] = self._stop_at(tk, pos['shares'], pos['stop_level'])
+                        print(f"[{now_et():%H:%M}] {tk} achat CONFIRMÉ -> STOP -{STOP*100:.0f}% @ {pos['stop_level']}")
                     save_state(self.state)
                 else:
                     pos['wait'] = pos.get('wait', 0) + 1
@@ -683,7 +726,10 @@ class RedCandleCatchTerminator:
             if pos.get('confirmed') and qty <= 0:
                 px = self._last_sell_fill(tk) or pos.get('last', pos['entry'])
                 self._cancel_order(tk)
-                reason = 'EOD' if pos.get('eod_order') else ('TRAIL' if pos.get('activated') else 'STOP')
+                reason = ('EOD' if pos.get('eod_order')
+                          else 'TRAIL' if pos.get('activated')
+                          else 'TP' if (pos.get('tp_pct') and px >= pos['entry'] * (1 + pos['tp_pct']) * 0.99)
+                          else 'STOP')
                 self._close(tk, px, reason, already_sold=True); return
             if qty > 0:
                 pos['confirmed'] = True
@@ -691,14 +737,20 @@ class RedCandleCatchTerminator:
                 # Si la position existe mais n'a AUCUN ordre de vente vivant (redémarrage
                 # du bot, annulation par IBKR, Gateway relancé), on repose la protection.
                 if tk not in self._protected:
-                    kind = 'TRAIL' if pos.get('activated') else 'STOP'
-                    print(f"[{now_et():%H:%M}] ⚠️ {tk} position SANS protection -> repose {kind}")
-                    o = (self._trailing_stop(tk, pos['shares'], pos.get('peak', pos['entry']))
-                         if pos.get('activated')
-                         else self._fixed_stop(tk, pos['shares'], pos['entry']))  # entry = SIGNAL
-                    if o is not None:
-                        self.orders[tk] = o
-                        self._protected.add(tk)
+                    if pos.get('tp_pct') and not pos.get('activated'):     # mode tp : repose STOP + TP (OCA)
+                        print(f"[{now_et():%H:%M}] ⚠️ {tk} position SANS protection -> repose STOP+TP")
+                        st, tt = self._stop_and_tp(tk, pos['shares'], pos['entry'])
+                        if st is not None:
+                            self.orders[tk] = st; self.tp_orders[tk] = tt; self._protected.add(tk)
+                    else:
+                        kind = 'TRAIL' if pos.get('activated') else 'STOP'
+                        print(f"[{now_et():%H:%M}] ⚠️ {tk} position SANS protection -> repose {kind}")
+                        o = (self._trailing_stop(tk, pos['shares'], pos.get('peak', pos['entry']))
+                             if pos.get('activated')
+                             else self._fixed_stop(tk, pos['shares'], pos['entry']))  # entry = SIGNAL
+                        if o is not None:
+                            self.orders[tk] = o
+                            self._protected.add(tk)
             # 2) BACKSTOP À DEUX NIVEAUX (dès 15:55) : sortie forcée pendant que c'est LIQUIDE
             #    (RTH avant 16:00), puis filet en extended hours, puis GTC pour le prochain open.
             #    On (re)pose une vente marketable GTC outsideRth ; la SORTIE (qty<=0) est
@@ -719,7 +771,8 @@ class RedCandleCatchTerminator:
             #    TRAIL NATIF IBKR. C'est le seul point calé sur le prix théorique (demande de
             #    Martin 16/09) ; le trailing lui-même reste géré par IBKR.
             act = pos.get('activate', ACTIVATE_POST)     # seuil ADAPTATIF (+5% PM / +10% post-open)
-            if pos.get('confirmed') and not pos.get('activated') and pos['peak'] >= pos['entry'] * (1 + act):
+            if (pos.get('confirmed') and not pos.get('tp_pct')           # mode tp = pas de trailing (STOP+TP OCA)
+                    and not pos.get('activated') and pos['peak'] >= pos['entry'] * (1 + act)):
                 trail = self._trailing_stop(tk, pos['shares'], pos['peak'])   # poser le TRAIL d'ABORD
                 if trail is not None:                                        # ne lâcher le STOP que si le TRAIL est posé
                     self._cancel_order(tk)                                    # annuler le STOP fixe
@@ -727,9 +780,12 @@ class RedCandleCatchTerminator:
                     pos['activated'] = True
                     print(f"[{now_et():%H:%M}] {tk} +{act*100:.0f}% (théorique) atteint -> TRAIL natif {TRAIL*100:.0f}%")
             save_state(self.state)
-        else:                                        # PAPER : simulation two-phase sur bougies 1-min
+        else:                                        # PAPER : simulation sur bougies 1-min
             if eod: self._close(tk, cb['c'], 'EOD'); return
-            if not pos.get('activated'):
+            if pos.get('tp_pct'):                     # mode tp : STOP -STOP% / TAKE-PROFIT +tp% / sinon hold->EOD
+                if cb['l'] <= pos['entry'] * (1 - STOP): self._close(tk, pos['entry']*(1-STOP), 'STOP'); return
+                if cb['h'] >= pos['entry'] * (1 + pos['tp_pct']): self._close(tk, pos['entry']*(1+pos['tp_pct']), 'TP'); return
+            elif not pos.get('activated'):            # mode trail : two-phase STOP -> activation -> TRAIL
                 if cb['l'] <= pos['entry'] * (1 - STOP): self._close(tk, pos['entry']*(1-STOP), 'STOP'); return
                 if pos['peak'] >= pos['entry'] * (1 + pos.get('activate', ACTIVATE_POST)): pos['activated'] = True
             else:
@@ -742,7 +798,7 @@ class RedCandleCatchTerminator:
         if self.live:
             if not already_sold:                     # sortie EOD : vente au marché (l'ordre a déjà été annulé)
                 self.broker.sell(tk, pos.get('shares', 0), exit_px, tag='RCC')
-            self.orders.pop(tk, None)
+            self.orders.pop(tk, None); self.tp_orders.pop(tk, None)
         # P&L sur le prix RÉELLEMENT payé (fill) ; le prix signal ne sert qu'aux NIVEAUX.
         base = pos.get('fill') or pos['entry']       # fill réel (live) sinon signal (paper)
         pnl = (exit_px - base) / base * 100
@@ -768,16 +824,18 @@ class RedCandleCatchTerminator:
                               f"/r{c['retrace']*100:.0f}"
                               f"{'/capit' + str(c['capit']) if c['capit'] > 0 else '/noCapit'}"
                               f"{'/vert' if c['green'] else ''}{'/HODrth' if c['hod_rth'] else ''})" for c in TRIO)
-            track2 = (f"TRACK vwap_reclaim(rvol>={VWAP_RVOL_MIN:.0f}/1re heure/TRAIL)"
+            win_txt = f"{VWAP_WIN[0]//60:02d}:{VWAP_WIN[0]%60:02d}-{VWAP_WIN[1]//60:02d}:{VWAP_WIN[1]%60:02d}"
+            vexit = (f"TP +{TAKE_PROFIT*100:.0f}%" if VWAP_EXIT == 'tp' else f"TRAIL {TRAIL*100:.0f}% (act +{VWAP_ACTIVATE*100:.0f}%)")
+            track2 = (f"TRACK vwap_reclaim(rvol>={VWAP_RVOL_MIN:.0f}/{win_txt}/{vexit})"
                       if USE_VWAP_TRACK else "")
             if USE_RETRACE_TRACK:
                 cfg_txt = trio + (f" + {track2}" if track2 else "")
                 exit_txt = (f"STOP -{STOP*100:.0f}% -> HOLD-EOD (sortie forcée 15:55)"
                             if all(c['activate'] >= 999 for c in TRIO)
                             else f"STOP -{STOP*100:.0f}% -> TRAIL {TRAIL*100:.0f}% (act +10%)")
-            else:                                        # repli désactivé -> vwap_reclaim seul (sortie trail)
+            else:                                        # repli désactivé -> vwap_reclaim seul
                 cfg_txt = track2 or "(AUCUN track actif !)"
-                exit_txt = f"STOP -{STOP*100:.0f}% -> TRAIL {TRAIL*100:.0f}% (act +{VWAP_ACTIVATE*100:.0f}%, forcée 15:55)"
+                exit_txt = f"STOP -{STOP*100:.0f}% + {vexit} (sortie forcée 15:55)"
             pmliq = f"PM-liq>={PM_LIQ_MIN_FRAC:.0%}(8:00-9:30)" if PM_LIQ_MIN_FRAC > 0 else "PM-liq OFF"
             print(f"RedCandleCatch — {mode}. CONFIG = {cfg_txt}. Sortie: {exit_txt}, "
                   f"prix {PRICE_MIN:.0f}-{PRICE_MAX:.0f}$, dvol-repli >= ${PULLBACK_DVOL_MIN/1e3:.0f}K, {pmliq}, "
