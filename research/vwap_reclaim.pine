@@ -1,0 +1,90 @@
+//@version=5
+// =============================================================================
+// VWAP Reclaim rv60 — RedCandleCatch (outil de VÉRIFICATION visuelle)
+// Réplique la détection d'entrée/sortie du bot (live_signals.vwap_reclaim_signal) :
+//   ENTRÉE : la clôture 1-min RECROISE le VWAP par le haut, bougie VERTE, rvol >= 60,
+//            prix 3-20$, dans la fenêtre horaire. 1 seule entrée / jour.
+//   SORTIE : STOP -10% / TP +30% / sinon sortie forcée ~15:54 (EOD).
+//
+// ⚠️ IMPORTANT : ACTIVER LES HEURES ÉTENDUES (ETH) sur le graphique, en 1 minute.
+//    Le VWAP et le rvol sont ancrés à la 1re bougie du jour (04:00), pré-marché INCLUS,
+//    exactement comme le backtest. Sans ETH, le VWAP s'ancre à 09:30 et NE correspond PAS.
+// =============================================================================
+indicator("VWAP Reclaim rv60 — RedCandleCatch", overlay=true, max_labels_count=500)
+
+rvolMin = input.float(60.0, "rvol minimum (pic de volume)")
+tpPct   = input.float(30.0, "Take-profit %") / 100.0
+stopPct = input.float(10.0, "Stop %") / 100.0
+pMin    = input.float(3.0,  "Prix min $")
+pMax    = input.float(20.0, "Prix max $")
+sess    = input.session("0930-1555", "Fenêtre d'entrée (ET)")
+oneShot = input.bool(true,  "1 seule entrée / jour")
+
+// ---- Reset quotidien : ancre VWAP + rvol à la 1re bougie du jour (04:00 avec ETH) ----
+isNewDay = ta.change(time("1D")) != 0
+var float cumVol = 0.0
+var float cumPV  = 0.0
+var int   idx    = 0          // index 0-based de la bougie dans le jour (= "i" du backtest)
+var bool  done   = false      // one-shot : entrée déjà prise aujourd'hui ?
+if isNewDay
+    cumVol := 0.0
+    cumPV  := 0.0
+    idx    := 0
+    done   := false
+
+typ    = (high + low + close) / 3.0
+cumVol := cumVol + volume
+cumPV  := cumPV + typ * volume
+vwapv  = cumVol > 0 ? cumPV / cumVol : close
+// rvol = v[i] / (somme(v[0..i]) / i)  — même quirk que le backtest (moyenne/min depuis 04:00)
+rvol   = (idx > 0 and cumVol > 0) ? volume / (cumVol / idx) : 0.0
+idx := idx + 1
+
+plot(vwapv, "VWAP (ancré 04:00)", color=color.orange, linewidth=2)
+
+// ---- Conditions d'ENTRÉE ----
+inSess  = not na(time(timeframe.period, sess, "America/New_York"))
+crossUp = close[1] < vwapv[1] and close >= vwapv       // recroisement du VWAP par le haut
+green   = close >= open
+priceOk = close >= pMin and close <= pMax
+rvolOk  = rvol >= rvolMin
+sig     = inSess and crossUp and green and priceOk and rvolOk and (not oneShot or not done)
+
+// ---- Gestion de position (visuel) ----
+var bool  inTrade = false
+var float entryP  = na
+var float stopL   = na
+var float tpL     = na
+
+longEntry = sig and not inTrade
+if longEntry
+    inTrade := true
+    entryP  := close
+    stopL   := close * (1 - stopPct)
+    tpL     := close * (1 + tpPct)
+    done    := true
+    label.new(bar_index, low, "BUY " + str.tostring(close, format.mintick) + "\nrvol " + str.tostring(rvol, "#"),
+              color=color.new(color.green, 0), textcolor=color.white, style=label.style_label_up, size=size.small)
+
+// ---- SORTIE (jamais sur la bougie d'entrée : commence à i+1, comme le backtest) ----
+nyMin = hour(time, "America/New_York") * 60 + minute(time, "America/New_York")
+eod   = nyMin >= 954
+reason = ""
+if inTrade and not longEntry
+    if low <= stopL
+        reason := "STOP"
+    else if high >= tpL
+        reason := "TP+30%"
+    else if eod
+        reason := "EOD"
+if inTrade and reason != ""
+    xp = reason == "STOP" ? stopL : reason == "TP+30%" ? tpL : close
+    pnl = (xp - entryP) / entryP * 100.0
+    label.new(bar_index, high, reason + " " + str.tostring(xp, format.mintick) + "\n" + str.tostring(pnl, "+#.#") + "%",
+              color=color.new(reason == "STOP" ? color.red : color.teal, 0), textcolor=color.white,
+              style=label.style_label_down, size=size.small)
+    inTrade := false
+
+plot(inTrade ? stopL : na, "STOP -10%", color=color.red,   style=plot.style_linebr, linewidth=1)
+plot(inTrade ? tpL   : na, "TP +30%",  color=color.green, style=plot.style_linebr, linewidth=1)
+bgcolor(inTrade ? color.new(color.blue, 92) : na, title="en position")

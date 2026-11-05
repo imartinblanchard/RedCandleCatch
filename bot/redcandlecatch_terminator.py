@@ -100,9 +100,11 @@ PM_LIQ_MIN_FRAC = 0.20            # ≥20% des 90 min PM avec un trade (≈18 mi
 #    Donc le live ne reproduira PAS le +26% ; le run 1-action sert à mesurer le comportement réel.
 # activate=999 => HOLD-TO-EOD strict (jamais de trail -> le bug trailing err321 est hors-circuit).
 # runup>=2 / gap-open>=1 / dvol-repli>=300K hérités (globals). USE_TRIO=False -> v3 mono-config.
-# TRACK REPLI (liq-eod) : USE_RETRACE_TRACK=False -> DÉSACTIVÉ (on garde vwap_reclaim seul).
-# Retiré le 03/11 (leaderboard : liq-eod fragile t=1,7 / win 45% vs vwap robuste t=6). Réversible = True.
-USE_RETRACE_TRACK = False
+# TRACK REPLI (liq-eod) : RÉACTIVÉ le 05/11 (demande Martin) -> RETOUR à l'ancienne strat repli.
+# Le vwap_reclaim est débranché : audit 05/11 = "buy-the-open" déguisé (62% des entrées à 9:30, rvol>=60
+# trivial à l'open), edge fragile au slippage/exécution, 0/6 en live le 05/11. On revient au repli et
+# on VÉRIFIERA EN RÉEL tout futur déploiement avant de l'activer. [[verifier-en-reel-avant-deploiement]]
+USE_RETRACE_TRACK = True
 USE_TRIO = True
 TRIO = [
     dict(name='liq-eod', gap_min=5.0, gap_max=50.0, start=(10, 0), retrace=0.12, capit=-1, green=False, hod_rth=True, activate=999.0),
@@ -112,7 +114,7 @@ TRIO = [
 # bot.live_signals.vwap_reclaim_signal, PROUVÉE identique au backtest (research/.../verify_live_vwap).
 # Déployé en 1 action = forward-test (seuil rvol choisi in-sample ; la donnée volume TEMPS RÉEL est
 # la seule inconnue). USE_VWAP_TRACK=False -> désactive (retour à liq-eod seul).
-USE_VWAP_TRACK = True
+USE_VWAP_TRACK = False      # 05/11 : DÉBRANCHÉ (voir audit ci-dessus). Repli seul en live.
 VWAP_RVOL_MIN = 60.0
 VWAP_WIN = (570, 955)       # 04/11 : 09:30 -> 15:55 (ex 570,630 1re heure). La variante #1 du
                             # leaderboard (entrée toute la séance) domine en CPTE ET en persistance
