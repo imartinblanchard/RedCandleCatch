@@ -121,7 +121,7 @@ def persistence(strats, UNIV, dates):
     return {k: round(v / n * 100) for k, v in hits.items()}
 
 
-def main(top, status_filter, keep_obsolete, do_persist):
+def main(top, status_filter, keep_obsolete, do_persist, open_max=40):
     groups, dates = bt.load_groups()
     split = bt.oos_split(dates); tdays = [d for d in dates if split and d >= split]; mid = dates[len(dates) // 2]
     nd, ndo = len(dates), max(len(tdays), 1)
@@ -130,15 +130,7 @@ def main(top, status_filter, keep_obsolete, do_persist):
     base = {thr: liquid_groups(groups, thr=thr) for thr in {k[0] for k in keys}}
     UNIV = {(thr, let): shape_groups(base[thr], let) for (thr, let) in keys}    # univers par (seuil PM × forme)
 
-    if do_persist:
-        persist = persistence(strats, UNIV, dates)
-    else:                                # aperçu rapide : reprend la persistance du dernier run COMPLET
-        prev = os.path.join(HERE, 'leaderboard_all_latest.csv')
-        persist = {}
-        if os.path.exists(prev):
-            p = pd.read_csv(prev)
-            if 'persist' in p and 'strategie' in p:
-                persist = {k: v for k, v in zip(p.strategie, p.persist) if pd.notna(v)}
+    # ── 1) MÉTRIQUES de chaque stratégie (sans persistance pour l'instant) ──
     rows = []
     for s in strats:
         t = s['sim'](UNIV[(s['pm_thr'], s['letters'])])   # CHAQUE stratégie sur son univers (seuil PM × forme)
@@ -151,26 +143,53 @@ def main(top, status_filter, keep_obsolete, do_persist):
         te = t[t.date >= split].pnl if split else pd.Series(dtype=float)
         e_trim = np.sort(pnl)[:-3].mean() if n > 3 else pnl.mean()
         cp, dd = portfolio(t, 0.02, s['stop']); cpo, _ = portfolio(t, 0.02, s['stop'], days=tdays)
-        pz = persist.get(s['name'], np.nan)
-        # robuste = positive sur les 2 moitiés + OOS + non-fragile + significative (proxy in-table)
+        # REPRODUCTIBILITÉ : % d'entrées à l'ouverture (<=9:35 = données temps réel incomplètes ->
+        # non reproductible en live, cf vwap) + heure médiane d'entrée. Plus tard = plus fiable.
+        em = t['entry_min'] if 'entry_min' in t else pd.Series([570] * n)
+        open_pct = round((em <= 575).mean() * 100)
+        entry_med = bt.hhmm(int(em.median()))
         robust = bool(e_h1 > 0 and e_h2 > 0 and (not len(te) or te.mean() > 0) and e_trim > 0 and tstat >= 2.0)
         rows.append(dict(famille=s['family'], statut=s['status'], strategie=s['name'],
                          univers=f"PM{int(s['pm_thr']*100)}%" + ('/4L' if s['letters'] == '4L' else ''),
                          n=n, tr_day=round(n / t.date.nunique(), 1), exp=round(exp, 2), t=round(tstat, 1),
                          e_trim=round(e_trim, 2), exp_oos=round(te.mean(), 2) if len(te) else np.nan,
-                         win=round((pnl > 0).mean() * 100), persist=pz, cpte=round(cp, 1), cpte_oos=round(cpo, 1),
+                         win=round((pnl > 0).mean() * 100), persist=np.nan, open_pct=open_pct,
+                         entry_med=entry_med, cpte=round(cp, 1), cpte_oos=round(cpo, 1),
                          an=round(cp * TY / nd), an_oos=round(cpo * TY / ndo), maxDD=round(dd, 1),
                          robust=robust, notes=s['notes']))
     r = pd.DataFrame(rows)
+    if len(r):
+        r['reproductible'] = r['open_pct'] <= open_max
 
-    # ── NETTOYAGE auto : enlève les obsolètes (ni robustes ni persistantes), garde toujours le déployé ──
+    # ── 2) GATE REPRODUCTIBILITÉ (avant tout le reste) : seules les stratégies refaisables en live
+    #    entrent au classement (pas trop d'entrées à l'ouverture). Déployé toujours gardé. ──
+    r_full = r.copy()                                 # CSV complet = tout, avec le flag reproductible
+    n_open = 0
+    if not keep_obsolete and len(r):
+        n_open = int((~r['reproductible'] & (r.statut != 'deployed')).sum())
+        r = r[(r.statut == 'deployed') | r['reproductible']].copy()
+
+    # ── 3) PERSISTANCE walk-forward PARMI les reproductibles seulement (sinon faussée par les buy-the-open) ──
+    kept = set(r['strategie']) if len(r) else set()
+    if do_persist:
+        persist = persistence([s for s in strats if s['name'] in kept], UNIV, dates)
+    else:                                # aperçu rapide : reprend la persistance du dernier run COMPLET
+        prev = os.path.join(HERE, 'leaderboard_all_latest.csv'); persist = {}
+        if os.path.exists(prev):
+            p = pd.read_csv(prev)
+            if 'persist' in p and 'strategie' in p:
+                persist = {k: v for k, v in zip(p.strategie, p.persist) if pd.notna(v)}
+    if len(r):
+        r['persist'] = r['strategie'].map(lambda nm_: persist.get(nm_, np.nan))
+
+    # ── 4) NETTOYAGE obsolètes (ni robustes ni persistantes), déployé toujours gardé ──
     if not keep_obsolete and len(r):
         pz = r['persist'].fillna(0)
         keep = (r.statut == 'deployed') | r.robust | (pz >= 20)
-        n_drop = int((~keep).sum())
+        n_drop = n_open + int((~keep).sum())
         r = r[keep].copy()
     else:
-        n_drop = 0
+        n_drop = n_open
 
     # ── SCORE composite : persistance (tête) + CPTE + win, normalisés sur l'ensemble gardé ──
     def nm(c):
@@ -185,31 +204,37 @@ def main(top, status_filter, keep_obsolete, do_persist):
     print(f"\nDonnées : {nd} séances live ({dates[0]}..{dates[-1]}) | sizing 2%, slip ON, univers freq-filtré")
     print(f"SCORE = {WEIGHTS['persist']}·persist + {WEIGHTS['cpte']}·CPTE + {WEIGHTS['win']}·win (normalisés). "
           f"persist = % du temps dans le top {TOPK} au fil des séances (vrai-edge vs bruit).")
-    print(f"Nettoyage : {n_drop} obsolètes retirées (ni robustes ni persist>=20%, hors déployé). "
-          f"{len(r)} stratégies classées. C_OOS/persist = SUIVI, décider sur l'ensemble.\n")
-    h = (f"#  {'FAM':<6}{'STATUT':<9}{'STRATÉGIE':<40}{'n':>4}{'t/j':>5}{'exp':>7}{'t':>5}"
-         f"{'win':>5}{'persist':>8}{'CPTE':>8}{'C_OOS':>8}{'DD':>6}{'score':>6}")
+    print(f"GATE REPRODUCTIBILITÉ : {n_open} stratégies EXCLUES car trop d'entrées à l'ouverture "
+          f"(open% > {open_max}% = non refaisable en live). + {n_drop - n_open} obsolètes. "
+          f"{len(r)} stratégies classées (toutes reproductibles en live).")
+    print(f"SCORE = {WEIGHTS['persist']}·persist + {WEIGHTS['cpte']}·CPTE + {WEIGHTS['win']}·win. "
+          f"open% = entrées à l'ouverture (<=9:35) ; entrée = heure médiane. C_OOS/persist = SUIVI.\n")
+    h = (f"#  {'FAM':<6}{'STATUT':<9}{'STRATÉGIE':<38}{'n':>4}{'t/j':>5}{'exp':>7}"
+         f"{'win':>5}{'entrée':>7}{'open%':>6}{'persist':>8}{'CPTE':>8}{'C_OOS':>7}{'score':>6}")
     print(h); print("─" * len(h))
     for i, x in r.head(top).iterrows():
         pz = '—' if pd.isna(x.persist) else f"{x.persist:.0f}%"
-        print(f"{i+1:<2} {x.famille:<6}{x.statut:<9}{str(x.strategie)[:38]:<40}{x.n:>4}{x.tr_day:>5.1f}"
-              f"{x.exp:>+6.2f}%{x.t:>5.1f}{x.win:>4.0f}%{pz:>8}{x.cpte:>+7.1f}%{x.cpte_oos:>+7.1f}%"
-              f"{x.maxDD:>+5.1f}%{x.score:>6.2f}")
+        print(f"{i+1:<2} {x.famille:<6}{x.statut:<9}{str(x.strategie)[:36]:<38}{x.n:>4}{x.tr_day:>5.1f}"
+              f"{x.exp:>+6.2f}%{x.win:>4.0f}%{x.entry_med:>7}{x.open_pct:>5.0f}%{pz:>8}{x.cpte:>+7.1f}%"
+              f"{x.cpte_oos:>+6.1f}%{x.score:>6.2f}")
 
-    r.to_csv(os.path.join(HERE, 'leaderboard_all_latest.csv'), index=False)
+    r.to_csv(os.path.join(HERE, 'leaderboard_all_latest.csv'), index=False)      # classement = reproductibles
+    r_full.to_csv(os.path.join(HERE, 'leaderboard_all_full.csv'), index=False)   # tout (incl. non-reproductibles, flag)
     hist = os.path.join(HERE, 'leaderboard_all_history.csv')
     run_id = dt.datetime.now().isoformat(timespec='seconds')
     h2 = r[r.statut != 'search'][['famille', 'statut', 'strategie', 'n', 'tr_day', 'exp', 'exp_oos',
             'win', 'persist', 'cpte', 'cpte_oos', 'maxDD', 'score']].copy()   # suivi longitudinal = curées
     h2.insert(0, 'couvre', f"{dates[0]}..{dates[-1]}"); h2.insert(0, 'n_days', nd); h2.insert(0, 'run', run_id)
     h2.to_csv(hist, mode='a', header=not os.path.exists(hist), index=False)
-    print(f"\n→ leaderboard_all_latest.csv (tableau unifié trié) | leaderboard_all_history.csv (suivi curées)")
+    print(f"\n→ leaderboard_all_latest.csv (classement REPRODUCTIBLE) | leaderboard_all_full.csv (tout) "
+          f"| leaderboard_all_history.csv (suivi curées)")
 
 
 if __name__ == '__main__':
     ap = argparse.ArgumentParser()
     ap.add_argument('--top', type=int, default=100)
     ap.add_argument('--status', default=None, help='filtrer : deployed | candidate | archived')
-    ap.add_argument('--keep-obsolete', action='store_true', help='ne pas retirer les obsolètes')
+    ap.add_argument('--keep-obsolete', action='store_true', help='ne pas retirer les obsolètes/non-reproductibles')
     ap.add_argument('--no-persist', action='store_true', help='saute le walk-forward (rapide)')
-    a = ap.parse_args(); main(a.top, a.status, a.keep_obsolete, not a.no_persist)
+    ap.add_argument('--open-max', type=int, default=40, help="max %% d'entrées à l'ouverture (reproductibilité live)")
+    a = ap.parse_args(); main(a.top, a.status, a.keep_obsolete, not a.no_persist, a.open_max)

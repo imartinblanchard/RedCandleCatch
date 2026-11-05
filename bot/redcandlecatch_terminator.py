@@ -106,8 +106,12 @@ PM_LIQ_MIN_FRAC = 0.20            # ≥20% des 90 min PM avec un trade (≈18 mi
 # on VÉRIFIERA EN RÉEL tout futur déploiement avant de l'activer. [[verifier-en-reel-avant-deploiement]]
 USE_RETRACE_TRACK = True
 USE_TRIO = True
+# STRAT DÉPLOYÉE 05/11 : repli reproductible (entrée médiane ~10:52, 3% à l'open seulement) issu du
+# leaderboard GATÉ reproductibilité. 3-10/9:30>midi/r0.08/cap-1.0/tp20/s8 : CPTE +20,6% / OOS +18,9%
+# (l'OOS TIENT, contrairement à vwap), exit-robuste, non-fragile. 'tp'=0.20 -> sortie TAKE-PROFIT +20%.
 TRIO = [
-    dict(name='liq-eod', gap_min=5.0, gap_max=50.0, start=(10, 0), retrace=0.12, capit=-1, green=False, hod_rth=True, activate=999.0),
+    dict(name='repli-tp20', gap_min=3.0, gap_max=10.0, start=(9, 30), retrace=0.08, capit=-1,
+         green=False, hod_rth=False, activate=999.0, tp=0.20),
 ]
 # ── 2e TRACK (famille INDICATEURS) : vwap_reclaim + rvol>=60, 1re heure, sortie TRAIL 10/5 ──
 # Tourne EN PARALLÈLE de liq-eod (univers freq-filtré via le gate PM-liq, tous gaps). Détection =
@@ -124,10 +128,10 @@ VWAP_WIN = (570, 955)       # 04/11 : 09:30 -> 15:55 (ex 570,630 1re heure). La 
 # posés ENSEMBLE en OCA (one-cancels-all) ; pas de trailing. Comparatif live : tp30 +136% CPTE /
 # OOS +31% / persist 100% (trail10/5 : +131% / +31% / 94% — quasi à égalité, tp30 préféré).
 VWAP_EXIT = 'tp'
-TAKE_PROFIT = 0.30          # tp30 : sortie à +30% du prix SIGNAL (si 'tp')
+TAKE_PROFIT = 0.20          # 05/11 : tp20 (strat repli déployée 3-10/midi/r8/tp20/s8). Sortie à +20% du signal.
 VWAP_ACTIVATE = 0.10        # (mode 'trail' seulement) bascule TRAIL à +10%
 # --- sortie EN DEUX PHASES ---
-STOP = 0.10             # phase 1 : STOP fixe -10% (survit au repli initial)
+STOP = 0.08             # 05/11 : -8% (strat repli déployée /s8). STOP -STOP% + TP +TAKE_PROFIT% en OCA.
 # ACTIVATION ADAPTATIVE (18/09) : l'effet du seuil d'activation est OPPOSÉ selon la population
 # (validé 8 mois). Les gappers PM plongent fort (-5%) puis rebondissent FAIBLEMENT -> +5% optimal
 # (+10% les rend NÉGATIFS, pf 0,92). Les runners post-open font un petit repli (-1,5%) et
@@ -149,7 +153,7 @@ STOP_LIMIT_OFFSET = 0.06   # 6% : limite de vente posée 6% sous le déclencheur
                            # en PM mais pire fill dans le pire cas. Réglable.
 FILL_TIMEOUT = 3        # cycles d'attente du fill ; sinon = halt/illiquide -> annuler + retenter
 SHARES = 1              # 1 titre/trade (test live à risque minimal)
-ENTRY_END = (15, 55)    # dernières entrées à 15:55 (= début de la sortie forcée, pas d'entrée tardive inutile)
+ENTRY_END = (12, 0)     # 05/11 : dernières entrées à MIDI (strat repli 9:30>midi). Positions gérées jusqu'à tp/stop/15:55.
 RTH_OPEN, RTH_CLOSE = (9, 30), (16, 30)
 PM_START = (4, 0)       # début du trading PRÉ-MARCHÉ (23/09, TRADE_PM=True). La liquidité est
                         # gatée par MIN_DIP_DOLLAR_VOL (bougie de dip >= 200K$) -> les heures
@@ -611,14 +615,14 @@ class RedCandleCatchTerminator:
         if self.last_bar.get(tk) == r['t']:          # DÉDUP : 1 bougie = 1 décision
             return
         self.last_bar[tk] = r['t']
-        sig = None; strat = ''
+        sig = None; strat = ''; entry_tp = None
         if ENTRY_MODE == 'retrace':
-            if USE_RETRACE_TRACK:                        # track REPLI (liq-eod) ; False = désactivé
+            if USE_RETRACE_TRACK:                        # track REPLI ; False = désactivé
                 if USE_TRIO:
-                    for cfg in TRIO:                     # liq-eod : 1re config qui matche (1 seule ici)
+                    for cfg in TRIO:                     # 1re config qui matche (1 seule ici)
                         sig = self._retrace_signal(tk, r, allbars, cfg)
                         if sig is not None:
-                            strat = cfg['name']; break
+                            strat = cfg['name']; entry_tp = cfg.get('tp'); break   # take-profit propre à la config
                 else:
                     sig = self._retrace_signal(tk, r, allbars)
                     if sig is not None:
@@ -647,8 +651,10 @@ class RedCandleCatchTerminator:
         ev = self.evals.get(tk, {}); fs = ev.get('float_shares')
         self.state[tk] = {'entry': entry, 'gap': self.gap_ok.get(tk, ''), 'strat': strat,
                           'entry_time': r['t'].strftime('%H:%M'), 'peak': entry,
-                          'activate': activate,       # 999 en mode repli = HOLD-TO-EOD (jamais de trail)
-                          'tp_pct': (TAKE_PROFIT if (strat == 'vwap_reclaim' and VWAP_EXIT == 'tp') else None),
+                          'activate': activate,       # 999 = pas de trail (le tp gère la sortie)
+                          # take-profit par position : repli -> cfg['tp'] ; vwap -> TAKE_PROFIT si mode 'tp'
+                          'tp_pct': (entry_tp if entry_tp else
+                                     (TAKE_PROFIT if (strat == 'vwap_reclaim' and VWAP_EXIT == 'tp') else None)),
 
                           'shares': shares, 'last': entry, 'activated': False, 'confirmed': False,
                           'pending': bool(self.live), 'wait': 0,
@@ -832,9 +838,13 @@ class RedCandleCatchTerminator:
                       if USE_VWAP_TRACK else "")
             if USE_RETRACE_TRACK:
                 cfg_txt = trio + (f" + {track2}" if track2 else "")
-                exit_txt = (f"STOP -{STOP*100:.0f}% -> HOLD-EOD (sortie forcée 15:55)"
-                            if all(c['activate'] >= 999 for c in TRIO)
-                            else f"STOP -{STOP*100:.0f}% -> TRAIL {TRAIL*100:.0f}% (act +10%)")
+                if any(c.get('tp') for c in TRIO):       # sortie take-profit (strat repli-tp20)
+                    exit_txt = (f"STOP -{STOP*100:.0f}% + TP +{max(c.get('tp', 0) for c in TRIO)*100:.0f}% "
+                                f"(OCA ; entrées {ENTRY_END[0]}:{ENTRY_END[1]:02d} max, sortie forcée 15:55)")
+                elif all(c['activate'] >= 999 for c in TRIO):
+                    exit_txt = f"STOP -{STOP*100:.0f}% -> HOLD-EOD (sortie forcée 15:55)"
+                else:
+                    exit_txt = f"STOP -{STOP*100:.0f}% -> TRAIL {TRAIL*100:.0f}% (act +10%)"
             else:                                        # repli désactivé -> vwap_reclaim seul
                 cfg_txt = track2 or "(AUCUN track actif !)"
                 exit_txt = f"STOP -{STOP*100:.0f}% + {vexit} (sortie forcée 15:55)"

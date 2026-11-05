@@ -21,10 +21,14 @@ def _strat(name, upd, status='candidate', notes=''):
 
 
 CANDIDATES = [
+    _strat('repli-tp20 3-10/9:30>midi/r8/tp20/s8',
+           dict(gap_min=3, gap_max=10, entry_start=570, entry_end=720, retrace_pct=0.08,
+                capit_ratio=-1, hod_in_rth=False, exit_mode='tp', tp_pct=0.20, stop_pct=0.08),
+           status='deployed', notes='DÉPLOYÉ 05/11 ; repli reproductible (entrée ~10:52, 3% open), OOS +18,9% tient'),
     _strat('liq-eod 5-50/10:00/r12/hodRTH/eod',
            dict(gap_min=5, gap_max=50, entry_start=600, retrace_pct=0.12, capit_ratio=-1,
                 hod_in_rth=True, exit_mode='eod'),
-           status='deployed', notes='RE-déployé 05/11 (retour repli après audit vwap) ; config live'),
+           notes='ex-déployé ; repère'),
     _strat('F3 5-50/10:00/r12/hodRTH/trail',
            dict(gap_min=5, gap_max=50, entry_start=600, retrace_pct=0.12, capit_ratio=-1,
                 hod_in_rth=True, **TRAIL)),
