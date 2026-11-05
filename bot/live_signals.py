@@ -14,10 +14,52 @@ vwap_reclaim : réplique EXACTEMENT research/indicator_lab (signals.vwap_reclaim
 L'univers (freq-filtré PM) est géré EN AMONT par le terminator (gate PM-liq), pas ici.
 """
 from typing import List, Optional, Tuple
+import numpy as np
 
 
 def _hm(t) -> int:
     return t.hour * 60 + t.minute
+
+
+def _rma(x, n):                         # moyenne de Wilder (identique à research/price_lab/indicators._rma)
+    a = 1.0 / n; out = np.empty_like(x, float); out[0] = x[0]
+    for i in range(1, len(x)):
+        out[i] = a * x[i] + (1 - a) * out[i - 1]
+    return out
+
+
+def _rsi(c, n=14):                      # RSI Wilder — réplique EXACTE de price_lab.indicators.rsi
+    c = np.asarray(c, float); d = np.diff(c, prepend=c[0])
+    up = _rma(np.clip(d, 0, None), n); dn = _rma(-np.clip(d, None, 0), n)
+    rs = up / np.where(dn > 0, dn, 1e-9)
+    return 100 - 100 / (1 + rs)
+
+
+def rsi_bounce_signal(allbars: List[dict], now_t, pc: float, gap_min: float = 3.0, gap_max: float = 10.0,
+                      rsi_lo: float = 20.0, win: Tuple[int, int] = (570, 720),
+                      price: Tuple[float, float] = (3.0, 20.0), n: int = 14,
+                      tp: float = 0.20) -> Optional[Tuple[float, float, str]]:
+    """Réplique EXACTEMENT research/price_lab (signals.rsi_bounce + engine._entry) — 100% PRIX :
+      - gap (plus-haut du jour depuis la 1re bougie, PM inclus, vs clôture veille) dans [gap_min,gap_max]
+      - RSI(14) recroise rsi_lo à la hausse (rsi[i-1] < rsi_lo <= rsi[i])
+      - bougie verte, prix dans [price], fenêtre horaire [win].
+    Renvoie (entry, tp, desc) ou None. L'univers PM-liquidité est géré EN AMONT par le terminator."""
+    up = [b for b in allbars if b['t'] <= now_t]
+    if len(up) < n + 2 or not pc or pc <= 0:
+        return None
+    i = len(up) - 1; bi = up[i]
+    if not (win[0] <= _hm(bi['t']) <= win[1]):
+        return None
+    c_i, o_i = bi['c'], bi['o']
+    if not (price[0] <= c_i <= price[1]) or c_i < o_i:        # zone exécutable + bougie verte
+        return None
+    hod = max(b['h'] for b in up); gap = (hod - pc) / pc * 100.0
+    if not (gap_min <= gap <= gap_max):
+        return None
+    rsi = _rsi([b['c'] for b in up], n)
+    if not (rsi[i - 1] < rsi_lo <= rsi[i]):                   # recroisement du seuil bas à la hausse
+        return None
+    return (float(c_i), float(tp), f"rsi_bounce gap{gap:.0f}% RSI {rsi[i-1]:.0f}->{rsi[i]:.0f} (cross {rsi_lo:.0f})")
 
 
 def vwap_reclaim_signal(allbars: List[dict], now_t, rvol_min: float = 60.0,

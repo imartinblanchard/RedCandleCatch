@@ -28,7 +28,7 @@ except Exception:
 from execution.ibkr_broker import IBKRBroker
 from bot import redcandlecatch_scan as wscan
 from bot import eligible
-from bot.live_signals import vwap_reclaim_signal   # 2e track : reprise VWAP + rvol (détecteur pur, == backtest)
+from bot.live_signals import vwap_reclaim_signal, rsi_bounce_signal   # détecteurs purs (== backtest)
 
 # ---- paramètres de la stratégie (issus du backtest) ----
 # Config validée 2026-09-11 (backtest 9 mois) : gap 10-20% + dip -5% + trail 2%
@@ -130,6 +130,14 @@ VWAP_WIN = (570, 955)       # 04/11 : 09:30 -> 15:55 (ex 570,630 1re heure). La 
 VWAP_EXIT = 'tp'
 TAKE_PROFIT = 0.20          # 05/11 : tp20 (strat repli déployée 3-10/midi/r8/tp20/s8). Sortie à +20% du signal.
 VWAP_ACTIVATE = 0.10        # (mode 'trail' seulement) bascule TRAIL à +10%
+# ── 3e TRACK (famille INDICATEURS, 100% PRIX) : rsi_bounce — rebond du survendu sur petit gapper ──
+# OFF par défaut : à activer APRÈS vérification sur charts (règle Martin). Détecteur PUR
+# bot.live_signals.rsi_bounce_signal (à prouver == backtest via verify_live_rsi). Sortie TP +20%/STOP-8%.
+USE_RSI_TRACK = False
+RSI_GAP = (3.0, 10.0)       # gap 3-10%
+RSI_LO = 20.0               # RSI recroise 20 à la hausse (survendu intraday)
+RSI_WIN = (570, 720)        # 09:30 -> midi
+RSI_TP = 0.20               # take-profit +20% (stop -8% via STOP)
 # --- sortie EN DEUX PHASES ---
 STOP = 0.08             # 05/11 : -8% (strat repli déployée /s8). STOP -STOP% + TP +TAKE_PROFIT% en OCA.
 # ACTIVATION ADAPTATIVE (18/09) : l'effet du seuil d'activation est OPPOSÉ selon la population
@@ -590,6 +598,29 @@ class RedCandleCatchTerminator:
         print(f"[{now_et():%H:%M}] {tk}[vwap] {r['t']:%H:%M} {sig[2]} -> ENTER (track indicateurs)")
         return sig
 
+    def _rsi_bounce_signal(self, tk: str, r: dict, allbars):
+        """3e TRACK (100% PRIX) : rebond du survendu (RSI recroise 20) sur gapper 3-10%, 9:30->midi.
+        MÊME gate PM-liq que les autres. Détecteur PUR bot.live_signals.rsi_bounce_signal (== backtest).
+        -> (entry, tp, desc) ou None."""
+        if not allbars:
+            return None
+        if PM_LIQ_MIN_FRAC > 0:                          # univers : titre liquide en PM (8:00-9:30)
+            pm_active = sum(1 for b in allbars
+                            if PM_LIQ_LO <= tmin(b['t']) < PM_LIQ_HI and (b.get('v') or 0) > 0)
+            if pm_active / (PM_LIQ_HI - PM_LIQ_LO) < PM_LIQ_MIN_FRAC:
+                return None
+        pc = self._pc.get(tk)
+        if pc is None:
+            pc = _prev_close(self.broker, tk); self._pc[tk] = pc
+        if not pc or pc <= 0:
+            return None
+        sig = rsi_bounce_signal(allbars, r['t'], pc=pc, gap_min=RSI_GAP[0], gap_max=RSI_GAP[1],
+                                rsi_lo=RSI_LO, win=RSI_WIN, price=(PRICE_MIN, PRICE_MAX), tp=RSI_TP)
+        if sig is None:
+            return None
+        print(f"[{now_et():%H:%M}] {tk}[rsi] {r['t']:%H:%M} {sig[2]} -> ENTER (track prix)")
+        return sig
+
     def _dip_signal(self, tk: str, r: dict, allbars):
         """ANCIENNE stratégie (dip mono-bougie). -> (entry, activate, desc) ou None."""
         premarket = hm(r['t']) < (9, 31)
@@ -631,6 +662,10 @@ class RedCandleCatchTerminator:
                 sig = self._vwap_reclaim_signal(tk, r, allbars)
                 if sig is not None:
                     strat = 'vwap_reclaim'
+            if sig is None and USE_RSI_TRACK:            # 3e TRACK : rsi_bounce (100% prix), sortie tp20/s8
+                sig = self._rsi_bounce_signal(tk, r, allbars)
+                if sig is not None:
+                    strat = 'rsi_bounce'; entry_tp = sig[1]
         else:
             sig = self._dip_signal(tk, r, allbars)
             if sig is not None:
