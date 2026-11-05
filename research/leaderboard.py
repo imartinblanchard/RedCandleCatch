@@ -48,7 +48,9 @@ def _stats(t, stop, dates, split, tdays, mid):
     em = t['entry_min']
     tt = pnl.mean() / (sd / np.sqrt(n)) if sd > 0 else 0
     etrim = np.sort(pnl)[:-3].mean() if n > 3 else pnl.mean()
-    robust = bool(h1.mean() > 0 and h2.mean() > 0 and (not len(te) or te.mean() > 0) and etrim > 0 and tt >= 2.3)
+    # ROBUSTESSE sur TOUT l'échantillon (OOS retiré des décisions, cf règle : OOS = info/suivi only) :
+    # significatif (t) + non-fragile (e_trim) + régulier (les 2 moitiés positives).
+    robust = bool(h1.mean() > 0 and h2.mean() > 0 and etrim > 0 and tt >= 2.3)
     return dict(n=n, trj=round(n / t.date.nunique(), 1), exp=round(pnl.mean(), 2), t=round(tt, 1),
                 win=round((pnl > 0).mean() * 100), entry_med=bt.hhmm(int(em.median())),
                 open_pct=round((em <= 575).mean() * 100), cpte=round(cp, 1), cpte_oos=round(cpo, 1),
@@ -69,7 +71,9 @@ def main():
     # 2) indicateurs de prix : top robustes du price_search (métriques déjà calculées, même moteur)
     if os.path.exists(PRICE_CSV):
         d = pd.read_csv(PRICE_CSV)
-        d = d[d.robust].sort_values('cpte', ascending=False).drop_duplicates(
+        # robustesse RECALCULÉE sans l'OOS (e_te ignoré) : t + e_trim + 2 moitiés, comme le repli.
+        d = d[(d.e_h1 > 0) & (d.e_h2 > 0) & (d.e_trim > 0) & (d.t >= 2.3)]
+        d = d.sort_values('cpte', ascending=False).drop_duplicates(
             subset=['archetype', 'gap', 'heure', 'params', 'exit']).head(PER_PRICE)
         for _, x in d.iterrows():
             rows.append(dict(famille='indic', strategie=f"{x.archetype} {x.gap} {x.heure} {x.params} {x['exit']}"[:52],
