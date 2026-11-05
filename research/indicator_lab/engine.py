@@ -36,6 +36,17 @@ def liquid_groups(groups, col='latepm_frac', thr=0.20):
     return [g for g in groups if (g['tk'], g['date']) in keep]
 
 
+def shape_groups(groups, mode='all'):
+    """Filtre la FORME du symbole (orthogonal au filtre PM). 'all' = tout ; '4L' = symboles de
+    4 lettres alpha (plutôt Nasdaq small-cap) — retire les 3-lettres (plutôt NYSE/miniers étrangers,
+    maillon faible démontré le 05/11 : OOS ~mort). Dimension d'univers, se compose avec liquid_groups."""
+    if mode == 'all':
+        return groups
+    if mode == '4L':
+        return [g for g in groups if len(str(g['tk'])) == 4 and str(g['tk']).isalpha()]
+    raise ValueError(f"shape mode inconnu: {mode}")
+
+
 # gap par défaut = AUCUNE bande (tous les titres de 0 à +250%+ ; l'univers est borné par le
 # filtre de fréquence, pas par le gap). price 3-20$ conservé (zone exécutable, comme le live).
 # Gardes de QUALITÉ causaux (neutres par défaut) : trieurs validés par studies/selectivity.py.

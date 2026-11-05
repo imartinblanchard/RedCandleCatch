@@ -23,7 +23,7 @@ sys.path.insert(0, ROOT)
 from research.live_lab import backtest as bt
 from research.live_lab.leaderboard import portfolio
 from research.indicator_lab import engine as E
-from research.indicator_lab.engine import liquid_groups
+from research.indicator_lab.engine import liquid_groups, shape_groups
 # rebuild des configs des lignes de recherche (source unique, partagée avec track_robust)
 from research.live_lab.studies.track_robust import repli_P, indic_cfg
 
@@ -36,11 +36,22 @@ def _pm(x):                              # seuil PM de la ligne (CSV ancien sans
     except (KeyError, ValueError, TypeError): return 0.20
 
 
+def _let(x):                             # forme du symbole (CSV ancien sans la colonne -> 'all')
+    try:
+        v = str(x['letters'])
+        return v if v in ('all', '4L') else 'all'
+    except (KeyError, ValueError, TypeError): return 'all'
+
+
+def _lsfx(let):                          # suffixe de nom pour la forme (vide si 'all')
+    return f"/{let}" if let != 'all' else ''
+
+
 SEARCHES = [('repli', os.path.join(ROOT, 'research/live_lab/results/strategy_search_full_results.csv'),
-             lambda x: f"{x['gap']}/{x['heures']}/r{x['repli']}/cap{x['capit']}/{x['exit']}/{x['indic']}/pm{int(_pm(x)*100)}",
+             lambda x: f"{x['gap']}/{x['heures']}/r{x['repli']}/cap{x['capit']}/{x['exit']}/{x['indic']}/pm{int(_pm(x)*100)}{_lsfx(_let(x))}",
              lambda x: (lambda P: (lambda u, P=P: bt.simulate(u, P, slip=True), P['stop_pct']))(repli_P(x))),
             ('indic', os.path.join(ROOT, 'research/indicator_lab/results/indicator_search_results.csv'),
-             lambda x: f"{x['archetype']}/rv{x['rvol']}/{x['heure']}/{x['exit']}/pm{int(_pm(x)*100)}",
+             lambda x: f"{x['archetype']}/rv{x['rvol']}/{x['heure']}/{x['exit']}/pm{int(_pm(x)*100)}{_lsfx(_let(x))}",
              lambda x: (lambda c: (lambda u, c=c: E.simulate(u, c['archetype'], c['P']),
                                    c['P'].get('stop_pct', 0.10)))(indic_cfg(x)))]
 TY = 252
@@ -64,9 +75,9 @@ def collect_strats(status_filter):
         for s in reg:
             if status_filter and s.status != status_filter:
                 continue
-            # univers curé = 'freq-filtré' -> seuil PM par défaut 0.20 (celui du filtre déployé)
+            # univers curé = 'freq-filtré' -> seuil PM 0.20, toutes formes (celui du filtre déployé)
             S.append(dict(name=s.name, family=s.family, status=s.status, sim=s.sim, stop=s.stop,
-                          pm_thr=0.20, notes=s.notes))
+                          pm_thr=0.20, letters='all', notes=s.notes))
     if status_filter:
         return S
     for fam, path, namer, builder in SEARCHES:
@@ -76,8 +87,8 @@ def collect_strats(status_filter):
         d = d[d.robust].sort_values('cpte', ascending=False).head(PER_FAMILY)
         for _, x in d.iterrows():
             sim, stop = builder(x)
-            S.append(dict(name=str(namer(x))[:52], family=fam, status='search', sim=sim, stop=stop,
-                          pm_thr=_pm(x), notes='top recherche'))
+            S.append(dict(name=str(namer(x))[:56], family=fam, status='search', sim=sim, stop=stop,
+                          pm_thr=_pm(x), letters=_let(x), notes='top recherche'))
     # dédup par nom (garde la 1re occurrence — une curée l'emporte sur une ligne search homonyme)
     seen, out = set(), []
     for s in S:
@@ -95,10 +106,10 @@ def persistence(strats, UNIV, dates):
     hits = {s['name']: 0 for s in strats}
     for i in ctrl:
         upto = dates[i]
-        lsub = {thr: [g for g in gl if g['date'] <= upto] for thr, gl in UNIV.items()}   # univers/seuil à ce jour
+        lsub = {key: [g for g in gl if g['date'] <= upto] for key, gl in UNIV.items()}   # univers/(seuil,forme) à ce jour
         day = []
         for s in strats:
-            t = s['sim'](lsub[s['pm_thr']])
+            t = s['sim'](lsub[(s['pm_thr'], s['letters'])])
             if t is None or not len(t):
                 continue
             cp, _ = portfolio(t, 0.02, s['stop'])
@@ -115,8 +126,9 @@ def main(top, status_filter, keep_obsolete, do_persist):
     split = bt.oos_split(dates); tdays = [d for d in dates if split and d >= split]; mid = dates[len(dates) // 2]
     nd, ndo = len(dates), max(len(tdays), 1)
     strats = collect_strats(status_filter)
-    thrs = sorted({s['pm_thr'] for s in strats})
-    UNIV = {thr: liquid_groups(groups, thr=thr) for thr in thrs}     # univers par seuil PM (DIMENSION)
+    keys = {(s['pm_thr'], s['letters']) for s in strats}
+    base = {thr: liquid_groups(groups, thr=thr) for thr in {k[0] for k in keys}}
+    UNIV = {(thr, let): shape_groups(base[thr], let) for (thr, let) in keys}    # univers par (seuil PM × forme)
 
     if do_persist:
         persist = persistence(strats, UNIV, dates)
@@ -129,7 +141,7 @@ def main(top, status_filter, keep_obsolete, do_persist):
                 persist = {k: v for k, v in zip(p.strategie, p.persist) if pd.notna(v)}
     rows = []
     for s in strats:
-        t = s['sim'](UNIV[s['pm_thr']])              # CHAQUE stratégie sur son univers (seuil PM)
+        t = s['sim'](UNIV[(s['pm_thr'], s['letters'])])   # CHAQUE stratégie sur son univers (seuil PM × forme)
         if t is None or not len(t):
             continue
         pnl = t.pnl.to_numpy(); n = len(pnl)
@@ -142,7 +154,8 @@ def main(top, status_filter, keep_obsolete, do_persist):
         pz = persist.get(s['name'], np.nan)
         # robuste = positive sur les 2 moitiés + OOS + non-fragile + significative (proxy in-table)
         robust = bool(e_h1 > 0 and e_h2 > 0 and (not len(te) or te.mean() > 0) and e_trim > 0 and tstat >= 2.0)
-        rows.append(dict(famille=s['family'], statut=s['status'], strategie=s['name'], univers=f"PM{int(s['pm_thr']*100)}%",
+        rows.append(dict(famille=s['family'], statut=s['status'], strategie=s['name'],
+                         univers=f"PM{int(s['pm_thr']*100)}%" + ('/4L' if s['letters'] == '4L' else ''),
                          n=n, tr_day=round(n / t.date.nunique(), 1), exp=round(exp, 2), t=round(tstat, 1),
                          e_trim=round(e_trim, 2), exp_oos=round(te.mean(), 2) if len(te) else np.nan,
                          win=round((pnl > 0).mean() * 100), persist=pz, cpte=round(cp, 1), cpte_oos=round(cpo, 1),

@@ -61,6 +61,16 @@ def _pm(r):                              # seuil PM de la ligne (CSV ancien sans
     except (KeyError, ValueError, TypeError): return 0.20
 
 
+def _let(r):                             # forme du symbole (CSV ancien sans la colonne -> 'all')
+    try:
+        v = str(r['letters']); return v if v in ('all', '4L') else 'all'
+    except (KeyError, ValueError, TypeError): return 'all'
+
+
+def _lsfx(let):
+    return f"/{let}" if let != 'all' else ''
+
+
 def pick(csv, key, n):
     if not os.path.exists(csv): return []
     d = pd.read_csv(csv)
@@ -70,21 +80,22 @@ def pick(csv, key, n):
 
 def main():
     groups, dates = bt.load_groups()
-    rl = pick(REPLI_CSV, lambda r: f"[R] {r['gap']}/{r['heures']}/r{r['repli']}/cap{r['capit']}/{r['exit']}/{r['indic']}/pm{int(_pm(r)*100)}", N_TRACK)
-    il = pick(INDIC_CSV, lambda r: f"[I] {r['archetype']}/{r['gap']}/rv{r['rvol']}/{r['heure']}/{r['exit']}/pm{int(_pm(r)*100)}", N_TRACK)
-    combos = ([('repli', lbl, repli_P(r), _pm(r)) for lbl, r in rl]
-              + [('indic', lbl, indic_cfg(r), _pm(r)) for lbl, r in il])
-    thrs = sorted({c[3] for c in combos}) or [0.20]
-    UNIV = {thr: E.liquid_groups(groups, thr=thr) for thr in thrs}     # univers par seuil PM (DIMENSION)
+    rl = pick(REPLI_CSV, lambda r: f"[R] {r['gap']}/{r['heures']}/r{r['repli']}/cap{r['capit']}/{r['exit']}/{r['indic']}/pm{int(_pm(r)*100)}{_lsfx(_let(r))}", N_TRACK)
+    il = pick(INDIC_CSV, lambda r: f"[I] {r['archetype']}/{r['gap']}/rv{r['rvol']}/{r['heure']}/{r['exit']}/pm{int(_pm(r)*100)}{_lsfx(_let(r))}", N_TRACK)
+    combos = ([('repli', lbl, repli_P(r), (_pm(r), _let(r))) for lbl, r in rl]
+              + [('indic', lbl, indic_cfg(r), (_pm(r), _let(r))) for lbl, r in il])
+    keys = {c[3] for c in combos} or {(0.20, 'all')}
+    base = {thr: E.liquid_groups(groups, thr=thr) for thr in {k[0] for k in keys}}
+    UNIV = {(thr, let): E.shape_groups(base[thr], let) for (thr, let) in keys}    # univers par (seuil PM × forme)
     print(f"{len(dates)} séances. Persistance walk-forward : {len(rl)} repli + {len(il)} indic "
-          f"(top-{TOPK}=persistant), seuils PM {[f'{t:.0%}' for t in thrs]}, séances {MIN_DAYS}->{len(dates)}.\n", flush=True)
+          f"(top-{TOPK}=persistant), {len(keys)} univers (seuil PM × forme), séances {MIN_DAYS}->{len(dates)}.\n", flush=True)
     hist = []
     for i in range(MIN_DAYS - 1, len(dates)):
         upto = dates[i]
-        lsub = {thr: [g for g in gl if g['date'] <= upto] for thr, gl in UNIV.items()}   # univers/seuil à ce jour
+        lsub = {key: [g for g in gl if g['date'] <= upto] for key, gl in UNIV.items()}   # univers/(seuil,forme) à ce jour
         day = []
-        for fam, lbl, cfg, thr in combos:
-            u = lsub[thr]
+        for fam, lbl, cfg, key in combos:
+            u = lsub[key]
             t = bt.simulate(u, cfg, slip=True) if fam == 'repli' else E.simulate(u, cfg['archetype'], cfg['P'])
             if not len(t): continue
             stop = cfg['stop_pct'] if fam == 'repli' else cfg['P'].get('stop_pct', 0.10)

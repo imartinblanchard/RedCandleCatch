@@ -14,10 +14,11 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(HERE))))
 from research.live_lab import backtest as bt
 from research.live_lab.leaderboard import portfolio
-from research.indicator_lab.engine import liquid_groups    # univers freq-filtré = ce qu'on trade
+from research.indicator_lab.engine import liquid_groups, shape_groups    # univers freq-filtré (+ forme symbole)
 
 N_MIN = 20
 PM_THRS = [0.20, 0.30, 0.40, 0.50, 0.60]      # seuil univers PM-liquidité = DIMENSION (04/11) : +haut = +propre
+LETTERS = ['all', '4L']                        # forme symbole = DIMENSION (05/11) : '4L' = 4 lettres (Nasdaq)
 # ── dimensions d'ENTRÉE ──
 GAPS   = [(5, 10), (10, 20), (5, 20), (5, 50), (3, 10)]
 STARTS = [(570, '9:30'), (600, '10:00'), (630, '10:30')]
@@ -51,16 +52,17 @@ def substat(a):
 
 def main():
     groups_raw, dates = bt.load_groups()
-    UNIV = {thr: liquid_groups(groups_raw, thr=thr) for thr in PM_THRS}    # univers par seuil PM (DIMENSION)
+    base = {thr: liquid_groups(groups_raw, thr=thr) for thr in PM_THRS}
+    UNIV = {(thr, let): shape_groups(base[thr], let) for thr in PM_THRS for let in LETTERS}   # PM × forme
     split = bt.oos_split(dates); tdays = [d for d in dates if d >= split]; mid = dates[len(dates) // 2]
     ecombos = list(itertools.product(GAPS, STARTS, ENDS, RETR, CAPIT, HOD, GREEN, VWAP, RECACT))
-    total = len(ecombos) * len(PM_THRS)
-    print(f"{len(dates)} séances, OOS≥{split} | seuils PM {[f'{t:.0%}' for t in PM_THRS]} "
-          f"(tj: {[len(UNIV[t]) for t in PM_THRS]}) × {len(ecombos)} entrées × {len(EXITS)} sorties "
-          f"= {total*len(EXITS)} combos\n", flush=True)
+    total = len(ecombos) * len(PM_THRS) * len(LETTERS)
+    print(f"{len(dates)} séances, OOS≥{split} | seuils PM {[f'{t:.0%}' for t in PM_THRS]} × formes {LETTERS} "
+          f"× {len(ecombos)} entrées × {len(EXITS)} sorties = {total*len(EXITS)} combos\n", flush=True)
     rows = []; t0 = time.time(); k = 0
     for thr in PM_THRS:
-        groups = UNIV[thr]                                   # univers freq-filtré au seuil PM courant
+      for let in LETTERS:
+        groups = UNIV[(thr, let)]                            # univers freq-filtré (seuil PM) × forme symbole
         for ((gmin, gmax), (es, esl), (ee, eel), rp, cr, (hl, hv), (gl, gv), (vl, vv), (ral, rav)) in ecombos:
             k += 1
             if k % 500 == 0:
@@ -86,7 +88,7 @@ def main():
                 pf = pnl[pnl > 0].sum() / (-pnl[pnl < 0].sum() or 1e-9)
                 cpte, dd = portfolio(t, 0.02, P['stop_pct']); cpte_o, _ = portfolio(t, 0.02, P['stop_pct'], days=tdays)
                 rows.append(dict(gap=f"{gmin}-{gmax}", heures=f"{esl}{eel}", repli=rp, capit=cr, indic=ind, exit=exl,
-                                 pm_thr=thr, n=len(pnl), trj=round(len(pnl) / t.date.nunique(), 1), exp=round(exp, 2),
+                                 pm_thr=thr, letters=let, n=len(pnl), trj=round(len(pnl) / t.date.nunique(), 1), exp=round(exp, 2),
                                  t=round(tt, 2), e_trim=round(e_trim, 2), pf=round(pf, 2), win=round((pnl > 0).mean()*100),
                                  e_h1=round(e_h1, 2), e_h2=round(e_h2, 2), e_te=round(e_te, 2), maxDD=round(dd, 1),
                                  cpte=round(cpte, 1), cpte_oos=round(cpte_o, 1),
@@ -94,7 +96,7 @@ def main():
     r = pd.DataFrame(rows); r.to_csv(OUT, index=False)
     print(f"\nFINI en {(time.time()-t0)/60:.0f}min. {len(r)} combos. {int(r.robust.sum()) if len(r) else 0} robustes.", flush=True)
     base = r[r.robust] if (len(r) and r.robust.any()) else r
-    cols = ['gap', 'heures', 'repli', 'capit', 'indic', 'exit', 'pm_thr', 'n', 'trj', 'exp', 't', 'e_trim', 'win', 'maxDD', 'cpte', 'cpte_oos']
+    cols = ['gap', 'heures', 'repli', 'capit', 'indic', 'exit', 'pm_thr', 'letters', 'n', 'trj', 'exp', 't', 'e_trim', 'win', 'maxDD', 'cpte', 'cpte_oos']
     if len(base):
         print("\n===== TOP 25 par CPTE (robustes) =====", flush=True)
         print(base.sort_values('cpte', ascending=False).head(25)[cols].to_string(index=False), flush=True)
