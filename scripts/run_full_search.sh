@@ -15,7 +15,12 @@ ts(){ TZ=America/New_York date '+%Y-%m-%d %H:%M:%S %Z'; }
 log(){ echo "$(ts) $*" >> "$LOG"; }
 
 cd "$PROJ" || exit 1
-log "=== recherche complète quotidienne (repli ~23k + indicateurs ~540) ==="
+# VERROU anti-empilement : avec la dimension seuil-PM (04/11), un run peut dépasser 24h et déborder
+# sur le cron du lendemain. flock -n => si un run précédent tourne encore, on SKIP (pas 2 en //).
+LOCK="$PROJ/data/collected_live/.full_search.lock"
+exec 9>"$LOCK"
+if ! flock -n 9; then log "⏭️  run précédent encore EN COURS -> skip (évite 2 recherches en parallèle)"; exit 0; fi
+log "=== recherche complète quotidienne (repli + indicateurs, dimension seuil-PM) ==="
 "$PY" -m research.live_lab.studies.strategy_search_full >> "$LOG" 2>&1 \
   && log "strategy_search_full OK" || log "⚠️ échec strategy_search_full"
 "$PY" -m research.indicator_lab.search >> "$LOG" 2>&1 \

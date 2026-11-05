@@ -56,6 +56,11 @@ def indic_cfg(row):
     return dict(archetype=str(row['archetype']), P=P)
 
 
+def _pm(r):                              # seuil PM de la ligne (CSV ancien sans la colonne -> 0.20)
+    try: return float(r['pm_thr'])
+    except (KeyError, ValueError, TypeError): return 0.20
+
+
 def pick(csv, key, n):
     if not os.path.exists(csv): return []
     d = pd.read_csv(csv)
@@ -64,19 +69,23 @@ def pick(csv, key, n):
 
 
 def main():
-    groups, dates = bt.load_groups(); liq = E.liquid_groups(groups)
-    rl = pick(REPLI_CSV, lambda r: f"[R] {r['gap']}/{r['heures']}/r{r['repli']}/cap{r['capit']}/{r['exit']}/{r['indic']}", N_TRACK)
-    il = pick(INDIC_CSV, lambda r: f"[I] {r['archetype']}/{r['gap']}/rv{r['rvol']}/{r['heure']}/{r['exit']}", N_TRACK)
-    combos = [('repli', lbl, repli_P(r)) for lbl, r in rl] + [('indic', lbl, indic_cfg(r)) for lbl, r in il]
+    groups, dates = bt.load_groups()
+    rl = pick(REPLI_CSV, lambda r: f"[R] {r['gap']}/{r['heures']}/r{r['repli']}/cap{r['capit']}/{r['exit']}/{r['indic']}/pm{int(_pm(r)*100)}", N_TRACK)
+    il = pick(INDIC_CSV, lambda r: f"[I] {r['archetype']}/{r['gap']}/rv{r['rvol']}/{r['heure']}/{r['exit']}/pm{int(_pm(r)*100)}", N_TRACK)
+    combos = ([('repli', lbl, repli_P(r), _pm(r)) for lbl, r in rl]
+              + [('indic', lbl, indic_cfg(r), _pm(r)) for lbl, r in il])
+    thrs = sorted({c[3] for c in combos}) or [0.20]
+    UNIV = {thr: E.liquid_groups(groups, thr=thr) for thr in thrs}     # univers par seuil PM (DIMENSION)
     print(f"{len(dates)} séances. Persistance walk-forward : {len(rl)} repli + {len(il)} indic "
-          f"(top-{TOPK}=persistant), séances {MIN_DAYS}->{len(dates)}.\n", flush=True)
+          f"(top-{TOPK}=persistant), seuils PM {[f'{t:.0%}' for t in thrs]}, séances {MIN_DAYS}->{len(dates)}.\n", flush=True)
     hist = []
     for i in range(MIN_DAYS - 1, len(dates)):
         upto = dates[i]
-        lsub = [g for g in liq if g['date'] <= upto]        # FREQ-FILTRÉ pour les 2 familles
+        lsub = {thr: [g for g in gl if g['date'] <= upto] for thr, gl in UNIV.items()}   # univers/seuil à ce jour
         day = []
-        for fam, lbl, cfg in combos:
-            t = bt.simulate(lsub, cfg, slip=True) if fam == 'repli' else E.simulate(lsub, cfg['archetype'], cfg['P'])
+        for fam, lbl, cfg, thr in combos:
+            u = lsub[thr]
+            t = bt.simulate(u, cfg, slip=True) if fam == 'repli' else E.simulate(u, cfg['archetype'], cfg['P'])
             if not len(t): continue
             stop = cfg['stop_pct'] if fam == 'repli' else cfg['P'].get('stop_pct', 0.10)
             cp, _ = portfolio(t, 0.02, stop)

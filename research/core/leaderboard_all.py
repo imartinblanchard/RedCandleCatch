@@ -31,11 +31,16 @@ from research.live_lab.candidates import CANDIDATES as REPLI
 from research.indicator_lab.candidates import CANDIDATES as INDIC
 REGISTRIES = [REPLI, INDIC]
 
+def _pm(x):                              # seuil PM de la ligne (CSV ancien sans la colonne -> 0.20)
+    try: return float(x['pm_thr'])
+    except (KeyError, ValueError, TypeError): return 0.20
+
+
 SEARCHES = [('repli', os.path.join(ROOT, 'research/live_lab/results/strategy_search_full_results.csv'),
-             lambda x: f"{x['gap']}/{x['heures']}/r{x['repli']}/cap{x['capit']}/{x['exit']}/{x['indic']}",
+             lambda x: f"{x['gap']}/{x['heures']}/r{x['repli']}/cap{x['capit']}/{x['exit']}/{x['indic']}/pm{int(_pm(x)*100)}",
              lambda x: (lambda P: (lambda u, P=P: bt.simulate(u, P, slip=True), P['stop_pct']))(repli_P(x))),
             ('indic', os.path.join(ROOT, 'research/indicator_lab/results/indicator_search_results.csv'),
-             lambda x: f"{x['archetype']}/rv{x['rvol']}/{x['heure']}/{x['exit']}",
+             lambda x: f"{x['archetype']}/rv{x['rvol']}/{x['heure']}/{x['exit']}/pm{int(_pm(x)*100)}",
              lambda x: (lambda c: (lambda u, c=c: E.simulate(u, c['archetype'], c['P']),
                                    c['P'].get('stop_pct', 0.10)))(indic_cfg(x)))]
 TY = 252
@@ -59,7 +64,9 @@ def collect_strats(status_filter):
         for s in reg:
             if status_filter and s.status != status_filter:
                 continue
-            S.append(dict(name=s.name, family=s.family, status=s.status, sim=s.sim, stop=s.stop, notes=s.notes))
+            # univers curé = 'freq-filtré' -> seuil PM par défaut 0.20 (celui du filtre déployé)
+            S.append(dict(name=s.name, family=s.family, status=s.status, sim=s.sim, stop=s.stop,
+                          pm_thr=0.20, notes=s.notes))
     if status_filter:
         return S
     for fam, path, namer, builder in SEARCHES:
@@ -69,7 +76,8 @@ def collect_strats(status_filter):
         d = d[d.robust].sort_values('cpte', ascending=False).head(PER_FAMILY)
         for _, x in d.iterrows():
             sim, stop = builder(x)
-            S.append(dict(name=str(namer(x))[:46], family=fam, status='search', sim=sim, stop=stop, notes='top recherche'))
+            S.append(dict(name=str(namer(x))[:52], family=fam, status='search', sim=sim, stop=stop,
+                          pm_thr=_pm(x), notes='top recherche'))
     # dédup par nom (garde la 1re occurrence — une curée l'emporte sur une ligne search homonyme)
     seen, out = set(), []
     for s in S:
@@ -79,18 +87,18 @@ def collect_strats(status_filter):
     return out
 
 
-def persistence(strats, liq, dates):
+def persistence(strats, UNIV, dates):
     """Walk-forward : à chaque séance passée (fenêtre expansive), classe TOUTES les stratégies par
-    CPTE sur l'univers freq-filtré connu à ce jour ; %persist = fréquence de présence dans le top-K.
-    C'est le séparateur vrai-edge / artefact-de-récence (indépendant de la data finale)."""
+    CPTE sur l'univers connu à ce jour (CHACUNE sur son propre seuil PM) ; %persist = fréquence de
+    présence dans le top-K. Séparateur vrai-edge / artefact-de-récence (indépendant de la data finale)."""
     ctrl = list(range(MIN_DAYS - 1, len(dates)))
     hits = {s['name']: 0 for s in strats}
     for i in ctrl:
         upto = dates[i]
-        lsub = [g for g in liq if g['date'] <= upto]
+        lsub = {thr: [g for g in gl if g['date'] <= upto] for thr, gl in UNIV.items()}   # univers/seuil à ce jour
         day = []
         for s in strats:
-            t = s['sim'](lsub)
+            t = s['sim'](lsub[s['pm_thr']])
             if t is None or not len(t):
                 continue
             cp, _ = portfolio(t, 0.02, s['stop'])
@@ -104,13 +112,14 @@ def persistence(strats, liq, dates):
 
 def main(top, status_filter, keep_obsolete, do_persist):
     groups, dates = bt.load_groups()
-    liq = liquid_groups(groups)
     split = bt.oos_split(dates); tdays = [d for d in dates if split and d >= split]; mid = dates[len(dates) // 2]
     nd, ndo = len(dates), max(len(tdays), 1)
     strats = collect_strats(status_filter)
+    thrs = sorted({s['pm_thr'] for s in strats})
+    UNIV = {thr: liquid_groups(groups, thr=thr) for thr in thrs}     # univers par seuil PM (DIMENSION)
 
     if do_persist:
-        persist = persistence(strats, liq, dates)
+        persist = persistence(strats, UNIV, dates)
     else:                                # aperçu rapide : reprend la persistance du dernier run COMPLET
         prev = os.path.join(HERE, 'leaderboard_all_latest.csv')
         persist = {}
@@ -120,7 +129,7 @@ def main(top, status_filter, keep_obsolete, do_persist):
                 persist = {k: v for k, v in zip(p.strategie, p.persist) if pd.notna(v)}
     rows = []
     for s in strats:
-        t = s['sim'](liq)
+        t = s['sim'](UNIV[s['pm_thr']])              # CHAQUE stratégie sur son univers (seuil PM)
         if t is None or not len(t):
             continue
         pnl = t.pnl.to_numpy(); n = len(pnl)
@@ -133,7 +142,7 @@ def main(top, status_filter, keep_obsolete, do_persist):
         pz = persist.get(s['name'], np.nan)
         # robuste = positive sur les 2 moitiés + OOS + non-fragile + significative (proxy in-table)
         robust = bool(e_h1 > 0 and e_h2 > 0 and (not len(te) or te.mean() > 0) and e_trim > 0 and tstat >= 2.0)
-        rows.append(dict(famille=s['family'], statut=s['status'], strategie=s['name'], univers='freq-filtré',
+        rows.append(dict(famille=s['family'], statut=s['status'], strategie=s['name'], univers=f"PM{int(s['pm_thr']*100)}%",
                          n=n, tr_day=round(n / t.date.nunique(), 1), exp=round(exp, 2), t=round(tstat, 1),
                          e_trim=round(e_trim, 2), exp_oos=round(te.mean(), 2) if len(te) else np.nan,
                          win=round((pnl > 0).mean() * 100), persist=pz, cpte=round(cp, 1), cpte_oos=round(cpo, 1),
