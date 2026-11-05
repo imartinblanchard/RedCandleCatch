@@ -1,0 +1,73 @@
+//@version=5
+// =============================================================================
+// RSI Bounce (gap 3-10%) — RedCandleCatch (VÉRIFICATION visuelle, 100% PRIX)
+//   ENTRÉE : petit gapper (+3 à +10% vs clôture veille), entre 9:30 et midi, quand le RSI(14)
+//            RECROISE un seuil bas (défaut 20) à la hausse, sur une bougie VERTE. 1 entrée/jour.
+//   SORTIE : STOP -8% / TP +20% / sinon sortie forcée ~15:54 (EOD).
+// ⚠️ ACTIVER LES HEURES ÉTENDUES (ETH), graphique 1 minute : le gap (plus-haut du jour depuis 04:00)
+//    et la logique sont ancrés à la séance pré-marché incluse, comme le backtest.
+// =============================================================================
+indicator("RSI Bounce gap3-10 — RedCandleCatch", overlay=true, max_labels_count=500)
+
+rsiLo   = input.int(20,   "RSI seuil bas (survendu)")
+gMin    = input.float(3,  "Gap min %")
+gMax    = input.float(10, "Gap max %")
+tpPct   = input.float(20, "Take-profit %") / 100.0
+stopPct = input.float(8,  "Stop %") / 100.0
+pMin    = input.float(3,  "Prix min $")
+pMax    = input.float(20, "Prix max $")
+sess    = input.session("0930-1200", "Fenêtre d'entrée (ET)")
+
+r = ta.rsi(close, 14)
+
+// gap = (plus-haut du jour depuis 04:00  -  clôture de la veille) / clôture veille
+pdc = request.security(syminfo.tickerid, "D", close[1])
+isNewDay = ta.change(time("1D")) != 0
+var float hod = na
+var bool  done = false
+if isNewDay
+    hod := high
+    done := false
+else
+    hod := math.max(nz(hod, high), high)
+gap = pdc > 0 ? (hod - pdc) / pdc * 100 : 0.0
+
+// ---- conditions d'ENTRÉE ----
+inSess  = not na(time(timeframe.period, sess, "America/New_York"))
+crossUp = ta.crossover(r, rsiLo)                 // RSI recroise le seuil bas à la hausse
+green   = close >= open
+gapOk   = gap >= gMin and gap <= gMax
+priceOk = close >= pMin and close <= pMax
+sig     = inSess and crossUp and green and gapOk and priceOk and not done
+
+// ---- position (visuel) ----
+var bool  inTrade = false
+var float entryP = na, stopL = na, tpL = na
+longEntry = sig and not inTrade
+if longEntry
+    inTrade := true
+    entryP := close
+    stopL  := close * (1 - stopPct)
+    tpL    := close * (1 + tpPct)
+    done   := true
+    label.new(bar_index, low, "BUY " + str.tostring(close, format.mintick) + "\nRSI " + str.tostring(r, "#") + " gap " + str.tostring(gap, "#") + "%", color=color.new(color.green, 0), textcolor=color.white, style=label.style_label_up, size=size.small)
+
+nyMin = hour(time, "America/New_York") * 60 + minute(time, "America/New_York")
+eod   = nyMin >= 954
+reason = ""
+if inTrade and not longEntry
+    if low <= stopL
+        reason := "STOP"
+    else if high >= tpL
+        reason := "TP+20%"
+    else if eod
+        reason := "EOD"
+if inTrade and reason != ""
+    xp = reason == "STOP" ? stopL : reason == "TP+20%" ? tpL : close
+    pnl = (xp - entryP) / entryP * 100.0
+    label.new(bar_index, high, reason + " " + str.tostring(xp, format.mintick) + "\n" + str.tostring(pnl, "+#.#") + "%", color=color.new(reason == "STOP" ? color.red : color.teal, 0), textcolor=color.white, style=label.style_label_down, size=size.small)
+    inTrade := false
+
+plot(inTrade ? stopL : na, "STOP -8%", color=color.red,   style=plot.style_linebr, linewidth=1)
+plot(inTrade ? tpL   : na, "TP +20%", color=color.green, style=plot.style_linebr, linewidth=1)
+// (ajoute l'indicateur RSI natif de TradingView en panneau séparé pour voir le croisement du seuil)
