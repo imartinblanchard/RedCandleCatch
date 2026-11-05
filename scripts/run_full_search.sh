@@ -14,6 +14,12 @@ LOG="$PROJ/data/collected_live/full_search_cron.log"
 ts(){ TZ=America/New_York date '+%Y-%m-%d %H:%M:%S %Z'; }
 log(){ echo "$(ts) $*" >> "$LOG"; }
 
+# ===== DÉSACTIVÉ le 05/11 (ménage) : les recherches (strategy_search_full, indicator_lab.search,
+# track_robust, leaderboard_all) sont en QUARANTAINE, on rebâtit l'analyse sur base réduite
+# d'indicateurs. Ce script est un no-op tant que les nouvelles recherches ne sont pas prêtes. =====
+log "recherche DÉSACTIVÉE (ménage 05/11, modules en quarantaine) -> no-op"
+exit 0
+
 cd "$PROJ" || exit 1
 # VERROU anti-empilement : avec la dimension seuil-PM (04/11), un run peut dépasser 24h et déborder
 # sur le cron du lendemain. flock -n => si un run précédent tourne encore, on SKIP (pas 2 en //).

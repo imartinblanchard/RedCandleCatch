@@ -4,4 +4,5 @@ TZ=America/New_York
 20 16 * * 1-5 /home/martin/dev/stock-journal-long/scripts/run_fetch_universe.sh
 20 18 * * 1-5 /home/martin/dev/stock-journal-long/scripts/run_leaderboard.sh
 30 20 * * 1-5 /home/martin/dev/stock-journal-long/scripts/run_followthrough.sh
-30 19 * * 1-5 /home/martin/dev/stock-journal-long/scripts/run_full_search.sh
+# 05/11 DÉSACTIVÉ (ménage) : recherches en quarantaine, à rebâtir sur base réduite d'indicateurs.
+# 30 19 * * 1-5 /home/martin/dev/stock-journal-long/scripts/run_full_search.sh

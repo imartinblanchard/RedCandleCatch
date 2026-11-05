@@ -33,19 +33,10 @@ if [ ! -f "$BARS" ]; then
   exit 0
 fi
 
-log "lancement du leaderboard"
+log "régénération de l'univers PM-liquidité"
 cd "$PROJ" || exit 1
-"$PROJ/.venv/bin/python" research/live_lab/leaderboard.py >> "$LOG" 2>&1
-# Régénère l'univers PM-liquidité (sinon les stratégies INDICATEURS du leaderboard restent figées
-# à la dernière date du CSV -> vwap/bb ne reflètent pas les nouveaux jours). DOIT précéder le leaderboard unifié.
+# 05/11 MÉNAGE : on ne garde QUE la régénération de l'univers (les analyses/leaderboards sont en
+# quarantaine, à rebâtir sur base réduite d'indicateurs). L'univers liquide reste frais chaque jour.
 "$PROJ/.venv/bin/python" -m research.live_lab.studies.build_liquid_universe_pm >> "$LOG" 2>&1 \
   && log "univers PM-liquidité régénéré (liquid_universe_pm.csv)" || log "⚠️ échec rebuild univers PM"
-# Leaderboard UNIFIÉ (toutes familles : repli + indicateurs) -> leaderboard_all_latest.csv + _history.csv
-# --no-persist = aperçu RAPIDE (le walk-forward de persistance, ~7min, est refait au complet à 19:30
-# par run_full_search.sh, APRÈS la recherche du soir qui rafraîchit les CSV sources).
-"$PROJ/.venv/bin/python" research/core/leaderboard_all.py --no-persist >> "$LOG" 2>&1 \
-  && log "leaderboard unifié mis à jour, aperçu rapide (core/leaderboard_all_*.csv)" || log "⚠️ échec leaderboard unifié"
-# Régénère le visuel HTML autonome (research/live_lab/leaderboard.html) depuis le CSV frais.
-"$PROJ/.venv/bin/python" research/live_lab/render_leaderboard_html.py >> "$LOG" 2>&1 \
-  && log "visuel HTML régénéré" || log "⚠️ échec rendu visuel HTML"
 log "=== terminé ==="
