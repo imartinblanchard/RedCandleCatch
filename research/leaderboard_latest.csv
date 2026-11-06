@@ -1,46 +1,46 @@
 famille,strategie,n,trj,exp,t,win,entry_med,open_pct,cpte,cpte_oos,maxDD,robust
-repli,repli 5-50/10:00/r12/hodRTH/eod,29,1.8,4.21,2.1,66,13:13,0,26.7,-0.1,-1.8,False
-indic,rsi_bounce 3-10 9:30>midi rsi_lo20 tp15/s8,274,10.5,1.11,3.1,59,09:35,54,23.7,13.7,-6.1,True
-indic,rsi_bounce 3-10 9:30>midi rsi_lo20 tp15/s10,274,10.5,1.05,2.9,59,09:35,54,23.1,13.4,-7.4,True
-indic,rsi_bounce 3-10 9:30>midi rsi_lo20 tp30/s8,274,10.5,1.12,3.1,59,09:35,54,22.9,12.8,-6.1,True
-indic,rsi_bounce 3-10 9:30>midi rsi_lo20 eod/s8,274,10.5,1.06,3.0,59,09:35,54,22.9,12.8,-6.1,True
-indic,rsi_bounce 3-10 9:30>midi rsi_lo20 tp20/s8,274,10.5,1.08,3.0,59,09:35,54,22.9,13.4,-6.1,True
-indic,rsi_bounce 3-10 9:30>midi rsi_lo20 tp30/s10,274,10.5,1.06,2.8,59,09:35,54,22.4,12.5,-7.4,True
-indic,rsi_bounce 3-10 9:30>midi rsi_lo20 eod/s10,274,10.5,1.0,2.7,59,09:35,54,22.4,12.5,-7.4,True
-indic,rsi_bounce 3-10 9:30>midi rsi_lo20 tp20/s10,274,10.5,1.03,2.8,59,09:35,54,22.3,13.0,-7.4,True
-repli,repli-tp20 3-10/midi/r8/tp20/s8 [DÉPLOYÉE],35,2.2,2.78,2.3,66,10:52,3,20.6,18.9,-5.5,True
-repli,repli 3-10/midi/r8/eod/s8,35,2.2,2.7,2.3,66,10:52,3,20.0,18.3,-5.5,True
-indic,rsi_bounce 3-10 9:30>midi rsi_lo20 trail10/5/s8,274,10.5,0.94,2.8,59,09:35,54,19.1,11.7,-6.1,True
-indic,williams_bounce 3-10 9:30>midi wr_lo-90 tp15/s8,1014,37.6,1.12,6.9,58,09:45,37,13.7,6.3,-0.9,True
-indic,williams_bounce 3-10 9:30>midi wr_lo-90 trail10/5/s8,1014,37.6,1.17,7.1,58,09:45,37,13.5,5.8,-0.9,True
-indic,rsi_divergence 3-10 9:30>midi div_win20 tp15/s8,964,35.7,0.96,5.8,57,09:41,44,13.5,5.6,-1.1,True
-indic,williams_bounce 3-10 9:30>midi wr_lo-90 tp20/s8,1014,37.6,1.11,6.8,58,09:45,37,13.4,6.4,-0.9,True
-indic,williams_bounce 3-10 9:30>midi wr_lo-90 eod/s8,1014,37.6,1.11,6.6,58,09:45,37,13.4,6.3,-0.9,True
-indic,williams_bounce 3-10 9:30>midi wr_lo-90 tp30/s8,1014,37.6,1.1,6.6,58,09:45,37,13.4,6.3,-0.9,True
-indic,rsi_divergence 3-10 9:30>midi div_win20 trail10/5/s8,964,35.7,0.97,5.9,57,09:41,44,13.3,5.5,-1.1,True
-indic,williams_bounce 3-10 9:30>15:55 wr_lo-90 trail10/5/s,1067,39.5,1.19,7.5,59,09:47,36,13.3,5.1,-0.8,True
-indic,rsi_bounce 3-10 9:30>midi rsi_lo30 eod/s8,688,25.5,1.01,4.8,54,09:39,40,13.3,5.4,-2.3,True
-indic,williams_bounce 3-10 9:30>midi wr_lo-90 tp15/s10,1014,37.6,1.06,6.4,58,09:45,37,13.2,6.3,-0.9,True
-indic,williams_bounce 3-10 9:30>midi wr_lo-90 trail10/5/s1,1014,37.6,1.11,6.5,58,09:45,37,13.1,5.8,-0.9,True
-indic,rsi_divergence 3-10 9:30>midi div_win20 tp15/s10,964,35.7,0.92,5.5,57,09:41,44,13.1,5.4,-1.2,True
-indic,williams_bounce 3-10 9:30>15:55 wr_lo-90 tp15/s8,1067,39.5,1.13,7.3,59,09:47,36,13.1,5.3,-0.8,True
-indic,williams_bounce 3-10 9:30>15:55 wr_lo-90 trail10/5/s,1067,39.5,1.13,6.9,59,09:47,36,13.0,5.0,-0.9,True
-indic,williams_bounce 3-10 9:30>midi wr_lo-90 tp30/s10,1014,37.6,1.04,6.1,58,09:45,37,12.9,6.2,-0.9,True
-indic,williams_bounce 3-10 9:30>15:55 wr_lo-90 tp30/s8,1067,39.5,1.12,7.0,58,09:47,36,12.9,5.2,-0.8,True
-indic,williams_bounce 3-10 9:30>15:55 wr_lo-90 eod/s8,1067,39.5,1.13,7.0,58,09:47,36,12.9,5.2,-0.8,True
-indic,rsi_divergence 3-10 9:30>midi div_win20 trail10/5/s1,964,35.7,0.93,5.5,57,09:41,44,12.9,5.2,-1.2,True
-indic,williams_bounce 3-10 9:30>midi wr_lo-90 eod/s10,1014,37.6,1.05,6.1,58,09:45,37,12.9,6.2,-0.9,True
-indic,williams_bounce 3-10 9:30>midi wr_lo-90 tp20/s10,1014,37.6,1.05,6.2,58,09:45,37,12.9,6.3,-0.9,True
-indic,rsi_divergence 3-10 9:30>midi div_win20 eod/s8,964,35.7,0.94,5.6,57,09:41,44,12.8,5.4,-1.1,True
-indic,williams_bounce 3-10 9:30>15:55 wr_lo-90 tp20/s8,1067,39.5,1.12,7.1,58,09:47,36,12.8,5.3,-0.8,True
-indic,williams_bounce 3-10 9:30>15:55 wr_lo-90 tp15/s10,1067,39.5,1.08,6.7,59,09:47,36,12.8,5.2,-0.9,True
-indic,rsi_bounce 3-10 9:30>midi rsi_lo30 eod/s10,688,25.5,0.92,4.3,54,09:39,40,12.8,5.5,-2.6,True
-indic,rsi_bounce 3-10 9:30>midi rsi_lo30 tp30/s8,688,25.5,0.99,4.8,54,09:39,40,12.8,5.4,-2.3,True
-indic,rsi_divergence 3-10 9:30>midi div_win20 tp30/s8,964,35.7,0.94,5.6,57,09:41,44,12.7,5.4,-1.1,True
-indic,rsi_bounce 3-10 9:30>midi rsi_lo30 tp15/s8,688,25.5,1.03,5.1,55,09:39,40,12.7,5.5,-2.3,True
-indic,williams_bounce 3-10 9:30>15:55 wr_lo-90 eod/s10,1067,39.5,1.07,6.4,58,09:47,36,12.5,5.1,-0.9,True
-indic,williams_bounce 3-10 9:30>15:55 wr_lo-90 tp30/s10,1067,39.5,1.06,6.4,58,09:47,36,12.5,5.1,-0.9,True
-indic,williams_bounce 3-10 9:30>15:55 wr_lo-90 tp20/s10,1067,39.5,1.06,6.5,58,09:47,36,12.5,5.2,-0.9,True
-indic,rsi_divergence 3-10 9:30>midi div_win20 tp20/s8,964,35.7,0.91,5.5,57,09:41,44,12.5,5.4,-1.1,True
-repli,repli 3-10/midi/r10/tp30/s8,10,1.2,2.23,0.7,50,10:29,0,4.3,5.7,-5.0,False
-repli,repli 5-20/midi/r8/tp20/s8,123,4.9,-0.57,-1.0,44,10:25,11,-14.1,18.0,-33.8,False
+repli,repli 5-50/10:00/r12/hodRTH/eod,29,1.7,4.59,2.3,69,13:15,0,29.5,1.4,-1.3,True
+indic,rsi_bounce 3-10 9:30>midi rsi_lo20 tp15/s8,283,10.5,1.17,3.4,59,09:35,52,27.3,10.7,-6.1,True
+indic,rsi_bounce 3-10 9:30>midi rsi_lo20 tp20/s8,283,10.5,1.16,3.3,59,09:35,52,27.1,10.9,-6.1,True
+indic,rsi_bounce 3-10 9:30>midi rsi_lo20 tp15/s10,283,10.5,1.1,3.1,60,09:35,52,26.8,8.7,-7.5,True
+indic,rsi_bounce 3-10 9:30>midi rsi_lo20 tp20/s10,283,10.5,1.1,3.0,60,09:35,52,26.5,8.9,-7.5,True
+indic,rsi_bounce 3-10 9:30>midi rsi_lo20 tp30/s8,283,10.5,1.15,3.3,59,09:35,52,25.7,9.7,-6.1,True
+indic,rsi_bounce 3-10 9:30>midi rsi_lo20 eod/s8,283,10.5,1.09,3.2,59,09:35,52,25.7,9.7,-6.1,True
+indic,rsi_bounce 3-10 9:30>midi rsi_lo20 eod/s10,283,10.5,1.03,2.9,60,09:35,52,25.2,7.7,-7.5,True
+indic,rsi_bounce 3-10 9:30>midi rsi_lo20 tp30/s10,283,10.5,1.09,3.0,60,09:35,52,25.2,7.7,-7.5,True
+indic,rsi_bounce 3-10 9:30>midi rsi_lo20 trail10/5/s8,283,10.5,1.0,3.0,60,09:35,52,22.7,10.1,-6.1,True
+indic,rsi_bounce 3-10 9:30>midi rsi_lo20 trail10/5/s10,283,10.5,0.94,2.7,60,09:35,52,22.2,8.1,-7.5,True
+repli,repli-tp20 3-10/midi/r8/tp20/s8 [DÉPLOYÉE],39,2.3,2.32,2.1,64,10:39,3,19.0,13.0,-5.5,False
+repli,repli 3-10/midi/r8/eod/s8,39,2.3,2.25,2.1,64,10:39,3,18.3,13.0,-5.5,False
+indic,rsi_bounce 3-10 9:30>midi rsi_lo30 eod/s8,704,25.1,1.04,5.0,54,09:40,40,16.4,6.3,-1.9,True
+indic,rsi_bounce 3-10 9:30>midi rsi_lo30 eod/s10,704,25.1,0.96,4.5,54,09:40,40,16.3,6.1,-2.1,True
+indic,rsi_bounce 3-10 9:30>midi rsi_lo30 tp20/s8,704,25.1,1.06,5.2,54,09:40,40,16.2,7.0,-1.9,True
+indic,rsi_bounce 3-10 9:30>midi rsi_lo30 tp20/s10,704,25.1,0.98,4.7,54,09:40,40,16.1,6.8,-2.1,True
+indic,rsi_bounce 3-10 9:30>midi rsi_lo30 tp15/s8,704,25.1,1.06,5.4,55,09:40,40,15.9,6.3,-1.9,True
+indic,rsi_bounce 3-10 9:30>midi rsi_lo30 tp30/s8,704,25.1,1.02,5.0,54,09:40,40,15.8,6.3,-1.9,True
+indic,rsi_bounce 3-10 9:30>midi rsi_lo30 tp30/s10,704,25.1,0.94,4.5,54,09:40,40,15.7,6.1,-2.1,True
+indic,rsi_bounce 3-10 9:30>15:55 rsi_lo20 tp15/s8,439,15.7,0.58,2.5,50,10:27,33,15.6,6.6,-4.1,True
+indic,rsi_bounce 3-10 9:30>midi rsi_lo30 tp15/s10,704,25.1,0.98,4.8,55,09:40,40,15.5,6.2,-2.1,True
+indic,rsi_bounce 3-10 9:30>15:55 rsi_lo20 tp20/s8,439,15.7,0.58,2.5,50,10:27,33,15.4,6.7,-4.1,True
+indic,rsi_bounce 3-10 9:30>midi rsi_lo30 trail10/5/s8,704,25.1,1.01,5.2,55,09:40,40,14.9,6.5,-1.9,True
+indic,rsi_bounce 3-10 9:30>15:55 rsi_lo20 tp30/s8,439,15.7,0.57,2.4,50,10:27,33,14.6,5.9,-4.1,True
+indic,higher_high_momentum 3-10 9:30>midi hh_win4 tp30/s10,995,35.5,0.88,5.0,57,09:49,19,14.6,5.6,-0.6,True
+indic,rsi_bounce 3-10 9:30>15:55 rsi_lo20 eod/s8,439,15.7,0.53,2.3,50,10:27,33,14.6,5.9,-4.1,True
+indic,williams_bounce 3-10 9:30>midi wr_lo-90 trail10/5/s8,1030,36.8,1.14,6.9,58,09:45,37,14.5,5.1,-0.9,True
+indic,rsi_bounce 3-10 9:30>midi rsi_lo30 trail10/5/s10,704,25.1,0.93,4.6,55,09:40,40,14.5,6.4,-2.1,True
+indic,bb_breakout all 9:30>midi squeeze_bw0.04 tp30/s8,1676,59.9,1.24,7.6,58,09:35,52,14.3,4.1,-1.1,True
+indic,williams_bounce 3-10 9:30>midi wr_lo-90 tp15/s8,1030,36.8,1.08,6.7,58,09:45,37,14.3,5.4,-0.9,True
+indic,williams_bounce 3-10 9:30>midi wr_lo-90 tp30/s8,1030,36.8,1.07,6.4,57,09:45,37,14.2,5.3,-0.9,True
+indic,williams_bounce 3-10 9:30>midi wr_lo-90 eod/s8,1030,36.8,1.08,6.4,57,09:45,37,14.2,5.3,-0.9,True
+indic,bb_breakout all 9:30>15:55 squeeze_bw0.04 tp30/s10,1751,62.5,1.11,6.8,57,09:36,50,14.2,2.5,-0.9,True
+indic,williams_bounce 3-10 9:30>midi wr_lo-90 tp20/s8,1030,36.8,1.07,6.5,57,09:45,37,14.2,5.4,-0.9,True
+indic,bb_breakout all 9:30>15:55 squeeze_bw0.04 tp30/s8,1751,62.5,1.1,6.8,57,09:36,50,14.1,2.7,-0.9,True
+indic,williams_bounce 3-10 9:30>midi wr_lo-90 trail10/5/s1,1030,36.8,1.09,6.5,58,09:45,37,14.0,4.9,-1.0,True
+indic,bb_breakout all 9:30>midi squeeze_bw0.04 tp30/s10,1676,59.9,1.25,7.5,58,09:35,52,14.0,4.0,-1.1,True
+indic,williams_bounce 3-10 9:30>15:55 wr_lo-90 tp15/s8,1083,38.7,1.09,7.0,58,09:46,35,14.0,4.6,-0.9,True
+indic,rsi_divergence 3-10 9:30>midi div_win20 trail10/5/s8,976,34.9,0.92,5.5,56,09:41,44,13.9,5.8,-1.0,True
+indic,higher_high_momentum 3-10 9:30>midi hh_win4 trail10/,995,35.5,0.84,5.1,58,09:49,19,13.9,5.2,-0.6,True
+indic,rsi_divergence 3-10 9:30>midi div_win20 trail10/5/s1,976,34.9,0.88,5.2,56,09:41,44,13.9,5.6,-1.1,True
+indic,williams_bounce 3-10 9:30>15:55 wr_lo-90 trail10/5/s,1083,38.7,1.17,7.4,59,09:46,35,13.8,4.4,-0.9,True
+repli,repli 3-10/midi/r10/tp30/s8,13,1.4,1.31,0.5,54,10:33,0,3.2,4.6,-5.0,False
+repli,repli 5-20/midi/r8/tp20/s8,131,5.0,-0.75,-1.4,43,10:25,11,-18.8,6.0,-32.3,False
