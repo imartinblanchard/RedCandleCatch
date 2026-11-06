@@ -133,7 +133,7 @@ VWAP_ACTIVATE = 0.10        # (mode 'trail' seulement) bascule TRAIL à +10%
 # ── 3e TRACK (famille INDICATEURS, 100% PRIX) : rsi_bounce — rebond du survendu sur petit gapper ──
 # OFF par défaut : à activer APRÈS vérification sur charts (règle Martin). Détecteur PUR
 # bot.live_signals.rsi_bounce_signal (à prouver == backtest via verify_live_rsi). Sortie TP +20%/STOP-8%.
-USE_RSI_TRACK = False
+USE_RSI_TRACK = True        # 05/11 ACTIVÉ (vérifié charts OK) : rsi_bounce en 2e track à côté du repli
 RSI_GAP = (3.0, 10.0)       # gap 3-10%
 RSI_LO = 20.0               # RSI recroise 20 à la hausse (survendu intraday)
 RSI_WIN = (570, 720)        # 09:30 -> midi
