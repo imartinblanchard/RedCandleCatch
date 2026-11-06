@@ -871,8 +871,11 @@ class RedCandleCatchTerminator:
             vexit = (f"TP +{TAKE_PROFIT*100:.0f}%" if VWAP_EXIT == 'tp' else f"TRAIL {TRAIL*100:.0f}% (act +{VWAP_ACTIVATE*100:.0f}%)")
             track2 = (f"TRACK vwap_reclaim(rvol>={VWAP_RVOL_MIN:.0f}/{win_txt}/{vexit})"
                       if USE_VWAP_TRACK else "")
+            track3 = (f"TRACK rsi_bounce(gap{RSI_GAP[0]:.0f}-{RSI_GAP[1]:.0f}/RSI<{RSI_LO:.0f}/"
+                      f"{RSI_WIN[0]//60}:{RSI_WIN[0]%60:02d}>midi/TP+{RSI_TP*100:.0f}%)" if USE_RSI_TRACK else "")
+            extra = ''.join(f" + {t}" for t in (track2, track3) if t)
             if USE_RETRACE_TRACK:
-                cfg_txt = trio + (f" + {track2}" if track2 else "")
+                cfg_txt = trio + extra
                 if any(c.get('tp') for c in TRIO):       # sortie take-profit (strat repli-tp20)
                     exit_txt = (f"STOP -{STOP*100:.0f}% + TP +{max(c.get('tp', 0) for c in TRIO)*100:.0f}% "
                                 f"(OCA ; entrées {ENTRY_END[0]}:{ENTRY_END[1]:02d} max, sortie forcée 15:55)")
@@ -880,9 +883,9 @@ class RedCandleCatchTerminator:
                     exit_txt = f"STOP -{STOP*100:.0f}% -> HOLD-EOD (sortie forcée 15:55)"
                 else:
                     exit_txt = f"STOP -{STOP*100:.0f}% -> TRAIL {TRAIL*100:.0f}% (act +10%)"
-            else:                                        # repli désactivé -> vwap_reclaim seul
-                cfg_txt = track2 or "(AUCUN track actif !)"
-                exit_txt = f"STOP -{STOP*100:.0f}% + {vexit} (sortie forcée 15:55)"
+            else:                                        # repli désactivé -> tracks indicateurs seuls
+                cfg_txt = ' + '.join(t for t in (track2, track3) if t) or "(AUCUN track actif !)"
+                exit_txt = f"STOP -{STOP*100:.0f}% + TP (sortie forcée 15:55)"
             pmliq = f"PM-liq>={PM_LIQ_MIN_FRAC:.0%}(8:00-9:30)" if PM_LIQ_MIN_FRAC > 0 else "PM-liq OFF"
             print(f"RedCandleCatch — {mode}. CONFIG = {cfg_txt}. Sortie: {exit_txt}, "
                   f"prix {PRICE_MIN:.0f}-{PRICE_MAX:.0f}$, dvol-repli >= ${PULLBACK_DVOL_MIN/1e3:.0f}K, {pmliq}, "
