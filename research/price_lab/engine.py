@@ -14,6 +14,15 @@ from . import signals as S
 
 _CACHE = {}
 _PM = os.path.join(os.path.dirname(HERE), 'live_lab', 'results', 'liquid_universe_pm.csv')
+_EXCL = os.path.join(os.path.dirname(os.path.dirname(HERE)), 'data', 'collected_live', 'excluded.csv')
+
+
+def excluded_set():
+    """Ticker-jours EXCLUS (gap = reverse split ou acquisition) — cf build_exclusions.py."""
+    if not os.path.exists(_EXCL):
+        return set()
+    e = pd.read_csv(_EXCL)
+    return set(zip(e.ticker, e.date)) if len(e) else set()
 DEFAULTS = dict(price_min=3.0, price_max=20.0, gap_min=-100.0, gap_max=9999.0,
                 entry_start=570, entry_end=720,                 # 9:30 -> midi par défaut
                 exit_mode='tp', stop_pct=0.08, tp_pct=0.20, activate_pct=0.10, trail_pct=0.05, eod=955)
@@ -26,11 +35,13 @@ def _ind(g):
     return _CACHE[key]
 
 
-def liquid_groups(groups, thr=0.20):
-    """Univers PM-liquidité (latepm_frac >= thr : actif >= thr% des minutes 8:00-9:30). Robuste au délai."""
+def liquid_groups(groups, thr=0.20, exclude=True):
+    """Univers PM-liquidité (latepm_frac >= thr : actif >= thr% des minutes 8:00-9:30). Robuste au délai.
+    exclude=True : retire aussi les ticker-jours à gap ARTEFACT (reverse split / acquisition)."""
     u = pd.read_csv(_PM)
     keep = set(zip(u[u.latepm_frac >= thr].ticker, u[u.latepm_frac >= thr].date))
-    return [g for g in groups if (g['tk'], g['date']) in keep]
+    ex = excluded_set() if exclude else set()
+    return [g for g in groups if (g['tk'], g['date']) in keep and (g['tk'], g['date']) not in ex]
 
 
 def shape_groups(groups, mode='all'):
