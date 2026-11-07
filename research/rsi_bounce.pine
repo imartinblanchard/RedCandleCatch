@@ -5,12 +5,10 @@
 //            (défaut 20) à la hausse, bougie VERTE. 1 entrée/jour.  SORTIE : STOP -8% / TP +20% / EOD.
 //
 // ⚠️ GRAPHIQUE 1 MINUTE + HEURES ÉTENDUES (ETH) ACTIVÉES (sinon gap/RSI ancrés 04:00 = faux).
-// Le RSI est AFFICHÉ DANS UN PANNEAU SÉPARÉ (ligne orange) et RECALCULÉ CHAQUE JOUR (reset 04:00),
-// comme le backtest — PAS le RSI continu de TradingView. Les labels BUY/STOP/TP s'affichent sur le PRIX.
-// Si rien ne s'affiche : regarde si la ligne RSI touche bien 20 près de l'entrée (sinon la data TV
-// diffère de notre SIP) ; ou décoche « Filtre gap » pour isoler.
+// N'affiche QUE les signaux BUY/STOP/TP sur le prix. Le RSI est calculé en interne (par jour,
+// reset 04:00) — il n'est PAS tracé (ajoute le RSI natif TradingView si tu veux le voir).
 // =============================================================================
-indicator("RSI Bounce gap3-10 — RedCandleCatch", overlay=false, max_labels_count=500)
+indicator("RSI Bounce gap3-10 — RedCandleCatch", overlay=true, max_labels_count=500)
 
 rsiLo   = input.int(20,   "RSI seuil bas (survendu)")
 gMin    = input.float(3,  "Gap min %")
@@ -25,7 +23,7 @@ useSess = input.bool(true, "Filtre fenêtre horaire (décocher pour tester)")
 
 isNewDay = ta.change(dayofmonth(time, "America/New_York")) != 0
 
-// ---- RSI(14) Wilder RECALCULÉ CHAQUE JOUR (comme le backtest : 1re bougie seedée à 0) ----
+// ---- RSI(14) Wilder PAR JOUR (reset 04:00) — sert au signal, NON tracé ----
 chg = close - close[1]
 var float ag = na
 var float al = na
@@ -57,7 +55,7 @@ gapOk   = gap >= gMin and gap <= gMax
 priceOk = close >= pMin and close <= pMax
 sig     = crossUp and green and priceOk and not done and (not useGap or gapOk) and (not useSess or inSess)
 
-// ---- position ----
+// ---- position (visuel, sur le PRIX) ----
 var bool  inTrade = false
 var float entryP = na
 var float stopL  = na
@@ -69,7 +67,7 @@ if longEntry
     stopL  := close * (1.0 - stopPct)
     tpL    := close * (1.0 + tpPct)
     done   := true
-    label.new(bar_index, low, "BUY " + str.tostring(close, format.mintick) + " gap" + str.tostring(gap, "#") + "%", color=color.new(color.green, 0), textcolor=color.white, style=label.style_label_up, size=size.small, force_overlay=true)
+    label.new(bar_index, low, "BUY " + str.tostring(close, format.mintick) + " gap" + str.tostring(gap, "#") + "%", color=color.new(color.green, 0), textcolor=color.white, style=label.style_label_up, size=size.small)
 
 nyMin = hour(time, "America/New_York") * 60 + minute(time, "America/New_York")
 eod   = nyMin >= 954
@@ -84,17 +82,8 @@ if inTrade and not longEntry
 if inTrade and reason != ""
     xp = reason == "STOP" ? stopL : reason == "TP+20%" ? tpL : close
     pnl = (xp - entryP) / entryP * 100.0
-    label.new(bar_index, high, reason + " " + str.tostring(pnl, "+#.#") + "%", color=color.new(reason == "STOP" ? color.red : color.teal, 0), textcolor=color.white, style=label.style_label_down, size=size.small, force_overlay=true)
+    label.new(bar_index, high, reason + " " + str.tostring(pnl, "+#.#") + "%", color=color.new(reason == "STOP" ? color.red : color.teal, 0), textcolor=color.white, style=label.style_label_down, size=size.small)
     inTrade := false
 
-// prix : lignes STOP/TP sur le graphique (force_overlay)
-plot(inTrade ? stopL : na, "STOP -8%", color=color.red,   style=plot.style_linebr, linewidth=1, force_overlay=true)
-plot(inTrade ? tpL   : na, "TP +20%", color=color.green, style=plot.style_linebr, linewidth=1, force_overlay=true)
-
-// ---- PANNEAU RSI (par jour) ----
-plot(r, "RSI par-jour", color=color.orange, linewidth=2)
-hline(rsiLo, "seuil bas", color=color.red, linestyle=hline.style_dashed)
-hline(50, "", color=color.new(color.gray, 70))
-hline(80, "", color=color.new(color.gray, 85))
-plotshape(crossUp, "croisement RSI>seuil", shape.triangleup, location.bottom, color.new(color.aqua, 0), size=size.tiny)
-plot(gap, "gap %", color=color.new(color.aqua, 100), display=display.data_window)
+plot(inTrade ? stopL : na, "STOP -8%", color=color.red,   style=plot.style_linebr, linewidth=1)
+plot(inTrade ? tpL   : na, "TP +20%", color=color.green, style=plot.style_linebr, linewidth=1)
