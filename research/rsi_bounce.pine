@@ -4,8 +4,11 @@
 //   ENTRÉE : petit gapper (+3 à +10% vs clôture veille), entre 9:30 et midi, quand le RSI(14)
 //            RECROISE un seuil bas (défaut 20) à la hausse, sur une bougie VERTE. 1 entrée/jour.
 //   SORTIE : STOP -8% / TP +20% / sinon sortie forcée ~15:54 (EOD).
-// ⚠️ ACTIVER LES HEURES ÉTENDUES (ETH), graphique 1 minute : le gap (plus-haut du jour depuis 04:00)
-//    et la logique sont ancrés à la séance pré-marché incluse, comme le backtest.
+//
+// ⚠️ GRAPHIQUE 1 MINUTE + HEURES ÉTENDUES (ETH) ACTIVÉES.
+// NB IMPORTANT : le RSI est RECALCULÉ CHAQUE JOUR (remis à zéro à la 1re bougie du jour, 04:00),
+// PAS le RSI continu de TradingView — c'est ce que fait notre backtest. Sans ça, le RSI ne descend
+// jamais à 20 à l'ouverture et aucun signal n'apparaît. (Ajoute quand même le RSI natif TV si tu veux comparer.)
 // =============================================================================
 indicator("RSI Bounce gap3-10 — RedCandleCatch", overlay=true, max_labels_count=500)
 
@@ -21,11 +24,24 @@ useGap  = input.bool(true, "Filtre gap 3-10% (décocher pour tester)")
 useSess = input.bool(true, "Filtre fenêtre horaire (décocher pour tester)")
 dbg     = input.bool(true, "DEBUG : marquer TOUS les croisements RSI>seuil")
 
-r = ta.rsi(close, 14)
+// nouveau JOUR ET (1re bougie ~04:00 avec ETH) -> reset RSI/HOD/one-shot
+isNewDay = ta.change(dayofmonth(time, "America/New_York")) != 0
 
-// gap = (plus-haut du jour depuis 04:00  -  clôture de la veille) / clôture veille
+// ---- RSI(14) Wilder RECALCULÉ CHAQUE JOUR (comme le backtest : 1re bougie seedée à 0) ----
+chg = close - close[1]
+var float ag = na
+var float al = na
+if isNewDay
+    ag := 0.0
+    al := 0.0
+else
+    ag := (ag * 13.0 + math.max(chg, 0.0)) / 14.0
+    al := (al * 13.0 + math.max(-chg, 0.0)) / 14.0
+rs = al > 0.0 ? ag / al : (ag > 0.0 ? 1e9 : 0.0)
+r  = 100.0 - 100.0 / (1.0 + rs)
+
+// ---- gap = (plus-haut du jour depuis 04:00  -  clôture de la veille) / clôture veille ----
 pdc = request.security(syminfo.tickerid, "D", close[1])
-isNewDay = ta.change(time("1D")) != 0
 var float hod = na
 var bool  done = false
 if isNewDay
@@ -33,11 +49,11 @@ if isNewDay
     done := false
 else
     hod := math.max(nz(hod, high), high)
-gap = pdc > 0 ? (hod - pdc) / pdc * 100 : 0.0
+gap = pdc > 0 ? (hod - pdc) / pdc * 100.0 : 0.0
 
 // ---- conditions d'ENTRÉE ----
 inSess  = not na(time(timeframe.period, sess, "America/New_York"))
-crossUp = ta.crossover(r, rsiLo)                 // RSI recroise le seuil bas à la hausse
+crossUp = ta.crossover(r, rsiLo)
 green   = close >= open
 gapOk   = gap >= gMin and gap <= gMax
 priceOk = close >= pMin and close <= pMax
@@ -52,8 +68,8 @@ longEntry = sig and not inTrade
 if longEntry
     inTrade := true
     entryP := close
-    stopL  := close * (1 - stopPct)
-    tpL    := close * (1 + tpPct)
+    stopL  := close * (1.0 - stopPct)
+    tpL    := close * (1.0 + tpPct)
     done   := true
     label.new(bar_index, low, "BUY " + str.tostring(close, format.mintick) + "\nRSI " + str.tostring(r, "#") + " gap " + str.tostring(gap, "#") + "%", color=color.new(color.green, 0), textcolor=color.white, style=label.style_label_up, size=size.small)
 
@@ -76,10 +92,7 @@ if inTrade and reason != ""
 plot(inTrade ? stopL : na, "STOP -8%", color=color.red,   style=plot.style_linebr, linewidth=1)
 plot(inTrade ? tpL   : na, "TP +20%", color=color.green, style=plot.style_linebr, linewidth=1)
 
-// ---- DEBUG : voir pourquoi ça (ne) déclenche (pas) ----
-// petit point gris sous CHAQUE croisement RSI>seuil (même si gap/fenêtre pas remplis)
+// ---- DEBUG ----
 plotshape(dbg and crossUp, "croisement RSI", shape.circle, location.belowbar, color.new(color.gray, 40), size=size.tiny)
-// valeurs consultables dans le Data Window (survol) : gap% et RSI
 plot(gap, "gap %", color=color.new(color.aqua, 100), display=display.data_window)
-plot(r,   "RSI",   color=color.new(color.orange, 100), display=display.data_window)
-// (ajoute aussi l'indicateur RSI natif de TradingView en panneau séparé)
+plot(r,   "RSI (par jour)", color=color.new(color.orange, 100), display=display.data_window)
