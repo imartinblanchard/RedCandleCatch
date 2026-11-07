@@ -69,7 +69,7 @@ if longEntry
     stopL  := close * (1.0 - stopPct)
     tpL    := close * (1.0 + tpPct)
     done   := true
-    label.new(bar_index, 50, "BUY " + str.tostring(close, format.mintick) + " gap" + str.tostring(gap, "#") + "%", color=color.new(color.green, 0), textcolor=color.white, style=label.style_label_up, size=size.small, force_overlay=true)
+    label.new(bar_index, low, "BUY " + str.tostring(close, format.mintick) + " gap" + str.tostring(gap, "#") + "%", color=color.new(color.green, 0), textcolor=color.white, style=label.style_label_up, size=size.small, force_overlay=true)
 
 nyMin = hour(time, "America/New_York") * 60 + minute(time, "America/New_York")
 eod   = nyMin >= 954
@@ -84,7 +84,7 @@ if inTrade and not longEntry
 if inTrade and reason != ""
     xp = reason == "STOP" ? stopL : reason == "TP+20%" ? tpL : close
     pnl = (xp - entryP) / entryP * 100.0
-    label.new(bar_index, 50, reason + " " + str.tostring(pnl, "+#.#") + "%", color=color.new(reason == "STOP" ? color.red : color.teal, 0), textcolor=color.white, style=label.style_label_down, size=size.small, force_overlay=true)
+    label.new(bar_index, high, reason + " " + str.tostring(pnl, "+#.#") + "%", color=color.new(reason == "STOP" ? color.red : color.teal, 0), textcolor=color.white, style=label.style_label_down, size=size.small, force_overlay=true)
     inTrade := false
 
 // prix : lignes STOP/TP sur le graphique (force_overlay)
