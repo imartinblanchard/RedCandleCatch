@@ -17,6 +17,9 @@ stopPct = input.float(8,  "Stop %") / 100.0
 pMin    = input.float(3,  "Prix min $")
 pMax    = input.float(20, "Prix max $")
 sess    = input.session("0930-1200", "Fenêtre d'entrée (ET)")
+useGap  = input.bool(true, "Filtre gap 3-10% (décocher pour tester)")
+useSess = input.bool(true, "Filtre fenêtre horaire (décocher pour tester)")
+dbg     = input.bool(true, "DEBUG : marquer TOUS les croisements RSI>seuil")
 
 r = ta.rsi(close, 14)
 
@@ -38,7 +41,7 @@ crossUp = ta.crossover(r, rsiLo)                 // RSI recroise le seuil bas à
 green   = close >= open
 gapOk   = gap >= gMin and gap <= gMax
 priceOk = close >= pMin and close <= pMax
-sig     = inSess and crossUp and green and gapOk and priceOk and not done
+sig     = crossUp and green and priceOk and not done and (not useGap or gapOk) and (not useSess or inSess)
 
 // ---- position (visuel) ----
 var bool  inTrade = false
@@ -72,4 +75,11 @@ if inTrade and reason != ""
 
 plot(inTrade ? stopL : na, "STOP -8%", color=color.red,   style=plot.style_linebr, linewidth=1)
 plot(inTrade ? tpL   : na, "TP +20%", color=color.green, style=plot.style_linebr, linewidth=1)
-// (ajoute l'indicateur RSI natif de TradingView en panneau séparé pour voir le croisement du seuil)
+
+// ---- DEBUG : voir pourquoi ça (ne) déclenche (pas) ----
+// petit point gris sous CHAQUE croisement RSI>seuil (même si gap/fenêtre pas remplis)
+plotshape(dbg and crossUp, "croisement RSI", shape.circle, location.belowbar, color.new(color.gray, 40), size=size.tiny)
+// valeurs consultables dans le Data Window (survol) : gap% et RSI
+plot(gap, "gap %", color=color.new(color.aqua, 100), display=display.data_window)
+plot(r,   "RSI",   color=color.new(color.orange, 100), display=display.data_window)
+// (ajoute aussi l'indicateur RSI natif de TradingView en panneau séparé)
