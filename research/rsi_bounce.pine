@@ -21,12 +21,12 @@ sess    = input.session("0930-1200", "Fenêtre d'entrée (ET)")
 useGap  = input.bool(true, "Filtre gap 3-10% (décocher pour tester)")
 useSess = input.bool(true, "Filtre fenêtre horaire (décocher pour tester)")
 
-isNewDay = ta.change(dayofmonth(time, "America/New_York")) != 0
+isNewDay = ta.change(time("1D")) != 0          // 1re bougie de chaque jour (reset fiable)
 
-// ---- RSI(14) Wilder PAR JOUR (reset 04:00) — sert au signal, NON tracé ----
+// ---- RSI(14) Wilder PAR JOUR — sert au signal, NON tracé. ag/al initialisés à 0 (jamais na) ----
 chg = close - close[1]
-var float ag = na
-var float al = na
+var float ag = 0.0
+var float al = 0.0
 if isNewDay
     ag := 0.0
     al := 0.0
@@ -87,3 +87,7 @@ if inTrade and reason != ""
 
 plot(inTrade ? stopL : na, "STOP -8%", color=color.red,   style=plot.style_linebr, linewidth=1)
 plot(inTrade ? tpL   : na, "TP +20%", color=color.green, style=plot.style_linebr, linewidth=1)
+
+// DIAGNOSTIC : petit triangle gris à CHAQUE croisement RSI>seuil (même si gap/fenêtre/one-shot bloquent)
+// -> si tu vois des triangles mais pas de BUY = c'est un filtre qui bloque ; si aucun triangle = RSI ne croise pas 20.
+plotshape(crossUp, "croisement RSI", shape.triangleup, location.belowbar, color.new(color.gray, 20), size=size.tiny)
