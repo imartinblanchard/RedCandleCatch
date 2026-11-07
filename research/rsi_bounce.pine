@@ -1,16 +1,16 @@
 //@version=5
 // =============================================================================
 // RSI Bounce (gap 3-10%) — RedCandleCatch (VÉRIFICATION visuelle, 100% PRIX)
-//   ENTRÉE : petit gapper (+3 à +10% vs clôture veille), entre 9:30 et midi, quand le RSI(14)
-//            RECROISE un seuil bas (défaut 20) à la hausse, sur une bougie VERTE. 1 entrée/jour.
-//   SORTIE : STOP -8% / TP +20% / sinon sortie forcée ~15:54 (EOD).
+//   ENTRÉE : petit gapper (+3 à +10% vs clôture veille), 9:30->midi, RSI(14) RECROISE un seuil bas
+//            (défaut 20) à la hausse, bougie VERTE. 1 entrée/jour.  SORTIE : STOP -8% / TP +20% / EOD.
 //
-// ⚠️ GRAPHIQUE 1 MINUTE + HEURES ÉTENDUES (ETH) ACTIVÉES.
-// NB IMPORTANT : le RSI est RECALCULÉ CHAQUE JOUR (remis à zéro à la 1re bougie du jour, 04:00),
-// PAS le RSI continu de TradingView — c'est ce que fait notre backtest. Sans ça, le RSI ne descend
-// jamais à 20 à l'ouverture et aucun signal n'apparaît. (Ajoute quand même le RSI natif TV si tu veux comparer.)
+// ⚠️ GRAPHIQUE 1 MINUTE + HEURES ÉTENDUES (ETH) ACTIVÉES (sinon gap/RSI ancrés 04:00 = faux).
+// Le RSI est AFFICHÉ DANS UN PANNEAU SÉPARÉ (ligne orange) et RECALCULÉ CHAQUE JOUR (reset 04:00),
+// comme le backtest — PAS le RSI continu de TradingView. Les labels BUY/STOP/TP s'affichent sur le PRIX.
+// Si rien ne s'affiche : regarde si la ligne RSI touche bien 20 près de l'entrée (sinon la data TV
+// diffère de notre SIP) ; ou décoche « Filtre gap » pour isoler.
 // =============================================================================
-indicator("RSI Bounce gap3-10 — RedCandleCatch", overlay=true, max_labels_count=500)
+indicator("RSI Bounce gap3-10 — RedCandleCatch", overlay=false, max_labels_count=500)
 
 rsiLo   = input.int(20,   "RSI seuil bas (survendu)")
 gMin    = input.float(3,  "Gap min %")
@@ -22,9 +22,7 @@ pMax    = input.float(20, "Prix max $")
 sess    = input.session("0930-1200", "Fenêtre d'entrée (ET)")
 useGap  = input.bool(true, "Filtre gap 3-10% (décocher pour tester)")
 useSess = input.bool(true, "Filtre fenêtre horaire (décocher pour tester)")
-dbg     = input.bool(true, "DEBUG : marquer TOUS les croisements RSI>seuil")
 
-// nouveau JOUR ET (1re bougie ~04:00 avec ETH) -> reset RSI/HOD/one-shot
 isNewDay = ta.change(dayofmonth(time, "America/New_York")) != 0
 
 // ---- RSI(14) Wilder RECALCULÉ CHAQUE JOUR (comme le backtest : 1re bougie seedée à 0) ----
@@ -40,7 +38,7 @@ else
 rs = al > 0.0 ? ag / al : (ag > 0.0 ? 1e9 : 0.0)
 r  = 100.0 - 100.0 / (1.0 + rs)
 
-// ---- gap = (plus-haut du jour depuis 04:00  -  clôture de la veille) / clôture veille ----
+// ---- gap = (plus-haut du jour depuis 04:00 - clôture veille) / clôture veille ----
 pdc = request.security(syminfo.tickerid, "D", close[1])
 var float hod = na
 var bool  done = false
@@ -59,7 +57,7 @@ gapOk   = gap >= gMin and gap <= gMax
 priceOk = close >= pMin and close <= pMax
 sig     = crossUp and green and priceOk and not done and (not useGap or gapOk) and (not useSess or inSess)
 
-// ---- position (visuel) ----
+// ---- position ----
 var bool  inTrade = false
 var float entryP = na
 var float stopL  = na
@@ -71,7 +69,7 @@ if longEntry
     stopL  := close * (1.0 - stopPct)
     tpL    := close * (1.0 + tpPct)
     done   := true
-    label.new(bar_index, low, "BUY " + str.tostring(close, format.mintick) + "\nRSI " + str.tostring(r, "#") + " gap " + str.tostring(gap, "#") + "%", color=color.new(color.green, 0), textcolor=color.white, style=label.style_label_up, size=size.small)
+    label.new(bar_index, 50, "BUY " + str.tostring(close, format.mintick) + " gap" + str.tostring(gap, "#") + "%", color=color.new(color.green, 0), textcolor=color.white, style=label.style_label_up, size=size.small, force_overlay=true)
 
 nyMin = hour(time, "America/New_York") * 60 + minute(time, "America/New_York")
 eod   = nyMin >= 954
@@ -86,13 +84,17 @@ if inTrade and not longEntry
 if inTrade and reason != ""
     xp = reason == "STOP" ? stopL : reason == "TP+20%" ? tpL : close
     pnl = (xp - entryP) / entryP * 100.0
-    label.new(bar_index, high, reason + " " + str.tostring(xp, format.mintick) + "\n" + str.tostring(pnl, "+#.#") + "%", color=color.new(reason == "STOP" ? color.red : color.teal, 0), textcolor=color.white, style=label.style_label_down, size=size.small)
+    label.new(bar_index, 50, reason + " " + str.tostring(pnl, "+#.#") + "%", color=color.new(reason == "STOP" ? color.red : color.teal, 0), textcolor=color.white, style=label.style_label_down, size=size.small, force_overlay=true)
     inTrade := false
 
-plot(inTrade ? stopL : na, "STOP -8%", color=color.red,   style=plot.style_linebr, linewidth=1)
-plot(inTrade ? tpL   : na, "TP +20%", color=color.green, style=plot.style_linebr, linewidth=1)
+// prix : lignes STOP/TP sur le graphique (force_overlay)
+plot(inTrade ? stopL : na, "STOP -8%", color=color.red,   style=plot.style_linebr, linewidth=1, force_overlay=true)
+plot(inTrade ? tpL   : na, "TP +20%", color=color.green, style=plot.style_linebr, linewidth=1, force_overlay=true)
 
-// ---- DEBUG ----
-plotshape(dbg and crossUp, "croisement RSI", shape.circle, location.belowbar, color.new(color.gray, 40), size=size.tiny)
+// ---- PANNEAU RSI (par jour) ----
+plot(r, "RSI par-jour", color=color.orange, linewidth=2)
+hline(rsiLo, "seuil " + str.tostring(rsiLo), color=color.red, linestyle=hline.style_dashed)
+hline(50, "", color=color.new(color.gray, 70))
+hline(80, "", color=color.new(color.gray, 85))
+plotshape(crossUp, "croisement RSI>seuil", shape.triangleup, location.bottom, color.new(color.aqua, 0), size=size.tiny)
 plot(gap, "gap %", color=color.new(color.aqua, 100), display=display.data_window)
-plot(r,   "RSI (par jour)", color=color.new(color.orange, 100), display=display.data_window)
