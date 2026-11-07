@@ -93,7 +93,7 @@ plot(inTrade ? tpL   : na, "TP +20%", color=color.green, style=plot.style_linebr
 
 // ---- PANNEAU RSI (par jour) ----
 plot(r, "RSI par-jour", color=color.orange, linewidth=2)
-hline(rsiLo, "seuil " + str.tostring(rsiLo), color=color.red, linestyle=hline.style_dashed)
+hline(rsiLo, "seuil bas", color=color.red, linestyle=hline.style_dashed)
 hline(50, "", color=color.new(color.gray, 70))
 hline(80, "", color=color.new(color.gray, 85))
 plotshape(crossUp, "croisement RSI>seuil", shape.triangleup, location.bottom, color.new(color.aqua, 0), size=size.tiny)
