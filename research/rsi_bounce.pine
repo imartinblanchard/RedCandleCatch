@@ -37,7 +37,8 @@ rs = al > 0.0 ? ag / al : (ag > 0.0 ? 1e9 : 0.0)
 r  = 100.0 - 100.0 / (1.0 + rs)
 
 // ---- gap = (plus-haut du jour depuis 04:00 - clôture veille) / clôture veille ----
-pdc = request.security(syminfo.tickerid, "D", close[1])
+// lookahead_on + close[1] = LA clôture de la veille, confirmée (sinon gap faux -> filtre bloque à tort).
+pdc = request.security(syminfo.tickerid, "D", close[1], lookahead=barmerge.lookahead_on)
 var float hod = na
 var bool  done = false
 if isNewDay
@@ -90,4 +91,4 @@ plot(inTrade ? tpL   : na, "TP +20%", color=color.green, style=plot.style_linebr
 
 // DIAGNOSTIC : petit triangle gris à CHAQUE croisement RSI>seuil (même si gap/fenêtre/one-shot bloquent)
 // -> si tu vois des triangles mais pas de BUY = c'est un filtre qui bloque ; si aucun triangle = RSI ne croise pas 20.
-plotshape(crossUp, "croisement RSI", shape.triangleup, location.belowbar, color.new(color.gray, 20), size=size.tiny)
+plotshape(crossUp and inSess, "croisement RSI", shape.triangleup, location.belowbar, color.new(color.gray, 20), size=size.tiny)
