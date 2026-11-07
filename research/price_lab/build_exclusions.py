@@ -20,12 +20,8 @@ OUT = os.path.join(DATA, 'excluded.csv')
 
 # CIBLE d'un rachat UNIQUEMENT (le titre se fait acheter -> collé au prix de l'offre). On N'exclut PAS
 # l'acquéreur (« to acquire X », « acquisition of X ») = vrai catalyseur qu'on veut trader.
-ACQ = re.compile(r'\b(to be acquired|be acquired by|being acquired|will be acquired|'
-                 r'(takeover|buyout) (offer|bid|deal|report|proposal)|agreed takeover|'
-                 r'tender offer|to be taken private|taken private in|'
-                 r'per share in cash|all-cash (deal|transaction|acquisition|merger)|'
-                 r'to be bought by|agree[sd]? to be acquired)\b', re.I)
-RSPLIT = re.compile(r'\b(reverse (stock )?split|share consolidation|consolidation of (its )?shares)\b', re.I)
+sys.path.insert(0, ROOT)
+from bot.exclusions import ACQ_RE as ACQ, RSPLIT_RE as RSPLIT   # SOURCE UNIQUE des règles (recherche == live)
 
 
 def load_splits(tickers):

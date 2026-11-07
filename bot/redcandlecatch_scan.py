@@ -17,6 +17,9 @@ from __future__ import annotations
 from typing import Dict, List, Optional
 from datetime import date, datetime
 import math
+from bot import exclusions                 # filtre gap-artefact : reverse split / rachat-cible
+
+ENABLE_EXCLUSIONS = True                    # écarte les titres à gap artificiel (reverse split / acquisition)
 
 try:
     from zoneinfo import ZoneInfo
@@ -172,6 +175,24 @@ def fetch_fundamentals(ticker: str) -> dict:
     slot['fund'] = fund
     return fund
 
+
+def fetch_news_titles(ticker: str) -> list:
+    """Titres de news récents du ticker (yf.Search, caché par scan). Pour le filtre d'exclusion rachat."""
+    slot = _slot(ticker)
+    if 'news_titles' in slot:
+        return slot['news_titles']
+    titles = []
+    try:
+        import yfinance as yf
+        for a in (yf.Search(ticker, news_count=10).news or []):
+            t = a.get('title') or (a.get('content') or {}).get('title') or ''
+            if t:
+                titles.append(t)
+    except Exception as e:
+        print(f"    news err {ticker}: {e}")
+    slot['news_titles'] = titles
+    return titles
+
 # =============================================================== TA quotidienne
 def _sma(v: List[float], n: int) -> Optional[float]:
     return sum(v[-n:]) / n if len(v) >= n else None
@@ -292,6 +313,12 @@ def evaluate(broker, ticker: str, gap_pct: Optional[float], price: Optional[floa
         out['reason'] = f'{pm_minutes} min actives en PM < {PM_MINUTES_MIN} (intradable)'; return out
     if ENABLE_LIQUIDITY and dollar_vol is not None and dollar_vol < MIN_DOLLAR_VOL:
         out['reason'] = f'dollar-vol ${dollar_vol/1e6:.1f}M < ${MIN_DOLLAR_VOL/1e6:.0f}M requis'; return out
+
+    # --- EXCLUSION gap-artefact (reverse split / rachat-cible) : on ne trade PAS ces gaps ---
+    if ENABLE_EXCLUSIONS:
+        reason = exclusions.live_exclusion_reason(ticker, fetch_news_titles(ticker), date=_now_et().date())
+        if reason:
+            out['reason'] = f'SKIP-exclu-{reason}'; return out
 
     # --- fondamentaux : collectés pour le JOURNAL (features ML), filtres désactivés ---
     fund = fetch_fundamentals(ticker)
