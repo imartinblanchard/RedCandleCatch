@@ -42,7 +42,9 @@ sig     = inSess and crossUp and green and gapOk and priceOk and not done
 
 // ---- position (visuel) ----
 var bool  inTrade = false
-var float entryP = na, stopL = na, tpL = na
+var float entryP = na
+var float stopL  = na
+var float tpL    = na
 longEntry = sig and not inTrade
 if longEntry
     inTrade := true
