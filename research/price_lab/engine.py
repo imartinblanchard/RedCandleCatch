@@ -44,6 +44,48 @@ def liquid_groups(groups, thr=0.20, exclude=True):
     return [g for g in groups if (g['tk'], g['date']) in keep and (g['tk'], g['date']) not in ex]
 
 
+_FEAT = os.path.join(HERE, 'results', 'features.csv')
+_FEAT_CACHE = {}
+
+
+def feature_table():
+    """(ticker,date) -> dict de features hors-prix (cf build_features.py). {} si pas encore généré."""
+    if not _FEAT_CACHE and os.path.exists(_FEAT):
+        f = pd.read_csv(_FEAT)
+        for r in f.itertuples(index=False):
+            _FEAT_CACHE[(r.ticker, r.date)] = r._asdict()
+    return _FEAT_CACHE
+
+
+def feature_filter(groups, **conds):
+    """Filtre les groups sur les features hors-prix. Conventions de clés :
+      <col>=v        -> égalité (ex. has_news=1, halted=1)
+      <col>_min=v    -> >= v (ex. float_rot_min=1.0, dvol_session_min=200000, gap_max_min=30)
+      <col>_max=v    -> <= v
+    Un ticker-jour SANS feature (ou valeur NaN testée) est EXCLU (conservateur). Nécessite features.csv."""
+    ft = feature_table()
+    if not ft:
+        raise FileNotFoundError(f"{_FEAT} absent — lance d'abord: python -m research.price_lab.build_features")
+
+    def ok(key):
+        row = ft.get(key)
+        if row is None:
+            return False
+        for c, v in conds.items():
+            if c.endswith('_min'):
+                x = row.get(c[:-4])
+                if x is None or pd.isna(x) or x < v: return False
+            elif c.endswith('_max'):
+                x = row.get(c[:-4])
+                if x is None or pd.isna(x) or x > v: return False
+            else:
+                x = row.get(c)
+                if x is None or pd.isna(x) or x != v: return False
+        return True
+
+    return [g for g in groups if ok((g['tk'], g['date']))]
+
+
 def shape_groups(groups, mode='all'):
     if mode == 'all':
         return groups

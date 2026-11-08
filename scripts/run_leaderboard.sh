@@ -39,4 +39,9 @@ cd "$PROJ" || exit 1
 # quarantaine, à rebâtir sur base réduite d'indicateurs). L'univers liquide reste frais chaque jour.
 "$PROJ/.venv/bin/python" -m research.live_lab.studies.build_liquid_universe_pm >> "$LOG" 2>&1 \
   && log "univers PM-liquidité régénéré (liquid_universe_pm.csv)" || log "⚠️ échec rebuild univers PM"
+
+# Features HORS-PRIX (float_rot/dvol/news/halts) matérialisées par ticker-jour pour la recherche.
+# Dépend de bars+meta+news+halts+liquid_universe_pm : tous frais à ce stade.
+"$PROJ/.venv/bin/python" -m research.price_lab.build_features >> "$LOG" 2>&1 \
+  && log "features hors-prix régénérées (price_lab/results/features.csv)" || log "⚠️ échec build_features"
 log "=== terminé ==="
