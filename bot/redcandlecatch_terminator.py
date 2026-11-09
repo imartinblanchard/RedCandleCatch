@@ -89,7 +89,10 @@ PULLBACK_DVOL_MIN = 300_000    # $ min de dollar-volume CUMULÉ sur tout le repl
 # type DRIO SANS look-ahead (le PM est connu avant toute entrée ≥10:00). Issu de la recherche
 # univers-liquide-PM (meilleure famille robuste = liq-eod + latepm_frac≥0,2). 0.0 = filtre OFF.
 PM_LIQ_LO, PM_LIQ_HI = 480, 570   # minutes ET : 8:00 -> 9:30
-PM_LIQ_MIN_FRAC = 0.20            # ≥20% des 90 min PM avec un trade (≈18 min). 0 = désactivé.
+PM_LIQ_MIN_FRAC = 0.35            # 09/11 : 0.20 -> 0.35 (≈32/90 min PM). Sommet du plateau sur
+                                  # rsi_bounce (exp 1.57->2.30%/tr, CPTE +36->+83%, win 62->65% ;
+                                  # pique à 0.35-0.40 puis redescend). Coût : 10.8->6.4 tr/j, DD -6->-10.7.
+                                  # 0 = désactivé. (Revert = remettre 0.20.)
 # ── CONFIG "liq-eod" (déployée live 28/10 soir, 1 action = forward-test/bug-hunting ; cf univers-liquide-prefiltre) ──
 # CONFIG UNIQUE "liq-eod" (28/10) — issue de la recherche sur l'UNIVERS LIQUIDE (meilleure candidate
 # robuste, variante EOD : CPTE +26,1% / OOS +13,3%, n=37, exp +3,16%/tr sur le backtest liquide).
