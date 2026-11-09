@@ -275,6 +275,7 @@ class RedCandleCatchTerminator:
         self.evals: Dict[str, dict] = {}             # ticker -> résultat redcandlecatch_scan.evaluate (ratings/flags)
         self._protected: set = set()                 # symboles avec un ordre de vente vivant (réconciliation)
         self._pc: Dict[str, float] = {}              # cache clôture-veille par ticker (recheck du gap à l'entrée)
+        self._pm_logged: set = set()                 # (ticker, strat) déjà loggés au gate PM-liq aujourd'hui (1 ligne/ticker/strat/jour)
         self.day = now_et().date()
 
     def _stop_at(self, tk: str, shares: int, stop_price: float):
@@ -436,7 +437,7 @@ class RedCandleCatchTerminator:
     def cycle(self):
         t = now_et()
         if t.date() != self.day:                     # nouveau jour -> reset
-            self.day = t.date(); self.done.clear(); self.gap_ok.clear(); self.evals.clear(); self.last_bar.clear(); self._pc.clear()
+            self.day = t.date(); self.done.clear(); self.gap_ok.clear(); self.evals.clear(); self.last_bar.clear(); self._pc.clear(); self._pm_logged.clear()
         if hm(t) < ENTRY_FLOOR:
             return                                   # avant l'ouverture : rien
         # BUG corrigé 16/09 : avant, le cycle sortait dès 16:30 -> le backstop ne se
@@ -499,6 +500,38 @@ class RedCandleCatchTerminator:
         except Exception as e:
             print(f"    log_eval err {tk}: {e}")
 
+    def _pm_liq(self, tk, strat, r, allbars):
+        """Fréquence PM (8:00-9:30) du titre + LOG persistant de la décision du gate (une seule
+        ligne par ticker/strat/jour — le pm_frac est figé une fois 9:30 passé). Centralise le
+        filtre univers des 3 tracks. -> (pm_active, pm_frac)."""
+        pm_active = sum(1 for b in allbars
+                        if PM_LIQ_LO <= tmin(b['t']) < PM_LIQ_HI and (b.get('v') or 0) > 0)
+        pm_frac = pm_active / (PM_LIQ_HI - PM_LIQ_LO)
+        key = (tk, strat)
+        if key not in self._pm_logged:
+            self._pm_logged.add(key)
+            self._log_pm(tk, strat, r, pm_active, pm_frac)
+        return pm_active, pm_frac
+
+    def _log_pm(self, tk, strat, r, pm_active, pm_frac):
+        """-> data/collected_live/pm_decisions-YYYY-MM-DD.csv : qui passe / est recalé par le
+        filtre de fréquence PM (PM_LIQ_MIN_FRAC). Donnée FIABLE (capturée à l'instant, non reconstruite)."""
+        try:
+            import csv, os
+            d = os.path.join('data', 'collected_live'); os.makedirs(d, exist_ok=True)
+            path = os.path.join(d, f"pm_decisions-{now_et():%Y-%m-%d}.csv")
+            new = not os.path.exists(path)
+            with open(path, 'a', newline='') as f:
+                w = csv.writer(f)
+                if new:
+                    w.writerow(['logged_at', 'ticker', 'strat', 'signal_candle', 'pm_active', 'pm_min',
+                                'pm_frac', 'threshold', 'passed', 'mode'])
+                w.writerow([now_et().strftime('%H:%M:%S'), tk, strat, r['t'].strftime('%H:%M'),
+                            pm_active, PM_LIQ_HI - PM_LIQ_LO, round(pm_frac, 3), PM_LIQ_MIN_FRAC,
+                            int(pm_frac >= PM_LIQ_MIN_FRAC), 'LIVE' if self.live else 'PAPER'])
+        except Exception as e:
+            print(f"    log_pm err {tk}: {e}")
+
     def _retrace_signal(self, tk: str, r: dict, allbars, cfg=None):
         """Repli >=cfg.retrace du HOD + capitulation + liquidité. cfg=None -> v3 mono (globals).
         Ajouts trio : fenêtre par config, HOD-en-séance, bougie verte. -> (entry, activate, desc) ou None."""
@@ -518,9 +551,7 @@ class RedCandleCatchTerminator:
             return None
         # FILTRE PM-LIQUIDITÉ CAUSAL : le titre a-t-il tradé assez souvent en PM (8:00-9:30) ?
         if PM_LIQ_MIN_FRAC > 0:
-            pm_active = sum(1 for b in allbars
-                            if PM_LIQ_LO <= tmin(b['t']) < PM_LIQ_HI and (b.get('v') or 0) > 0)
-            pm_frac = pm_active / (PM_LIQ_HI - PM_LIQ_LO)
+            pm_active, pm_frac = self._pm_liq(tk, nm, r, allbars)
             if pm_frac < PM_LIQ_MIN_FRAC:
                 print(f"[{now_et():%H:%M}] SKIP {tk}[{nm}] {r['t']:%H:%M} PM-liq {pm_frac:.0%} "
                       f"({pm_active}/90 min) < {PM_LIQ_MIN_FRAC:.0%} -> SKIP-pm-illiquide")
@@ -587,9 +618,8 @@ class RedCandleCatchTerminator:
         if not allbars:
             return None
         if PM_LIQ_MIN_FRAC > 0:                          # univers : titre liquide en PM (8:00-9:30)
-            pm_active = sum(1 for b in allbars
-                            if PM_LIQ_LO <= tmin(b['t']) < PM_LIQ_HI and (b.get('v') or 0) > 0)
-            if pm_active / (PM_LIQ_HI - PM_LIQ_LO) < PM_LIQ_MIN_FRAC:
+            _, pm_frac = self._pm_liq(tk, 'vwap', r, allbars)
+            if pm_frac < PM_LIQ_MIN_FRAC:
                 return None
         sig = vwap_reclaim_signal(allbars, r['t'], rvol_min=VWAP_RVOL_MIN,
                                   win=VWAP_WIN, price=(PRICE_MIN, PRICE_MAX), activate=VWAP_ACTIVATE)
@@ -605,9 +635,8 @@ class RedCandleCatchTerminator:
         if not allbars:
             return None
         if PM_LIQ_MIN_FRAC > 0:                          # univers : titre liquide en PM (8:00-9:30)
-            pm_active = sum(1 for b in allbars
-                            if PM_LIQ_LO <= tmin(b['t']) < PM_LIQ_HI and (b.get('v') or 0) > 0)
-            if pm_active / (PM_LIQ_HI - PM_LIQ_LO) < PM_LIQ_MIN_FRAC:
+            _, pm_frac = self._pm_liq(tk, 'rsi_bounce', r, allbars)
+            if pm_frac < PM_LIQ_MIN_FRAC:
                 return None
         pc = self._pc.get(tk)
         if pc is None:
