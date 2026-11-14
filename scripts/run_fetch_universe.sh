@@ -15,3 +15,12 @@ python -m bot.fetch_universe_news >> data/collected_live/fetch.log 2>&1
 # Bougies 15s PRÉ-MARCHÉ des gappers >=10% (étude momentum PM). Besoin IBKR (port 4001).
 echo "=== $(date '+%Y-%m-%d %H:%M:%S %Z') fetch_pm15s (>=10%) ===" >> data/collected_live/fetch.log
 python -m bot.fetch_pm15s --min-band 10 >> data/collected_live/fetch.log 2>&1
+
+# Bougies 1-min de l'univers ÉLIGIBLE (ce que le bot voit vraiment) -> aligne recherche sur live.
+# Fichiers SÉPARÉS bars_eligible-*.parquet. Besoin IBKR. Peut être long (résumable).
+echo "=== $(date '+%Y-%m-%d %H:%M:%S %Z') fetch_eligible_bars ===" >> data/collected_live/fetch.log
+python -m bot.fetch_eligible_bars >> data/collected_live/fetch.log 2>&1
+
+# Leaderboard NIGHTLY sur l'univers RÉEL aligné (évolue chaque soir). Pas d'IBKR (relit le parquet).
+echo "=== $(date '+%Y-%m-%d %H:%M:%S %Z') nightly_real_leaderboard ===" >> data/collected_live/fetch.log
+python -m research.live_lab.nightly_real_leaderboard >> data/collected_live/fetch.log 2>&1
