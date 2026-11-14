@@ -55,11 +55,14 @@ def main(day):
     print(f"[{day}] éligibles {len(uni)} tickers | déjà fait {len(done)} | à faire {len(todo)}", flush=True)
 
     ib = IB(); ib.connect('127.0.0.1', 4001, clientId=random.randint(3200, 3900), timeout=25)
+    # endDateTime = 20:00 ET du JOUR CIBLE (04:00->20:00 = 57600 S). Indispensable pour backfiller
+    # un jour passé : endDateTime vide = "16h jusqu'à maintenant" -> ne ramène QUE le dernier jour.
+    end_dt = f"{day.replace('-', '')} 20:00:00 US/Eastern"
     chunks = [pd.read_parquet(barp)] if os.path.exists(barp) else []
     for i, tk in enumerate(todo):
         try:
             ct = Stock(tk, 'SMART', 'USD'); ib.qualifyContracts(ct)
-            bars = ib.reqHistoricalData(ct, '', '57600 S', '1 min', 'TRADES', useRTH=False, formatDate=1)
+            bars = ib.reqHistoricalData(ct, end_dt, '57600 S', '1 min', 'TRADES', useRTH=False, formatDate=1)
         except Exception as e:
             print(f"  !! {tk}: {e}", flush=True); time.sleep(SLEEP); continue
         rows = []
