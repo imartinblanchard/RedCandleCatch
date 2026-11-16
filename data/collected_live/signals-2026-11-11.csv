@@ -1,0 +1,2 @@
+logged_at,ticker,candle,o,h,l,c,v,prev_close,hod,gap,retrace,capit_ratio,pb_dvol,n_bars,decision,mode
+09:46:42,PXLW,09:45,7.385,7.4199,7.26,7.345,174300,7.29,8.0,9.74,8.19,6.92,149039470,330,ENTER,LIVE

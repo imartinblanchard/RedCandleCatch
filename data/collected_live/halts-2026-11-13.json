@@ -1,0 +1,508 @@
+{
+ "GRDX": [
+  {
+   "halt_time": "08:55:00.000",
+   "reason": "T1",
+   "resume_date": "",
+   "resume_quote_time": "",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "GridAI Technologies Cmn Stk",
+   "pause_price": ""
+  }
+ ],
+ "ONFO": [
+  {
+   "halt_time": "09:41:30.620",
+   "reason": "LUDP",
+   "resume_date": "2026-11-13",
+   "resume_quote_time": "09:41:30",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Onfolio Holdings Inc. Cm St",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "09:31:09.153",
+   "reason": "LUDP",
+   "resume_date": "2026-11-13",
+   "resume_quote_time": "09:31:09",
+   "resume_trade_time": "09:41:09",
+   "market": "NASDAQ",
+   "name": "Onfolio Holdings Inc. Cm St",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "09:56:42.360",
+   "reason": "LUDP",
+   "resume_date": "2026-11-13",
+   "resume_quote_time": "09:56:42",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Onfolio Holdings Inc. Cm St",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "09:46:45.636",
+   "reason": "LUDP",
+   "resume_date": "2026-11-13",
+   "resume_quote_time": "09:46:45",
+   "resume_trade_time": "09:51:45",
+   "market": "NASDAQ",
+   "name": "Onfolio Holdings Inc. Cm St",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:11:36.836",
+   "reason": "LUDP",
+   "resume_date": "2026-11-13",
+   "resume_quote_time": "10:11:36",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Onfolio Holdings Inc. Cm St",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:44:38.760",
+   "reason": "LUDP",
+   "resume_date": "2026-11-13",
+   "resume_quote_time": "10:44:38",
+   "resume_trade_time": "10:49:38",
+   "market": "NASDAQ",
+   "name": "Onfolio Holdings Inc. Cm St",
+   "pause_price": ""
+  }
+ ],
+ "BKHA": [
+  {
+   "halt_time": "09:36:54.560",
+   "reason": "LUDP",
+   "resume_date": "2026-11-13",
+   "resume_quote_time": "09:36:54",
+   "resume_trade_time": "09:41:54",
+   "market": "NASDAQ",
+   "name": "Black Hawk Acquisition Cl A OS",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "09:56:53.940",
+   "reason": "LUDP",
+   "resume_date": "2026-11-13",
+   "resume_quote_time": "09:56:53",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Black Hawk Acquisition Cl A OS",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "13:29:30.036",
+   "reason": "LUDP",
+   "resume_date": "2026-11-13",
+   "resume_quote_time": "13:29:30",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Black Hawk Acquisition Cl A OS",
+   "pause_price": ""
+  }
+ ],
+ "POAS": [
+  {
+   "halt_time": "09:36:26.186",
+   "reason": "M",
+   "resume_date": "",
+   "resume_quote_time": "",
+   "resume_trade_time": "",
+   "market": "AMEX",
+   "name": "Phaos Technology Holdings (Cayman) Limited Class A Ordinary Shares",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "09:55:09.916",
+   "reason": "M",
+   "resume_date": "",
+   "resume_quote_time": "",
+   "resume_trade_time": "",
+   "market": "AMEX",
+   "name": "Phaos Technology Holdings (Cayman) Limited Class A Ordinary Shares",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:20:38.866",
+   "reason": "M",
+   "resume_date": "",
+   "resume_quote_time": "",
+   "resume_trade_time": "",
+   "market": "AMEX",
+   "name": "Phaos Technology Holdings (Cayman) Limited Class A Ordinary Shares",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:15:18.603",
+   "reason": "M",
+   "resume_date": "2026-11-13",
+   "resume_quote_time": "10:20:18",
+   "resume_trade_time": "10:20:18",
+   "market": "AMEX",
+   "name": "Phaos Technology Holdings (Cayman) Limited Class A Ordinary Shares",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:31:04.753",
+   "reason": "M",
+   "resume_date": "2026-11-13",
+   "resume_quote_time": "10:41:04",
+   "resume_trade_time": "10:41:04",
+   "market": "AMEX",
+   "name": "Phaos Technology Holdings (Cayman) Limited Class A Ordinary Shares",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:56:57.166",
+   "reason": "M",
+   "resume_date": "",
+   "resume_quote_time": "",
+   "resume_trade_time": "",
+   "market": "AMEX",
+   "name": "Phaos Technology Holdings (Cayman) Limited Class A Ordinary Shares",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:51:42.136",
+   "reason": "M",
+   "resume_date": "2026-11-13",
+   "resume_quote_time": "10:56:42",
+   "resume_trade_time": "10:56:42",
+   "market": "AMEX",
+   "name": "Phaos Technology Holdings (Cayman) Limited Class A Ordinary Shares",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "11:12:12.240",
+   "reason": "M",
+   "resume_date": "",
+   "resume_quote_time": "",
+   "resume_trade_time": "",
+   "market": "AMEX",
+   "name": "Phaos Technology Holdings (Cayman) Limited Class A Ordinary Shares",
+   "pause_price": ""
+  }
+ ],
+ "COSM": [
+  {
+   "halt_time": "09:34:13.893",
+   "reason": "LUDP",
+   "resume_date": "2026-11-13",
+   "resume_quote_time": "09:34:13",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Cosmos Health Inc. Cs",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "09:54:32.996",
+   "reason": "LUDP",
+   "resume_date": "2026-11-13",
+   "resume_quote_time": "09:54:32",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Cosmos Health Inc. Cs",
+   "pause_price": ""
+  }
+ ],
+ "FGI": [
+  {
+   "halt_time": "09:32:35.070",
+   "reason": "LUDP",
+   "resume_date": "2026-11-13",
+   "resume_quote_time": "09:32:35",
+   "resume_trade_time": "09:42:35",
+   "market": "NASDAQ",
+   "name": "FGI Industries Ltd. Os",
+   "pause_price": ""
+  }
+ ],
+ "FHIL": [
+  {
+   "halt_time": "09:30:32.706",
+   "reason": "M",
+   "resume_date": "2026-11-13",
+   "resume_quote_time": "09:35:32",
+   "resume_trade_time": "09:35:32",
+   "market": "Non NASDAQ",
+   "name": "Federated Hermes International Leaders ETF",
+   "pause_price": ""
+  }
+ ],
+ "CURX": [
+  {
+   "halt_time": "09:30:26.073",
+   "reason": "LUDP",
+   "resume_date": "2026-11-13",
+   "resume_quote_time": "09:30:26",
+   "resume_trade_time": "09:35:26",
+   "market": "NASDAQ",
+   "name": "Curanex Pharmaceuticals Inc CS",
+   "pause_price": ""
+  }
+ ],
+ "AKAN": [
+  {
+   "halt_time": "09:57:27.386",
+   "reason": "LUDP",
+   "resume_date": "2026-11-13",
+   "resume_quote_time": "09:57:27",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Akanda Corp. Cm Sh",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "09:49:55.173",
+   "reason": "LUDP",
+   "resume_date": "2026-11-13",
+   "resume_quote_time": "09:49:55",
+   "resume_trade_time": "09:54:55",
+   "market": "NASDAQ",
+   "name": "Akanda Corp. Cm Sh",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "09:44:35.296",
+   "reason": "LUDP",
+   "resume_date": "2026-11-13",
+   "resume_quote_time": "09:44:35",
+   "resume_trade_time": "09:49:35",
+   "market": "NASDAQ",
+   "name": "Akanda Corp. Cm Sh",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:03:41.563",
+   "reason": "LUDP",
+   "resume_date": "2026-11-13",
+   "resume_quote_time": "10:03:41",
+   "resume_trade_time": "10:08:41",
+   "market": "NASDAQ",
+   "name": "Akanda Corp. Cm Sh",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "15:14:03.426",
+   "reason": "LUDP",
+   "resume_date": "2026-11-13",
+   "resume_quote_time": "15:14:03",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Akanda Corp. Cm Sh",
+   "pause_price": ""
+  }
+ ],
+ "RETO": [
+  {
+   "halt_time": "09:53:03.526",
+   "reason": "LUDP",
+   "resume_date": "2026-11-13",
+   "resume_quote_time": "09:53:03",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "ReTo Eco-Solutions Cl A Shs",
+   "pause_price": ""
+  }
+ ],
+ "FCUV": [
+  {
+   "halt_time": "09:47:20.813",
+   "reason": "LUDP",
+   "resume_date": "2026-11-13",
+   "resume_quote_time": "09:47:20",
+   "resume_trade_time": "09:57:20",
+   "market": "NASDAQ",
+   "name": "Focus Universal Inc. Cm",
+   "pause_price": ""
+  }
+ ],
+ "BUDA": [
+  {
+   "halt_time": "09:45:52.296",
+   "reason": "M",
+   "resume_date": "2026-11-13",
+   "resume_quote_time": "09:50:52",
+   "resume_trade_time": "09:50:52",
+   "market": "AMEX",
+   "name": "Buda Juice, Inc. Common Stock",
+   "pause_price": ""
+  }
+ ],
+ "RIBBU": [
+  {
+   "halt_time": "10:13:51.523",
+   "reason": "LUDP",
+   "resume_date": "2026-11-13",
+   "resume_quote_time": "10:13:51",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Ribbon Acq Corp Ut",
+   "pause_price": ""
+  }
+ ],
+ "BRBI": [
+  {
+   "halt_time": "10:21:56.920",
+   "reason": "LUDP",
+   "resume_date": "2026-11-13",
+   "resume_quote_time": "10:21:56",
+   "resume_trade_time": "10:26:56",
+   "market": "NASDAQ",
+   "name": "BRBI BR Partners SA ADS",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:15:30.286",
+   "reason": "LUDP",
+   "resume_date": "2026-11-13",
+   "resume_quote_time": "10:15:30",
+   "resume_trade_time": "10:20:30",
+   "market": "NASDAQ",
+   "name": "BRBI BR Partners SA ADS",
+   "pause_price": ""
+  }
+ ],
+ "XX": [
+  {
+   "halt_time": "10:21:27.643",
+   "reason": "M",
+   "resume_date": "2026-11-13",
+   "resume_quote_time": "10:26:27",
+   "resume_trade_time": "10:26:27",
+   "market": "Non NASDAQ",
+   "name": "Roundhill S&P 500 Target 10,000 2030 ETF",
+   "pause_price": ""
+  }
+ ],
+ "BKHAU": [
+  {
+   "halt_time": "10:15:31.590",
+   "reason": "LUDP",
+   "resume_date": "2026-11-13",
+   "resume_quote_time": "10:15:31",
+   "resume_trade_time": "10:20:31",
+   "market": "NASDAQ",
+   "name": "Black Hawk Acquisition Corpora",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "12:07:16.433",
+   "reason": "LUDP",
+   "resume_date": "2026-11-13",
+   "resume_quote_time": "12:07:16",
+   "resume_trade_time": "12:12:16",
+   "market": "NASDAQ",
+   "name": "Black Hawk Acquisition Corpora",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "13:03:07.100",
+   "reason": "LUDP",
+   "resume_date": "2026-11-13",
+   "resume_quote_time": "13:03:07",
+   "resume_trade_time": "13:08:07",
+   "market": "NASDAQ",
+   "name": "Black Hawk Acquisition Corpora",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "13:35:01.843",
+   "reason": "LUDP",
+   "resume_date": "2026-11-13",
+   "resume_quote_time": "13:35:01",
+   "resume_trade_time": "13:40:01",
+   "market": "NASDAQ",
+   "name": "Black Hawk Acquisition Corpora",
+   "pause_price": ""
+  }
+ ],
+ "OMH": [
+  {
+   "halt_time": "10:52:28.743",
+   "reason": "LUDP",
+   "resume_date": "2026-11-13",
+   "resume_quote_time": "10:52:28",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  }
+ ],
+ "GIBO": [
+  {
+   "halt_time": "10:46:13.823",
+   "reason": "LUDP",
+   "resume_date": "2026-11-13",
+   "resume_quote_time": "10:46:13",
+   "resume_trade_time": "10:51:13",
+   "market": "NASDAQ",
+   "name": "GIBO Holdings Limited Cl A OS",
+   "pause_price": ""
+  }
+ ],
+ "BACC": [
+  {
+   "halt_time": "11:12:08.143",
+   "reason": "LUDP",
+   "resume_date": "2026-11-13",
+   "resume_quote_time": "11:12:08",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Blue Acquisition Corp. Cl A OS",
+   "pause_price": ""
+  }
+ ],
+ "MWHS": [
+  {
+   "halt_time": "12:18:53.656",
+   "reason": "M",
+   "resume_date": "2026-11-13",
+   "resume_quote_time": "12:23:53",
+   "resume_trade_time": "12:23:53",
+   "market": "NYSE Arca",
+   "name": "Skylar Electricity Futures ETF",
+   "pause_price": ""
+  }
+ ],
+ "TREO": [
+  {
+   "halt_time": "12:29:47.103",
+   "reason": "LUDP",
+   "resume_date": "2026-11-13",
+   "resume_quote_time": "12:29:47",
+   "resume_trade_time": "12:34:47",
+   "market": "NASDAQ",
+   "name": "Tactical Resources Corp. Cm",
+   "pause_price": ""
+  }
+ ],
+ "MACI": [
+  {
+   "halt_time": "13:39:15.643",
+   "reason": "LUDP",
+   "resume_date": "2026-11-13",
+   "resume_quote_time": "13:39:15",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Melar Acquisition Cp I Ord A",
+   "pause_price": ""
+  }
+ ],
+ "FCDH": [
+  {
+   "halt_time": "15:30:11.843",
+   "reason": "LUDP",
+   "resume_date": "2026-11-13",
+   "resume_quote_time": "15:30:11",
+   "resume_trade_time": "15:35:11",
+   "market": "NASDAQ",
+   "name": "Forcendra Hldg Ltd Ord A",
+   "pause_price": ""
+  }
+ ]
+}

@@ -1,0 +1,1486 @@
+{
+ "NXXT": [
+  {
+   "halt_time": "09:43:02.726",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "09:43:02",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "NextNRG, Inc. Common Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "09:37:21.846",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "09:37:21",
+   "resume_trade_time": "09:42:21",
+   "market": "NASDAQ",
+   "name": "NextNRG, Inc. Common Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "09:31:55.813",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "09:31:55",
+   "resume_trade_time": "09:36:55",
+   "market": "NASDAQ",
+   "name": "NextNRG, Inc. Common Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "09:57:37.920",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "09:57:37",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "NextNRG, Inc. Common Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "09:52:06.206",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "09:52:06",
+   "resume_trade_time": "09:57:06",
+   "market": "NASDAQ",
+   "name": "NextNRG, Inc. Common Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:08:45.450",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "10:08:45",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "NextNRG, Inc. Common Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:03:18.500",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "10:03:18",
+   "resume_trade_time": "10:08:18",
+   "market": "NASDAQ",
+   "name": "NextNRG, Inc. Common Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:25:00.456",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "10:25:00",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "NextNRG, Inc. Common Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:19:39.526",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "10:19:39",
+   "resume_trade_time": "10:24:39",
+   "market": "NASDAQ",
+   "name": "NextNRG, Inc. Common Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:42:09.783",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "10:42:09",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "NextNRG, Inc. Common Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:36:42.826",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "10:36:42",
+   "resume_trade_time": "10:41:42",
+   "market": "NASDAQ",
+   "name": "NextNRG, Inc. Common Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:58:50.670",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "10:58:50",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "NextNRG, Inc. Common Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:48:47.790",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "10:48:47",
+   "resume_trade_time": "10:53:47",
+   "market": "NASDAQ",
+   "name": "NextNRG, Inc. Common Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "11:12:19.823",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "11:12:19",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "NextNRG, Inc. Common Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "11:06:23.840",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "11:06:23",
+   "resume_trade_time": "11:11:23",
+   "market": "NASDAQ",
+   "name": "NextNRG, Inc. Common Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "11:23:29.710",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "11:23:29",
+   "resume_trade_time": "11:28:29",
+   "market": "NASDAQ",
+   "name": "NextNRG, Inc. Common Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "11:42:55.350",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "11:42:55",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "NextNRG, Inc. Common Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "11:37:27.900",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "11:37:27",
+   "resume_trade_time": "11:42:27",
+   "market": "NASDAQ",
+   "name": "NextNRG, Inc. Common Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "11:29:38.416",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "11:29:38",
+   "resume_trade_time": "11:34:38",
+   "market": "NASDAQ",
+   "name": "NextNRG, Inc. Common Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "11:59:08.086",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "11:59:08",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "NextNRG, Inc. Common Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "11:53:36.076",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "11:53:36",
+   "resume_trade_time": "11:58:36",
+   "market": "NASDAQ",
+   "name": "NextNRG, Inc. Common Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "12:09:33.803",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "12:09:33",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "NextNRG, Inc. Common Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "12:19:53.890",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "12:19:53",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "NextNRG, Inc. Common Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "12:41:25.876",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "12:41:25",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "NextNRG, Inc. Common Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "12:30:29.443",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "12:30:29",
+   "resume_trade_time": "12:40:30",
+   "market": "NASDAQ",
+   "name": "NextNRG, Inc. Common Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "12:59:11.966",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "12:59:11",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "NextNRG, Inc. Common Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "12:53:34.773",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "12:53:34",
+   "resume_trade_time": "12:58:34",
+   "market": "NASDAQ",
+   "name": "NextNRG, Inc. Common Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "12:47:06.570",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "12:47:06",
+   "resume_trade_time": "12:52:06",
+   "market": "NASDAQ",
+   "name": "NextNRG, Inc. Common Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "13:04:49.546",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "13:04:49",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "NextNRG, Inc. Common Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "13:20:29.963",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "13:20:29",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "NextNRG, Inc. Common Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "13:15:07.193",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "13:15:07",
+   "resume_trade_time": "13:20:07",
+   "market": "NASDAQ",
+   "name": "NextNRG, Inc. Common Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "13:41:18.056",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "13:41:18",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "NextNRG, Inc. Common Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "13:30:56.210",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "13:30:56",
+   "resume_trade_time": "13:40:56",
+   "market": "NASDAQ",
+   "name": "NextNRG, Inc. Common Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "13:56:58.786",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "13:56:58",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "NextNRG, Inc. Common Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "13:46:40.183",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "13:46:40",
+   "resume_trade_time": "13:56:40",
+   "market": "NASDAQ",
+   "name": "NextNRG, Inc. Common Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "14:02:16.693",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "14:02:16",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "NextNRG, Inc. Common Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "14:32:35.176",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "14:32:35",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "NextNRG, Inc. Common Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "14:59:20.046",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "14:59:20",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "NextNRG, Inc. Common Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "14:53:18.556",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "14:53:18",
+   "resume_trade_time": "14:58:18",
+   "market": "NASDAQ",
+   "name": "NextNRG, Inc. Common Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "15:05:28.370",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "15:05:28",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "NextNRG, Inc. Common Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "15:28:31.200",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "15:28:31",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "NextNRG, Inc. Common Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "15:23:09.540",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "15:23:09",
+   "resume_trade_time": "15:28:09",
+   "market": "NASDAQ",
+   "name": "NextNRG, Inc. Common Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "15:16:57.806",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "15:16:57",
+   "resume_trade_time": "15:21:57",
+   "market": "NASDAQ",
+   "name": "NextNRG, Inc. Common Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "15:50:25.163",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "15:50:25",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "NextNRG, Inc. Common Stk",
+   "pause_price": ""
+  }
+ ],
+ "ENGS": [
+  {
+   "halt_time": "09:42:34.826",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "09:42:34",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Energys Group Limited OS",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "09:37:19.820",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "09:37:19",
+   "resume_trade_time": "09:42:19",
+   "market": "NASDAQ",
+   "name": "Energys Group Limited OS",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:55:45.520",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "10:55:45",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Energys Group Limited OS",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:47:58.693",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "10:47:58",
+   "resume_trade_time": "10:52:58",
+   "market": "NASDAQ",
+   "name": "Energys Group Limited OS",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "11:06:00.746",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "11:06:00",
+   "resume_trade_time": "11:11:00",
+   "market": "NASDAQ",
+   "name": "Energys Group Limited OS",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "11:26:35.026",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "11:26:35",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Energys Group Limited OS",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "11:17:16.216",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "11:17:16",
+   "resume_trade_time": "11:22:16",
+   "market": "NASDAQ",
+   "name": "Energys Group Limited OS",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "11:42:30.713",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "11:42:30",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Energys Group Limited OS",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "11:32:17.946",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "11:32:17",
+   "resume_trade_time": "11:37:17",
+   "market": "NASDAQ",
+   "name": "Energys Group Limited OS",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "12:04:21.750",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "12:04:21",
+   "resume_trade_time": "12:09:21",
+   "market": "NASDAQ",
+   "name": "Energys Group Limited OS",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "12:41:05.986",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "12:41:05",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Energys Group Limited OS",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "12:47:52.516",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "12:47:52",
+   "resume_trade_time": "12:52:52",
+   "market": "NASDAQ",
+   "name": "Energys Group Limited OS",
+   "pause_price": ""
+  }
+ ],
+ "CHSN": [
+  {
+   "halt_time": "09:42:08.240",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "09:42:08",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Chanson Intl Hldg Cl A Ords",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "09:36:25.266",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "09:36:25",
+   "resume_trade_time": "09:41:25",
+   "market": "NASDAQ",
+   "name": "Chanson Intl Hldg Cl A Ords",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:43:39.083",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "10:43:39",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Chanson Intl Hldg Cl A Ords",
+   "pause_price": ""
+  }
+ ],
+ "BMGL": [
+  {
+   "halt_time": "09:40:49.276",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "09:40:49",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Basel Medical Group Ltd Ord Sh",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "09:31:03.876",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "09:31:03",
+   "resume_trade_time": "09:36:03",
+   "market": "NASDAQ",
+   "name": "Basel Medical Group Ltd Ord Sh",
+   "pause_price": ""
+  }
+ ],
+ "OMH": [
+  {
+   "halt_time": "09:37:50.760",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "09:37:50",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "09:31:24.253",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "09:31:24",
+   "resume_trade_time": "09:36:24",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:05:10.043",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "10:05:10",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "09:59:33.946",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "09:59:33",
+   "resume_trade_time": "10:04:33",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:25:45.556",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "10:25:45",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:17:47.253",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "10:17:47",
+   "resume_trade_time": "10:22:47",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:40:26.703",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "10:40:26",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:32:22.726",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "10:32:22",
+   "resume_trade_time": "10:37:22",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "11:10:46.746",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "11:10:46",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "11:04:56.280",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "11:04:56",
+   "resume_trade_time": "11:09:56",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "11:21:08.356",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "11:21:08",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "11:52:06.470",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "11:52:06",
+   "resume_trade_time": "11:57:06",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "12:15:50.073",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "12:15:50",
+   "resume_trade_time": "12:25:50",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "12:37:08.440",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "12:37:08",
+   "resume_trade_time": "12:42:08",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  }
+ ],
+ "WCT": [
+  {
+   "halt_time": "09:37:38.416",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "09:37:38",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Wellchange Holdings Cl A Ord",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:25:32.460",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "10:25:32",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Wellchange Holdings Cl A Ord",
+   "pause_price": ""
+  }
+ ],
+ "TANH": [
+  {
+   "halt_time": "09:34:10.846",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "09:34:10",
+   "resume_trade_time": "09:39:10",
+   "market": "NASDAQ",
+   "name": "Tantech Hldgs Cmn A Shares",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "09:47:13.490",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "09:47:13",
+   "resume_trade_time": "09:52:13",
+   "market": "NASDAQ",
+   "name": "Tantech Hldgs Cmn A Shares",
+   "pause_price": ""
+  }
+ ],
+ "RIBB": [
+  {
+   "halt_time": "09:33:50.753",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "09:33:50",
+   "resume_trade_time": "09:38:50",
+   "market": "NASDAQ",
+   "name": "Ribbon Acq Cp Ord A",
+   "pause_price": ""
+  }
+ ],
+ "MTRI": [
+  {
+   "halt_time": "09:32:33.436",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "09:32:33",
+   "resume_trade_time": "09:37:33",
+   "market": "NASDAQ",
+   "name": "Mentari Therapeutics, Inc. Cmn",
+   "pause_price": ""
+  }
+ ],
+ "PLUT": [
+  {
+   "halt_time": "09:32:07.806",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "09:32:07",
+   "resume_trade_time": "09:42:07",
+   "market": "NASDAQ",
+   "name": "Plutus Financial Group Ltd OS",
+   "pause_price": ""
+  }
+ ],
+ "SFWL": [
+  {
+   "halt_time": "09:30:31.960",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "09:30:31",
+   "resume_trade_time": "09:35:31",
+   "market": "NASDAQ",
+   "name": "Shengfeng Development Os",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "12:38:05.510",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "12:38:05",
+   "resume_trade_time": "12:43:05",
+   "market": "NASDAQ",
+   "name": "Shengfeng Development Os",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "12:50:17.683",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "12:50:17",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Shengfeng Development Os",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "13:00:44.926",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "13:00:44",
+   "resume_trade_time": "13:10:45",
+   "market": "NASDAQ",
+   "name": "Shengfeng Development Os",
+   "pause_price": ""
+  }
+ ],
+ "BKHAU": [
+  {
+   "halt_time": "09:30:16.490",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "09:30:16",
+   "resume_trade_time": "09:35:16",
+   "market": "NASDAQ",
+   "name": "Black Hawk Acquisition Corpora",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "09:50:14.416",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "09:50:14",
+   "resume_trade_time": "09:55:14",
+   "market": "NASDAQ",
+   "name": "Black Hawk Acquisition Corpora",
+   "pause_price": ""
+  }
+ ],
+ "RDNW": [
+  {
+   "halt_time": "09:30:16.263",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "09:30:16",
+   "resume_trade_time": "09:40:16",
+   "market": "NASDAQ",
+   "name": "RideNow Grp Class B Cmn Stk",
+   "pause_price": ""
+  }
+ ],
+ "BUUU": [
+  {
+   "halt_time": "09:52:12.346",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "09:52:12",
+   "resume_trade_time": "09:57:12",
+   "market": "NASDAQ",
+   "name": "BUUU Group Limited Cl A Ord Sh",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:12:12.086",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "10:12:12",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "BUUU Group Limited Cl A Ord Sh",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:06:09.566",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "10:06:09",
+   "resume_trade_time": "10:11:09",
+   "market": "NASDAQ",
+   "name": "BUUU Group Limited Cl A Ord Sh",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "09:59:49.280",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "09:59:49",
+   "resume_trade_time": "10:04:49",
+   "market": "NASDAQ",
+   "name": "BUUU Group Limited Cl A Ord Sh",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "12:15:50.116",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "12:15:50",
+   "resume_trade_time": "12:20:50",
+   "market": "NASDAQ",
+   "name": "BUUU Group Limited Cl A Ord Sh",
+   "pause_price": ""
+  }
+ ],
+ "BRBI": [
+  {
+   "halt_time": "09:44:36.066",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "09:44:36",
+   "resume_trade_time": "09:49:36",
+   "market": "NASDAQ",
+   "name": "BRBI BR Partners SA ADS",
+   "pause_price": ""
+  }
+ ],
+ "NCT": [
+  {
+   "halt_time": "10:11:01.156",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "10:11:01",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Intercont Cayman Cl A Ord Shs",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:27:44.850",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "10:27:44",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Intercont Cayman Cl A Ord Shs",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:22:18.530",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "10:22:18",
+   "resume_trade_time": "10:27:18",
+   "market": "NASDAQ",
+   "name": "Intercont Cayman Cl A Ord Shs",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:16:58.303",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "10:16:58",
+   "resume_trade_time": "10:21:58",
+   "market": "NASDAQ",
+   "name": "Intercont Cayman Cl A Ord Shs",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:40:38.380",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "10:40:38",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Intercont Cayman Cl A Ord Shs",
+   "pause_price": ""
+  }
+ ],
+ "SENEB": [
+  {
+   "halt_time": "10:05:45.493",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "10:05:45",
+   "resume_trade_time": "10:10:45",
+   "market": "NASDAQ",
+   "name": "Seneca Foods Corp",
+   "pause_price": ""
+  }
+ ],
+ "SMX": [
+  {
+   "halt_time": "10:28:17.686",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "10:28:17",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "SMX Sc Mtr PLC Ord",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:22:23.556",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "10:22:23",
+   "resume_trade_time": "10:27:23",
+   "market": "NASDAQ",
+   "name": "SMX Sc Mtr PLC Ord",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:40:10.506",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "10:40:10",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "SMX Sc Mtr PLC Ord",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:34:32.610",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "10:34:32",
+   "resume_trade_time": "10:39:32",
+   "market": "NASDAQ",
+   "name": "SMX Sc Mtr PLC Ord",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:47:12.826",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "10:47:12",
+   "resume_trade_time": "10:52:12",
+   "market": "NASDAQ",
+   "name": "SMX Sc Mtr PLC Ord",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "11:12:53.160",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "11:12:53",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "SMX Sc Mtr PLC Ord",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "12:21:42.596",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "12:21:42",
+   "resume_trade_time": "12:26:42",
+   "market": "NASDAQ",
+   "name": "SMX Sc Mtr PLC Ord",
+   "pause_price": ""
+  }
+ ],
+ "AINF": [
+  {
+   "halt_time": "10:27:44.686",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "10:27:44",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Defiance Inference AI Chip ETF",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "11:47:07.270",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "11:47:07",
+   "resume_trade_time": "11:52:07",
+   "market": "NASDAQ",
+   "name": "Defiance Inference AI Chip ETF",
+   "pause_price": ""
+  }
+ ],
+ "KSMH": [
+  {
+   "halt_time": "10:26:55.396",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "10:26:55",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "xETFs Korea AI Semiconductor",
+   "pause_price": ""
+  }
+ ],
+ "RIBBU": [
+  {
+   "halt_time": "10:40:02.713",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "10:40:02",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Ribbon Acq Corp Ut",
+   "pause_price": ""
+  }
+ ],
+ "TLIH": [
+  {
+   "halt_time": "10:58:07.653",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "10:58:07",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Ten-League Intl Hld Ltd Ord",
+   "pause_price": ""
+  }
+ ],
+ "GIBO": [
+  {
+   "halt_time": "10:52:59.523",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "10:52:59",
+   "resume_trade_time": "10:57:59",
+   "market": "NASDAQ",
+   "name": "GIBO Holdings Limited Cl A OS",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "15:40:42.993",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "15:40:42",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "GIBO Holdings Limited Cl A OS",
+   "pause_price": ""
+  }
+ ],
+ "YMT": [
+  {
+   "halt_time": "11:40:03.433",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "11:40:03",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Yimutian Inc. ADS",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "11:57:13.440",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "11:57:13",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Yimutian Inc. ADS",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "12:13:30.963",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "12:13:30",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Yimutian Inc. ADS",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "12:08:01.780",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "12:08:01",
+   "resume_trade_time": "12:13:01",
+   "market": "NASDAQ",
+   "name": "Yimutian Inc. ADS",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "12:02:41.946",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "12:02:41",
+   "resume_trade_time": "12:07:41",
+   "market": "NASDAQ",
+   "name": "Yimutian Inc. ADS",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "12:38:36.223",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "12:38:36",
+   "resume_trade_time": "12:43:36",
+   "market": "NASDAQ",
+   "name": "Yimutian Inc. ADS",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "12:33:02.276",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "12:33:02",
+   "resume_trade_time": "12:38:02",
+   "market": "NASDAQ",
+   "name": "Yimutian Inc. ADS",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "12:53:17.216",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "12:53:17",
+   "resume_trade_time": "12:58:17",
+   "market": "NASDAQ",
+   "name": "Yimutian Inc. ADS",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "12:46:20.133",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "12:46:20",
+   "resume_trade_time": "12:51:20",
+   "market": "NASDAQ",
+   "name": "Yimutian Inc. ADS",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "13:05:53.593",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "13:05:53",
+   "resume_trade_time": "13:10:53",
+   "market": "NASDAQ",
+   "name": "Yimutian Inc. ADS",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "13:00:16.106",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "13:00:16",
+   "resume_trade_time": "13:05:16",
+   "market": "NASDAQ",
+   "name": "Yimutian Inc. ADS",
+   "pause_price": ""
+  }
+ ],
+ "SMTK": [
+  {
+   "halt_time": "11:47:01.486",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "11:47:01",
+   "resume_trade_time": "11:52:01",
+   "market": "NASDAQ",
+   "name": "SmartKem, Inc. Common Stock",
+   "pause_price": ""
+  }
+ ],
+ "RDIB": [
+  {
+   "halt_time": "11:46:31.476",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "11:46:31",
+   "resume_trade_time": "11:56:31",
+   "market": "NASDAQ",
+   "name": "Reading Intl Cl B Cmn",
+   "pause_price": ""
+  }
+ ],
+ "KUST": [
+  {
+   "halt_time": "12:02:13.690",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "12:02:13",
+   "resume_trade_time": "12:07:13",
+   "market": "NASDAQ",
+   "name": "Kustom Entertainment Cmn",
+   "pause_price": ""
+  }
+ ],
+ "CENN": [
+  {
+   "halt_time": "13:10:37.150",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "13:10:37",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Cenntro Inc. CS",
+   "pause_price": ""
+  }
+ ],
+ "COOL": [
+  {
+   "halt_time": "13:02:05.970",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "13:02:05",
+   "resume_trade_time": "13:07:05",
+   "market": "NASDAQ",
+   "name": "VegaShares AI Thermal, Cooling & Power Management ETF",
+   "pause_price": ""
+  }
+ ],
+ "WHLR": [
+  {
+   "halt_time": "13:35:30.556",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "13:35:30",
+   "resume_trade_time": "13:40:30",
+   "market": "NASDAQ",
+   "name": "Wheeler Real Estate Investment",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "13:29:49.260",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "13:29:49",
+   "resume_trade_time": "13:34:49",
+   "market": "NASDAQ",
+   "name": "Wheeler Real Estate Investment",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "13:58:28.196",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "13:58:28",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Wheeler Real Estate Investment",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "13:53:01.236",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "13:53:01",
+   "resume_trade_time": "13:58:01",
+   "market": "NASDAQ",
+   "name": "Wheeler Real Estate Investment",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "13:45:34.016",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "13:45:34",
+   "resume_trade_time": "13:50:34",
+   "market": "NASDAQ",
+   "name": "Wheeler Real Estate Investment",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "14:03:59.340",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "14:03:59",
+   "resume_trade_time": "14:08:59",
+   "market": "NASDAQ",
+   "name": "Wheeler Real Estate Investment",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "14:15:29.936",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "14:15:29",
+   "resume_trade_time": "14:20:29",
+   "market": "NASDAQ",
+   "name": "Wheeler Real Estate Investment",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "14:33:06.883",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "14:33:06",
+   "resume_trade_time": "14:38:06",
+   "market": "NASDAQ",
+   "name": "Wheeler Real Estate Investment",
+   "pause_price": ""
+  }
+ ],
+ "ELOG": [
+  {
+   "halt_time": "14:12:24.183",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "14:12:24",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Eastern International Ord Sh",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "14:17:49.706",
+   "reason": "LUDP",
+   "resume_date": "2026-11-11",
+   "resume_quote_time": "14:17:49",
+   "resume_trade_time": "14:22:49",
+   "market": "NASDAQ",
+   "name": "Eastern International Ord Sh",
+   "pause_price": ""
+  }
+ ],
+ "LVWR.W": [
+  {
+   "halt_time": "16:04:30.614",
+   "reason": "H11",
+   "resume_date": "",
+   "resume_quote_time": "",
+   "resume_trade_time": "",
+   "market": "NYSE",
+   "name": "LiveWire Group, Inc. Warrants, each exercisable for one share of Common Stock at an exercise price o",
+   "pause_price": ""
+  }
+ ]
+}

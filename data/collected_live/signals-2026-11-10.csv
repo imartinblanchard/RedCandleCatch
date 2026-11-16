@@ -1,0 +1,3 @@
+logged_at,ticker,candle,o,h,l,c,v,prev_close,hod,gap,retrace,capit_ratio,pb_dvol,n_bars,decision,mode
+09:59:34,MUZ,09:58,11.45,11.45,11.28,11.29,1674600,11.33,12.35,9.0,8.58,2.02,883263175,26,ENTER,LIVE
+10:01:22,SMST,09:59,16.63,16.63,16.5,16.5,774500,16.43,17.99,9.49,8.28,0.61,193930288,28,ENTER,LIVE

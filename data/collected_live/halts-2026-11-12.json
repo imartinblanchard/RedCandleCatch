@@ -1,0 +1,792 @@
+{
+ "TRMK": [
+  {
+   "halt_time": "07:55:00.000",
+   "reason": "T1",
+   "resume_date": "",
+   "resume_quote_time": "",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Trustmark Corporation",
+   "pause_price": ""
+  }
+ ],
+ "ZJYL": [
+  {
+   "halt_time": "09:41:04.900",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "09:41:04",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "JIN MEDICAL INTL Cl A OS",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "09:55:00.123",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "09:55:00",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "JIN MEDICAL INTL Cl A OS",
+   "pause_price": ""
+  }
+ ],
+ "PLCE": [
+  {
+   "halt_time": "09:36:37.050",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "09:36:37",
+   "resume_trade_time": "09:41:37",
+   "market": "NASDAQ",
+   "name": "Children's Place, Inc. (The)",
+   "pause_price": ""
+  }
+ ],
+ "GIBO": [
+  {
+   "halt_time": "09:34:05.636",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "09:34:05",
+   "resume_trade_time": "09:39:05",
+   "market": "NASDAQ",
+   "name": "GIBO Holdings Limited Cl A OS",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:21:33.656",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "10:21:33",
+   "resume_trade_time": "10:26:33",
+   "market": "NASDAQ",
+   "name": "GIBO Holdings Limited Cl A OS",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:41:48.230",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "10:41:48",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "GIBO Holdings Limited Cl A OS",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "11:20:04.600",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "11:20:04",
+   "resume_trade_time": "11:25:04",
+   "market": "NASDAQ",
+   "name": "GIBO Holdings Limited Cl A OS",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "11:32:39.730",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "11:32:39",
+   "resume_trade_time": "11:42:39",
+   "market": "NASDAQ",
+   "name": "GIBO Holdings Limited Cl A OS",
+   "pause_price": ""
+  }
+ ],
+ "OMH": [
+  {
+   "halt_time": "09:32:25.710",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "09:32:25",
+   "resume_trade_time": "09:37:25",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "09:56:47.160",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "09:56:47",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:41:01.473",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "10:41:01",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:55:15.706",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "10:55:15",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  }
+ ],
+ "RETO": [
+  {
+   "halt_time": "09:31:48.156",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "09:31:48",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "ReTo Eco-Solutions Cl A Shs",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "09:54:31.860",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "09:54:31",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "ReTo Eco-Solutions Cl A Shs",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "09:48:55.683",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "09:48:55",
+   "resume_trade_time": "09:53:55",
+   "market": "NASDAQ",
+   "name": "ReTo Eco-Solutions Cl A Shs",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:10:56.646",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "10:10:56",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "ReTo Eco-Solutions Cl A Shs",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:05:30.153",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "10:05:30",
+   "resume_trade_time": "10:10:30",
+   "market": "NASDAQ",
+   "name": "ReTo Eco-Solutions Cl A Shs",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:28:57.320",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "10:28:57",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "ReTo Eco-Solutions Cl A Shs",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:43:29.920",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "10:43:29",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "ReTo Eco-Solutions Cl A Shs",
+   "pause_price": ""
+  }
+ ],
+ "MOVE": [
+  {
+   "halt_time": "09:30:16.426",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "09:30:16",
+   "resume_trade_time": "09:35:16",
+   "market": "NASDAQ",
+   "name": "Corvex, Inc. Common Stock",
+   "pause_price": ""
+  }
+ ],
+ "NXPL": [
+  {
+   "halt_time": "09:58:53.933",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "09:58:53",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "NextPlat Corp Common Stk",
+   "pause_price": ""
+  }
+ ],
+ "GMM": [
+  {
+   "halt_time": "09:55:22.613",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "09:55:22",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Global Mofy AI Cls A Ord Sh",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:05:51.550",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "10:05:51",
+   "resume_trade_time": "10:10:51",
+   "market": "NASDAQ",
+   "name": "Global Mofy AI Cls A Ord Sh",
+   "pause_price": ""
+  }
+ ],
+ "CRMN": [
+  {
+   "halt_time": "09:52:51.863",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "09:52:51",
+   "resume_trade_time": "09:57:51",
+   "market": "NASDAQ",
+   "name": "Skyln Bldrs Gr Hldg Ord",
+   "pause_price": ""
+  }
+ ],
+ "SMX": [
+  {
+   "halt_time": "09:49:20.753",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "09:49:20",
+   "resume_trade_time": "09:59:20",
+   "market": "NASDAQ",
+   "name": "SMX Sc Mtr PLC Ord",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:00:17.250",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "10:00:17",
+   "resume_trade_time": "10:05:17",
+   "market": "NASDAQ",
+   "name": "SMX Sc Mtr PLC Ord",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:29:40.320",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "10:29:40",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "SMX Sc Mtr PLC Ord",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:41:44.210",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "10:41:44",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "SMX Sc Mtr PLC Ord",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "12:46:19.660",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "12:46:19",
+   "resume_trade_time": "12:51:19",
+   "market": "NASDAQ",
+   "name": "SMX Sc Mtr PLC Ord",
+   "pause_price": ""
+  }
+ ],
+ "DPU": [
+  {
+   "halt_time": "09:48:27.070",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "09:48:27",
+   "resume_trade_time": "09:53:27",
+   "market": "NASDAQ",
+   "name": "Nexpu Ltd Ord A",
+   "pause_price": ""
+  }
+ ],
+ "ADXN": [
+  {
+   "halt_time": "09:47:21.723",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "09:47:21",
+   "resume_trade_time": "09:52:21",
+   "market": "NASDAQ",
+   "name": "Addex Therapeutics Ltd ADS",
+   "pause_price": ""
+  }
+ ],
+ "AIMD": [
+  {
+   "halt_time": "10:07:49.846",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "10:07:49",
+   "resume_trade_time": "10:12:49",
+   "market": "NASDAQ",
+   "name": "Ainos, Inc. Cmn Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:25:37.866",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "10:25:37",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Ainos, Inc. Cmn Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:15:22.830",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "10:15:22",
+   "resume_trade_time": "10:25:22",
+   "market": "NASDAQ",
+   "name": "Ainos, Inc. Cmn Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:40:51.976",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "10:40:51",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Ainos, Inc. Cmn Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:56:41.313",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "10:56:41",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Ainos, Inc. Cmn Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:46:24.230",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "10:46:24",
+   "resume_trade_time": "10:56:24",
+   "market": "NASDAQ",
+   "name": "Ainos, Inc. Cmn Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "11:12:26.920",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "11:12:26",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Ainos, Inc. Cmn Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "11:07:02.406",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "11:07:02",
+   "resume_trade_time": "11:12:02",
+   "market": "NASDAQ",
+   "name": "Ainos, Inc. Cmn Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "11:24:39.606",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "11:24:39",
+   "resume_trade_time": "11:29:39",
+   "market": "NASDAQ",
+   "name": "Ainos, Inc. Cmn Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "11:41:38.090",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "11:41:38",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Ainos, Inc. Cmn Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "11:36:08.423",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "11:36:08",
+   "resume_trade_time": "11:41:08",
+   "market": "NASDAQ",
+   "name": "Ainos, Inc. Cmn Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "11:30:03.393",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "11:30:03",
+   "resume_trade_time": "11:35:03",
+   "market": "NASDAQ",
+   "name": "Ainos, Inc. Cmn Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "11:54:16.943",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "11:54:16",
+   "resume_trade_time": "11:59:16",
+   "market": "NASDAQ",
+   "name": "Ainos, Inc. Cmn Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "12:06:21.043",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "12:06:21",
+   "resume_trade_time": "12:11:21",
+   "market": "NASDAQ",
+   "name": "Ainos, Inc. Cmn Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "12:00:15.556",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "12:00:15",
+   "resume_trade_time": "12:05:15",
+   "market": "NASDAQ",
+   "name": "Ainos, Inc. Cmn Stk",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "15:20:58.996",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "15:20:58",
+   "resume_trade_time": "15:25:58",
+   "market": "NASDAQ",
+   "name": "Ainos, Inc. Cmn Stk",
+   "pause_price": ""
+  }
+ ],
+ "AERT": [
+  {
+   "halt_time": "10:23:14.956",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "10:23:14",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Aeries Tech Ord A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "15:22:48.070",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "15:22:48",
+   "resume_trade_time": "15:27:48",
+   "market": "NASDAQ",
+   "name": "Aeries Tech Ord A",
+   "pause_price": ""
+  }
+ ],
+ "TRBG": [
+  {
+   "halt_time": "10:15:44.200",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "10:15:44",
+   "resume_trade_time": "10:20:44",
+   "market": "NASDAQ",
+   "name": "TurboGen Ltd. Ordinary Share",
+   "pause_price": ""
+  }
+ ],
+ "GP": [
+  {
+   "halt_time": "10:43:42.366",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "10:43:42",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "GreenPower Motor Company Cm Sh",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:38:24.826",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "10:38:24",
+   "resume_trade_time": "10:43:24",
+   "market": "NASDAQ",
+   "name": "GreenPower Motor Company Cm Sh",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:32:05.696",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "10:32:05",
+   "resume_trade_time": "10:37:05",
+   "market": "NASDAQ",
+   "name": "GreenPower Motor Company Cm Sh",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:55:32.343",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "10:55:32",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "GreenPower Motor Company Cm Sh",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:49:52.720",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "10:49:52",
+   "resume_trade_time": "10:54:52",
+   "market": "NASDAQ",
+   "name": "GreenPower Motor Company Cm Sh",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "11:08:49.503",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "11:08:49",
+   "resume_trade_time": "11:13:49",
+   "market": "NASDAQ",
+   "name": "GreenPower Motor Company Cm Sh",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "11:03:12.706",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "11:03:12",
+   "resume_trade_time": "11:08:12",
+   "market": "NASDAQ",
+   "name": "GreenPower Motor Company Cm Sh",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "11:22:45.176",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "11:22:45",
+   "resume_trade_time": "11:27:45",
+   "market": "NASDAQ",
+   "name": "GreenPower Motor Company Cm Sh",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "11:15:27.080",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "11:15:27",
+   "resume_trade_time": "11:20:27",
+   "market": "NASDAQ",
+   "name": "GreenPower Motor Company Cm Sh",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "11:35:38.653",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "11:35:38",
+   "resume_trade_time": "11:40:38",
+   "market": "NASDAQ",
+   "name": "GreenPower Motor Company Cm Sh",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "11:53:31.876",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "11:53:31",
+   "resume_trade_time": "11:58:31",
+   "market": "NASDAQ",
+   "name": "GreenPower Motor Company Cm Sh",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "12:28:40.760",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "12:28:40",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "GreenPower Motor Company Cm Sh",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "12:22:41.520",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "12:22:41",
+   "resume_trade_time": "12:27:41",
+   "market": "NASDAQ",
+   "name": "GreenPower Motor Company Cm Sh",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "12:44:51.840",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "12:44:51",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "GreenPower Motor Company Cm Sh",
+   "pause_price": ""
+  }
+ ],
+ "GMEX": [
+  {
+   "halt_time": "10:42:19.223",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "10:42:19",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "GMEX ROBOTICS CORP Cl A OS",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:36:58.443",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "10:36:58",
+   "resume_trade_time": "10:41:58",
+   "market": "NASDAQ",
+   "name": "GMEX ROBOTICS CORP Cl A OS",
+   "pause_price": ""
+  }
+ ],
+ "LTGRU": [
+  {
+   "halt_time": "11:28:38.700",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "11:28:38",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Long Table Growth Corp. Units",
+   "pause_price": ""
+  }
+ ],
+ "BTLN": [
+  {
+   "halt_time": "11:49:41.840",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "11:49:41",
+   "resume_trade_time": "11:59:41",
+   "market": "NASDAQ",
+   "name": "Brightline Interactive Cmn Stk",
+   "pause_price": ""
+  }
+ ],
+ "GPN": [
+  {
+   "halt_time": "12:06:26.426",
+   "reason": "M",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "12:11:55",
+   "resume_trade_time": "12:11:55",
+   "market": "NYSE",
+   "name": "Global Payments Inc. Common Stock",
+   "pause_price": ""
+  }
+ ],
+ "GDEV": [
+  {
+   "halt_time": "12:33:25.510",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "12:33:25",
+   "resume_trade_time": "12:38:25",
+   "market": "NASDAQ",
+   "name": "GDEV Inc. Ord",
+   "pause_price": ""
+  }
+ ],
+ "TVGN": [
+  {
+   "halt_time": "13:26:27.100",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "13:26:27",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Tevogen Inc Cmn Stk",
+   "pause_price": ""
+  }
+ ],
+ "SENEB": [
+  {
+   "halt_time": "13:20:05.726",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "13:20:05",
+   "resume_trade_time": "13:25:05",
+   "market": "NASDAQ",
+   "name": "Seneca Foods Corp",
+   "pause_price": ""
+  }
+ ],
+ "RNTZ": [
+  {
+   "halt_time": "14:34:55.740",
+   "reason": "LUDP",
+   "resume_date": "2026-11-12",
+   "resume_quote_time": "14:34:55",
+   "resume_trade_time": "14:39:55",
+   "market": "NASDAQ",
+   "name": "Rantizo Cl A Ord",
+   "pause_price": ""
+  }
+ ]
+}

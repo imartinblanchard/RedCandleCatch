@@ -1,0 +1,912 @@
+{
+ "SMX": [
+  {
+   "halt_time": "09:42:51.613",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "09:42:51",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "SMX Sc Mtr PLC Ord",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "09:32:22.776",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "09:32:22",
+   "resume_trade_time": "09:42:22",
+   "market": "NASDAQ",
+   "name": "SMX Sc Mtr PLC Ord",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "09:57:25.986",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "09:57:25",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "SMX Sc Mtr PLC Ord",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "09:49:53.743",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "09:49:53",
+   "resume_trade_time": "09:54:53",
+   "market": "NASDAQ",
+   "name": "SMX Sc Mtr PLC Ord",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:09:16.476",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "10:09:16",
+   "resume_trade_time": "10:14:16",
+   "market": "NASDAQ",
+   "name": "SMX Sc Mtr PLC Ord",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:03:59.080",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "10:03:59",
+   "resume_trade_time": "10:08:59",
+   "market": "NASDAQ",
+   "name": "SMX Sc Mtr PLC Ord",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:15:32.196",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "10:15:32",
+   "resume_trade_time": "10:20:32",
+   "market": "NASDAQ",
+   "name": "SMX Sc Mtr PLC Ord",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "15:06:19.293",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "15:06:19",
+   "resume_trade_time": "15:11:19",
+   "market": "NASDAQ",
+   "name": "SMX Sc Mtr PLC Ord",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "15:47:08.000",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "15:47:08",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "SMX Sc Mtr PLC Ord",
+   "pause_price": ""
+  }
+ ],
+ "OMH": [
+  {
+   "halt_time": "09:38:32.230",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "09:38:32",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "09:33:07.880",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "09:33:07",
+   "resume_trade_time": "09:38:07",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "09:54:27.666",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "09:54:27",
+   "resume_trade_time": "09:59:27",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:14:31.223",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "10:14:31",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:03:33.550",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "10:03:33",
+   "resume_trade_time": "10:08:33",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:28:57.726",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "10:28:57",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:22:16.163",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "10:22:16",
+   "resume_trade_time": "10:27:16",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:40:43.150",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "10:40:43",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:34:26.466",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "10:34:26",
+   "resume_trade_time": "10:39:26",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "14:27:28.773",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "14:27:28",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "14:11:41.186",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "14:11:41",
+   "resume_trade_time": "14:21:41",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "14:00:11.733",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "14:00:11",
+   "resume_trade_time": "14:10:11",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "13:52:27.906",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "13:52:27",
+   "resume_trade_time": "13:57:27",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "13:46:54.916",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "13:46:54",
+   "resume_trade_time": "13:51:54",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "13:40:56.986",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "13:40:56",
+   "resume_trade_time": "13:45:56",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "13:18:12.433",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "13:18:12",
+   "resume_trade_time": "13:28:12",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "13:12:17.050",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "13:12:17",
+   "resume_trade_time": "13:17:17",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "13:04:03.023",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "13:04:03",
+   "resume_trade_time": "13:09:03",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "12:55:58.530",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "12:55:58",
+   "resume_trade_time": "13:00:58",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "12:48:00.973",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "12:48:00",
+   "resume_trade_time": "12:53:00",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "12:40:54.816",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "12:40:54",
+   "resume_trade_time": "12:45:54",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "12:32:21.356",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "12:32:21",
+   "resume_trade_time": "12:37:21",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "12:22:11.533",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "12:22:11",
+   "resume_trade_time": "12:27:11",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "12:14:32.903",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "12:14:32",
+   "resume_trade_time": "12:19:32",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "12:07:46.796",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "12:07:46",
+   "resume_trade_time": "12:12:46",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "11:57:20.030",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "11:57:20",
+   "resume_trade_time": "12:07:20",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "11:48:53.616",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "11:48:53",
+   "resume_trade_time": "11:53:53",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "11:40:11.356",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "11:40:11",
+   "resume_trade_time": "11:45:11",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "11:31:04.996",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "11:31:04",
+   "resume_trade_time": "11:36:04",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "11:21:23.096",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "11:21:23",
+   "resume_trade_time": "11:26:23",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "11:15:08.823",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "11:15:08",
+   "resume_trade_time": "11:20:08",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:59:42.193",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "10:59:42",
+   "resume_trade_time": "11:09:42",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "14:39:57.000",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "14:39:57",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "14:33:33.063",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "14:33:33",
+   "resume_trade_time": "14:38:33",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "15:11:15.580",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "15:11:15",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "15:03:34.883",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "15:03:34",
+   "resume_trade_time": "15:08:34",
+   "market": "NASDAQ",
+   "name": "Ohmyhome Ltd Ords A",
+   "pause_price": ""
+  }
+ ],
+ "BKHAU": [
+  {
+   "halt_time": "09:36:37.016",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "09:36:37",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Black Hawk Acquisition Corpora",
+   "pause_price": ""
+  }
+ ],
+ "ONMD": [
+  {
+   "halt_time": "09:32:07.330",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "09:32:07",
+   "resume_trade_time": "09:37:07",
+   "market": "NASDAQ",
+   "name": "OneMedNet Corp Class A Cmn",
+   "pause_price": ""
+  }
+ ],
+ "SENEB": [
+  {
+   "halt_time": "09:30:33.366",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "09:30:33",
+   "resume_trade_time": "09:35:33",
+   "market": "NASDAQ",
+   "name": "Seneca Foods Corp",
+   "pause_price": ""
+  }
+ ],
+ "MFI": [
+  {
+   "halt_time": "09:30:17.816",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "09:30:17",
+   "resume_trade_time": "09:35:17",
+   "market": "NASDAQ",
+   "name": "mF Intl Ltd Cl A Ord",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "09:55:36.203",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "09:55:36",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "mF Intl Ltd Cl A Ord",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:10:58.816",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "10:10:58",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "mF Intl Ltd Cl A Ord",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "12:16:03.716",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "12:16:03",
+   "resume_trade_time": "12:21:03",
+   "market": "NASDAQ",
+   "name": "mF Intl Ltd Cl A Ord",
+   "pause_price": ""
+  }
+ ],
+ "MF": [
+  {
+   "halt_time": "09:57:02.066",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "09:57:02",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "MindForge Inc Ord A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:08:35.523",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "10:08:35",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "MindForge Inc Ord A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:02:55.606",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "10:02:55",
+   "resume_trade_time": "10:07:55",
+   "market": "NASDAQ",
+   "name": "MindForge Inc Ord A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:27:19.900",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "10:27:19",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "MindForge Inc Ord A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:38:41.870",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "10:38:41",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "MindForge Inc Ord A",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "11:39:58.476",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "11:39:58",
+   "resume_trade_time": "11:49:58",
+   "market": "NASDAQ",
+   "name": "MindForge Inc Ord A",
+   "pause_price": ""
+  }
+ ],
+ "ONCO": [
+  {
+   "halt_time": "09:50:58.203",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "09:50:58",
+   "resume_trade_time": "09:55:58",
+   "market": "NASDAQ",
+   "name": "Onconetix, Inc. Common Stock",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:00:49.960",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "10:00:49",
+   "resume_trade_time": "10:05:49",
+   "market": "NASDAQ",
+   "name": "Onconetix, Inc. Common Stock",
+   "pause_price": ""
+  }
+ ],
+ "VRM": [
+  {
+   "halt_time": "09:45:39.153",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "09:45:39",
+   "resume_trade_time": "09:55:39",
+   "market": "NASDAQ",
+   "name": "Vroom, Inc.",
+   "pause_price": ""
+  }
+ ],
+ "RIBB": [
+  {
+   "halt_time": "10:23:52.950",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "10:23:52",
+   "resume_trade_time": "10:28:52",
+   "market": "NASDAQ",
+   "name": "Ribbon Acq Cp Ord A",
+   "pause_price": ""
+  }
+ ],
+ "NWGL": [
+  {
+   "halt_time": "10:42:52.763",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "10:42:52",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "CL Workshop Group Limited ADS",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "10:58:33.763",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "10:58:33",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "CL Workshop Group Limited ADS",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "12:22:05.393",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "12:22:05",
+   "resume_trade_time": "12:27:05",
+   "market": "NASDAQ",
+   "name": "CL Workshop Group Limited ADS",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "12:15:37.023",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "12:15:37",
+   "resume_trade_time": "12:20:37",
+   "market": "NASDAQ",
+   "name": "CL Workshop Group Limited ADS",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "11:48:54.560",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "11:48:54",
+   "resume_trade_time": "11:53:54",
+   "market": "NASDAQ",
+   "name": "CL Workshop Group Limited ADS",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "11:16:56.216",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "11:16:56",
+   "resume_trade_time": "11:21:56",
+   "market": "NASDAQ",
+   "name": "CL Workshop Group Limited ADS",
+   "pause_price": ""
+  }
+ ],
+ "TKC": [
+  {
+   "halt_time": "10:37:17.863",
+   "reason": "T1",
+   "resume_date": "",
+   "resume_quote_time": "",
+   "resume_trade_time": "",
+   "market": "NYSE",
+   "name": "Turkcell Iletisim Hizmetleri AS Common Stock",
+   "pause_price": ""
+  }
+ ],
+ "MTRI": [
+  {
+   "halt_time": "14:18:59.486",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "14:18:59",
+   "resume_trade_time": "14:23:59",
+   "market": "NASDAQ",
+   "name": "Mentari Therapeutics, Inc. Cmn",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "13:18:50.226",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "13:18:50",
+   "resume_trade_time": "13:23:50",
+   "market": "NASDAQ",
+   "name": "Mentari Therapeutics, Inc. Cmn",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "13:12:45.266",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "13:12:45",
+   "resume_trade_time": "13:17:45",
+   "market": "NASDAQ",
+   "name": "Mentari Therapeutics, Inc. Cmn",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "14:34:22.533",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "14:34:22",
+   "resume_trade_time": "14:39:22",
+   "market": "NASDAQ",
+   "name": "Mentari Therapeutics, Inc. Cmn",
+   "pause_price": ""
+  }
+ ],
+ "WCT": [
+  {
+   "halt_time": "14:10:54.166",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "14:10:54",
+   "resume_trade_time": "14:20:54",
+   "market": "NASDAQ",
+   "name": "Wellchange Holdings Cl A Ord",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "13:57:25.770",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "13:57:25",
+   "resume_trade_time": "14:02:25",
+   "market": "NASDAQ",
+   "name": "Wellchange Holdings Cl A Ord",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "13:41:43.653",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "13:41:43",
+   "resume_trade_time": "13:46:43",
+   "market": "NASDAQ",
+   "name": "Wellchange Holdings Cl A Ord",
+   "pause_price": ""
+  }
+ ],
+ "PCTTU": [
+  {
+   "halt_time": "12:35:33.816",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "12:35:33",
+   "resume_trade_time": "12:40:33",
+   "market": "NASDAQ",
+   "name": "PureCycle Technologies, Inc Ut",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "11:46:32.673",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "11:46:32",
+   "resume_trade_time": "12:26:32",
+   "market": "NASDAQ",
+   "name": "PureCycle Technologies, Inc Ut",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "11:22:49.013",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "11:22:49",
+   "resume_trade_time": "11:27:49",
+   "market": "NASDAQ",
+   "name": "PureCycle Technologies, Inc Ut",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "15:34:34.740",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "15:34:34",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "PureCycle Technologies, Inc Ut",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "15:53:54.853",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "15:53:54",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "PureCycle Technologies, Inc Ut",
+   "pause_price": ""
+  },
+  {
+   "halt_time": "15:44:49.756",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "15:44:49",
+   "resume_trade_time": "15:49:49",
+   "market": "NASDAQ",
+   "name": "PureCycle Technologies, Inc Ut",
+   "pause_price": ""
+  }
+ ],
+ "BMHL": [
+  {
+   "halt_time": "11:30:12.643",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "11:30:12",
+   "resume_trade_time": "11:40:12",
+   "market": "NASDAQ",
+   "name": "Bluemount Holdings Lim Cl B OS",
+   "pause_price": ""
+  }
+ ],
+ "COOL": [
+  {
+   "halt_time": "14:59:55.773",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "14:59:55",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "VegaShares AI Thermal, Cooling & Power Management ETF",
+   "pause_price": ""
+  }
+ ],
+ "FVN": [
+  {
+   "halt_time": "15:57:41.630",
+   "reason": "LUDP",
+   "resume_date": "2026-11-09",
+   "resume_quote_time": "15:57:41",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Future Vision Acquisition OS",
+   "pause_price": ""
+  }
+ ],
+ "PSQH": [
+  {
+   "halt_time": "16:04:18.073",
+   "reason": "H11",
+   "resume_date": "",
+   "resume_quote_time": "",
+   "resume_trade_time": "",
+   "market": "NYSE",
+   "name": "PSQ Holdings, Inc. Class A Common Stock",
+   "pause_price": ""
+  }
+ ],
+ "SWAGW": [
+  {
+   "halt_time": "16:00:10.000",
+   "reason": "T12",
+   "resume_date": "",
+   "resume_quote_time": "",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Stran & Company, Inc Wt",
+   "pause_price": ""
+  }
+ ]
+}
