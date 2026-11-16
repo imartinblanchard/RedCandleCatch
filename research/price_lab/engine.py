@@ -95,12 +95,17 @@ def shape_groups(groups, mode='all'):
 
 
 def _entry(g, ind, fn, P):
-    """Premier i (one-shot) dans la fenêtre qui passe prix/gap + l'archétype. ZÉRO gate volume."""
+    """Premier i (one-shot) dans la fenêtre qui passe prix/gap (+ liquidité-à-l'entrée optionnelle)
+    + l'archétype. liq_col/liq_min : gate de liquidité GLISSANTE à la bougie d'entrée (act_30,
+    dvol_30…) — teste « ça bouge au moment où j'achète ? ». None/0 = pas de gate (défaut)."""
     mins, c, gap = ind['mins'], ind['c'], ind['gap']
+    liq_col, liq_min = P.get('liq_col'), P.get('liq_min', 0.0)
     for i in np.where((mins >= P['entry_start']) & (mins <= P['entry_end']))[0]:
         if not (P['price_min'] <= c[i] <= P['price_max']):
             continue
         if not (P['gap_min'] <= gap[i] <= P['gap_max']):
+            continue
+        if liq_col and ind[liq_col][i] < liq_min:          # liquidité glissante À L'ENTRÉE
             continue
         if fn(ind, i, P):
             return int(i)

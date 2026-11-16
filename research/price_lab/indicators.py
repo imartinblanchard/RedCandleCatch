@@ -117,20 +117,42 @@ def _roll_mad(x, n):
                      for i in range(len(x))])
 
 
+def _roll_sum(x, n):
+    """Somme glissante des n dernières valeurs (CAUSALE), en O(n) via cumsum."""
+    x = np.asarray(x, float); cs = np.cumsum(np.insert(x, 0, 0.0))
+    i = np.arange(len(x))
+    return cs[i + 1] - cs[np.maximum(0, i - n + 1)]
+
+
+def _roll_active(v, n):
+    """Nb de bougies ACTIVES (volume>0) dans les n dernières (fenêtre glissante, CAUSALE)."""
+    return _roll_sum((np.asarray(v, float) > 0).astype(float), n)
+
+
+def _roll_dvol(v, c, n):
+    """Dollar-volume (sum v*c) des n dernières bougies (fenêtre glissante, CAUSALE)."""
+    return _roll_sum(np.asarray(v, float) * np.asarray(c, float), n)
+
+
 def compute(g):
     """Toutes les features PRIX d'un ticker-jour (arrays alignés sur les bougies)."""
     o = np.asarray(g['o'], float); h = np.asarray(g['h'], float)
     l = np.asarray(g['l'], float); c = np.asarray(g['c'], float); mins = np.asarray(g['mins'])
+    v = np.asarray(g.get('v', np.zeros(len(c))), float)
     _, _, mh = macd(c); bb_ma, bb_up, bb_lo, bb_bw = bollinger(c)
     stk, std_ = stochastic(h, l, c)
     hod = np.maximum.accumulate(h); pc = g['pc'] or c[0]
     gap = (hod - pc) / pc * 100
     sma20 = _sma(c, 20)                                   # moyenne de prix = "VWAP sans volume"
-    return dict(mins=mins, o=o, h=h, l=l, c=c, pc=pc, green=(c >= o), hod=hod, gap=gap,
+    return dict(mins=mins, o=o, h=h, l=l, c=c, v=v, pc=pc, green=(c >= o), hod=hod, gap=gap,
                 ema9=ema(c, 9), ema20=ema(c, 20), ema50=ema(c, 50), sma20=sma20,
                 rsi=rsi(c), macd_hist=mh, bb_up=bb_up, bb_lo=bb_lo, bb_bw=bb_bw,
                 atr=atr(h, l, c), stoch_k=stk, stoch_d=std_, roc=roc(c),
-                wr=williams_r(h, l, c), cci=cci(h, l, c), st=supertrend(h, l, c))
+                wr=williams_r(h, l, c), cci=cci(h, l, c), st=supertrend(h, l, c),
+                # LIQUIDITÉ GLISSANTE par bougie (CAUSALE) : « ça bouge en ce moment ? »
+                # -> chaque stratégie teste la liquidité À SON ENTRÉE (pas juste le PM du matin).
+                act_15=_roll_active(v, 15), act_30=_roll_active(v, 30),
+                dvol_15=_roll_dvol(v, c, 15), dvol_30=_roll_dvol(v, c, 30))
 
 
 def orb_high(ind, open_min, window):
