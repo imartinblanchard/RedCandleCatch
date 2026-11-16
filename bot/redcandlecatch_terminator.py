@@ -137,7 +137,10 @@ VWAP_ACTIVATE = 0.10        # (mode 'trail' seulement) bascule TRAIL à +10%
 # OFF par défaut : à activer APRÈS vérification sur charts (règle Martin). Détecteur PUR
 # bot.live_signals.rsi_bounce_signal (à prouver == backtest via verify_live_rsi). Sortie TP +20%/STOP-8%.
 USE_RSI_TRACK = True        # 05/11 ACTIVÉ (vérifié charts OK) : rsi_bounce en 2e track à côté du repli
-RSI_GAP = (3.0, 10.0)       # gap 3-10%
+RSI_GAP = (3.0, 500.0)      # 15/11 : 3-10 -> TOUTE la bande (univers réel). Sur bars_eligible
+                            # (45j), rsi_bounce 'all' gaps bat largement 3-10 : exp +0.83 vs ~0,
+                            # t 2.4, cpte +40 vs -0.6, OOS +19, 2 moitiés+. Config #3 du leaderboard
+                            # réel déployée (le reste 9:30>midi/tp20/s8/PM0.35 déjà en place).
 RSI_LO = 20.0               # RSI recroise 20 à la hausse (survendu intraday)
 RSI_WIN = (570, 720)        # 09:30 -> midi
 RSI_TP = 0.20               # take-profit +20% (stop -8% via STOP)
