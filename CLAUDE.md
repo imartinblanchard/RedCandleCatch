@@ -8,6 +8,34 @@ Trading bot for the **LONG Gap & Go strategy** (Warrior Trading style). Scans fo
 
 **Direction**: LONG (buy low, sell high on gap-up momentum)
 
+> 🧭 **ÉTAT COURANT 2026-11-16 (fait autorité sur les sections historiques ci-dessous).**
+>
+> **Pipeline en 1 phrase** : on collecte TOUS les gappers 3-500 % en live → on tire leurs
+> bougies 1-min → on cherche la meilleure règle d'achat dessus → on déploie la/les gagnantes
+> dans le terminator (1 action/trade) → chaque soir la data s'accumule et on réévalue.
+>
+> **Noms de fichiers (renommés 16/11 pour la clarté)** :
+> - `data/collected_live/gappers-DATE.json` — TOUS les gappers scannés 3-500 % (ex-`universe-`).
+> - `data/collected_live/bars-DATE.parquet` (+ `meta-DATE.json`) — bougies 1-min de ces gappers,
+>   fetchées **le jour même** (`fetch_universe_bars`). **= LA BASE DE TEST fiable** (prev_close correct).
+> - `data/computed/tradable-DATE.json` — sous-ensemble que le bot PEUT trader (ex-`redcandlecatch-eligible-`),
+>   = passent gap 3-13 % + prix 3-20 $ + float 5M-50M + exclusions (reverse-split / rachat-cible).
+> - `data/collected_live/{news,halts}-DATE.json` — drivers hors-prix (collectés en live).
+> - ⚠️ `bars_eligible-*` (sous-ensemble tradé) = **EN QUARANTAINE** (prev_close contaminé au backfill ;
+>   corrigé mais plus utilisé ; cf mémoire `backfill-prevclose-now-bug`).
+>
+> **Recherche (sur `bars-*.parquet`, univers large)** : `research/price_lab/` (engine/indicators/
+> signals) + `research/live_lab/` (backtest, real_search = menu d'archétypes, **strategy_gen =
+> GÉNÉRATEUR** qui assemble des règles d'achat à partir de ~24 briques, combos de 1-2 →
+> ~500k configs). Liquidité GLISSANTE par-bougie (`act_30`/`dvol_30`) testée À L'ENTRÉE, pas
+> seulement le PM du matin. Classé par ROBUSTESSE (OOS + 2 moitiés + t). ⚠️ 45 j × 500k configs =
+> faux positifs massifs : lire la robustesse, jamais un gagnant isolé.
+>
+> **Déployé dans le terminator (à re-juger sur l'univers propre)** : `rsi_bounce` (gap élargi),
+> + `bb_breakout`/`higher_high` (gap 10-20, détecteurs prouvés `verify_live_breakouts`), filtre
+> PM-liq 0.35. Le VRAI verdict `rsi_bounce 3-10` = +2,16 %/tr (le « ~0 » était le bug prev_close).
+> Mémoires clés : `univers-reel-aligne-live`, `backfill-prevclose-now-bug`, `filtre-frequence-pm-audit`.
+
 > 🔬 **RÈGLE DE RECHERCHE 2026-10-21 (Martin) — FAIT AUTORITÉ.** Toute recherche / validation
 > de stratégie se fait **UNIQUEMENT sur nos données live** (`data/collected_live/` : `bars-*.parquet`,
 > `meta/universe/signals/news`), via `research/live_lab/` (`backtest.py`, `leaderboard.py`).
@@ -47,7 +75,7 @@ levels). ⚠️ Edge is IN-SAMPLE / borne supérieure — paper-test before trus
 
 **Two entry points only** (everything else is a library called by these):
 - `python -m bot.redcandlecatch_dashboard` — RedCandleCatch scanner/UI, scans the pre-market and
-  writes a **sticky** per-day signal file `data/computed/redcandlecatch-eligible-YYYY-MM-DD.json`
+  writes a **sticky** per-day signal file `data/computed/tradable-YYYY-MM-DD.json`
   (via `bot.eligible`) that the terminator reads.
 - `python -m bot.redcandlecatch_terminator` — the executor. Reads the eligible signal file,
   detects the adaptive dip entry (−5% if pre-open eligible / −1.5% if post-open, dip candle ≥ $200K), manages the 2-phase exit, and journals every trade.
@@ -121,7 +149,7 @@ python -m analysis.entry_model --train   # Train entry model
 | Module | Purpose | Key Classes/Functions |
 |--------|---------|----------------------|
 | `bot/redcandlecatch_scan.py` | Gap scan + RedCandleCatch filters | `scan_eligible()`, `GAP_MIN/MAX=5/10` (23/09, ex-10/20), `FLOAT_MIN_HARD=5M`, chart/volume/float/SSR ratings |
-| `bot/eligible.py` | Sticky per-day signal file | `write_all()`, `load()`, `upsert()` → `redcandlecatch-eligible-YYYY-MM-DD.json` |
+| `bot/eligible.py` | Sticky per-day signal file | `write_all()`, `load()`, `upsert()` → `tradable-YYYY-MM-DD.json` |
 | `bot/indicators.py` | Pure math | `vwap()`, `ema()`, `vwap_bands()`/`vwap_upper()` |
 | `execution/ibkr_broker.py` | IBKR prices + orders | `IBKRBroker` (prices, positions, bars, buy/sell, `allow_live` guard) |
 
@@ -147,7 +175,7 @@ python -m analysis.entry_model --train   # Train entry model
 ```
 LIVE TRADING PATH (regular hours 09:30-16:30) — the RedCandleCatch bot
   redcandlecatch_dashboard.py → redcandlecatch_scan.scan_eligible() (gap 10-20%, filters)
-    → writes data/computed/redcandlecatch-eligible-YYYY-MM-DD.json  (sticky signal file)
+    → writes data/computed/tradable-YYYY-MM-DD.json  (sticky signal file)
   redcandlecatch_terminator.py → reads eligible file → IBKR 1-min bars → adaptive dip entry (−5% pre-open / −1.5% post-open, dip candle ≥$200K)
     → STOP -10% → (at +5% PM / +10% post-open) → TRAIL 2% → forced exit 15:55 (2-tier)
     → redcandlecatch-journal.csv (+ open positions in redcandlecatch-open.json)
@@ -192,13 +220,15 @@ only** — recent/real-time SIP returns 403, so real-time queries use IEX.
 | `data/long-prices.csv` | OHLC columns per 5-min candle | Absolute prices for backtesting |
 | `data/long-percent.csv` | Same structure, % vs Open | Percentage changes for ML |
 | `data/computed/active-positions.json` | JSON dict by ticker | Current open positions (signals.py) |
-| `data/computed/redcandlecatch-eligible-YYYY-MM-DD.json` | JSON dict by ticker | **Sticky signal file** — dashboard writes, terminator reads |
-| `data/computed/redcandlecatch-journal.csv` | date,ticker,gap,entry,exit,reason,pnl_pct,mfe_pct,...,mode | **LIVE RedCandleCatch** trade log (RedCandleCatch_SmallCap, adaptive dip/trail 2%) |
-| `data/computed/redcandlecatch-open.json` | JSON dict by ticker | RedCandleCatch's open positions (restart-safe, LIVE or PAPER) |
-| `data/computed/terminator-long-journal.csv` | date,ticker,setup,entry,exit,reason,pnl_pct,mfe_pct,... | OLD paper path trade log (VWAP-pullback, reference) |
-| `data/computed/terminator-long-open.json` | JSON dict by ticker | OLD paper path open positions |
-| `data/collected/eligibles.csv` | date,ticker,is_premarket,gap,price,dollar_vol,ratings,... | **Research master table** — every ticker that passed the filters (PM + post-open), captured in real-time (survivorship-bias-FREE). Built by `collect_eligibles`. |
-| `data/collected/bars/YYYY-MM-DD.parquet` | ticker,date,datetime,o,h,l,c,v | 1-min bars 04:00-16:00 of each eligible ticker that day (Alpaca SIP hist). For backtesting the collected universe. |
+| `data/collected_live/gappers-YYYY-MM-DD.json` | JSON dict by ticker | **TOUS les gappers scannés 3-500 %** (ex-`universe-`). Liste large pour l'analyse. Écrit par `collect_universe`. |
+| `data/collected_live/bars-YYYY-MM-DD.parquet` | ticker,date,datetime,o,h,l,c,v | **BASE DE TEST** : 1-min bars des gappers, fetchées le jour même (`fetch_universe_bars`). prev_close correct. |
+| `data/collected_live/meta-YYYY-MM-DD.json` | JSON dict by ticker | prev_close, float, inst%, market_cap, band. Accompagne `bars-`. |
+| `data/computed/tradable-YYYY-MM-DD.json` | JSON dict by ticker | **Fichier signal sticky** (ex-`redcandlecatch-eligible-`) — dashboard écrit, terminator lit. Sous-ensemble tradable (gap 3-13, prix 3-20, float 5M-50M, exclusions). |
+| `data/computed/redcandlecatch-journal.csv` | date,ticker,gap,entry,exit,reason,pnl_pct,mfe_pct,...,mode | **LIVE** trade log (1 action/trade, multi-tracks : rsi_bounce/bb_breakout/higher_high/repli). |
+| `data/computed/redcandlecatch-open.json` | JSON dict by ticker | Positions ouvertes (restart-safe, LIVE ou PAPER). |
+| `data/collected_live/{news,halts}-YYYY-MM-DD.json` | JSON dict by ticker | Drivers hors-prix (news horodatées, arrêts de cotation Nasdaq). Collectés en live, forward-only. |
+| `research/live_lab/results/strategy_gen-results.csv` | regle,gap,heure,liq,exit,n,exp,t,cpte,... | Sortie du **générateur de stratégies** (règles assemblées, classées par robustesse). |
+| ⚠️ `data/collected_live/bars_eligible-*` | — | **EN QUARANTAINE** (prev_close contaminé au backfill). Ne plus utiliser. |
 
 ## Selection Criteria (Warrior Trading)
 
