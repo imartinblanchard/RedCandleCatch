@@ -83,7 +83,7 @@ def pm_liquid(groups, thr):
 
 
 def main(thr):
-    groups, dates = load_eligible_groups()
+    groups, dates = bt.load_groups()          # univers LARGE 3-500 (bars-*.parquet), cf real_search
     liq = pm_liquid(groups, thr)
     split = bt.oos_split(dates)
     print(f"univers RÉEL : {len(groups)} ticker-jours ({len(dates)} séances) | PM-liq>={thr:.0%}: {len(liq)} | OOS {split}")

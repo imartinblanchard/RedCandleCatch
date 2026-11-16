@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Recherche LARGE sur l'univers RÉEL (bars_eligible, source unique = ce que le bot trade).
-Balaie archétype × bande de gap × fenêtre d'entrée × sortie × stop × seuil PM-liq, et classe
-par ROBUSTESSE (OOS + 2 moitiés + t) puis CPTE. But : voir si QUELQUE CHOSE tient vraiment sur
-l'univers réel, puisque l'ancien leaderboard (univers biaisé universe.json) surévaluait tout.
+"""Recherche LARGE sur l'univers COMPLET des gappers 3-500% (bars-*.parquet = universe.json,
+TOUS les gappers, pas seulement ceux qu'on trade). Balaie archétype × bande de gap × fenêtre
+d'entrée × sortie × stop × seuil PM-liq, et classe par ROBUSTESSE (OOS + 2 moitiés + t) puis CPTE.
+But (Martin) : juger les stratégies sur l'univers large PUIS choisir le déploiement avec les bons
+filtres (gap, fréquence PM). Les FILTRES (gap band, PM-liq) sont des DIMENSIONS de la recherche.
 
 ⚠️ petit n (45 séances) + milliers de combos = FAUX POSITIFS massifs : lire t-stat / 2 moitiés /
 OOS, JAMAIS un gagnant isolé. Réutilise le moteur price_lab (engine) — aucune logique dupliquée.
@@ -15,8 +16,9 @@ import numpy as np, pandas as pd
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.dirname(os.path.dirname(HERE)))
 from research.live_lab import backtest as bt
-from research.live_lab.nightly_real_leaderboard import load_eligible_groups, PM_LO, PM_HI
 from research.price_lab import engine as E, signals as S
+
+PM_LO, PM_HI = 480, 570          # 8:00 -> 9:30 ET (fréquence PM)
 
 ARCHES = list(S.REGISTRY)
 APARAMS = {'rsi_bounce': dict(rsi_lo=20), 'rsi_divergence': dict(div_win=20),
@@ -32,7 +34,7 @@ OUT = os.path.join(HERE, 'results', 'real_search-results.csv')
 
 
 def main():
-    groups, dates = load_eligible_groups()
+    groups, dates = bt.load_groups()          # univers LARGE 3-500 (bars-*.parquet = universe.json)
     ex = E.excluded_set()
     groups = [g for g in groups if (g['tk'], g['date']) not in ex]
     # pm_frac précalculé une fois par ticker-jour (filtrage seuil = cheap ensuite)
