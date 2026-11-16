@@ -1,4 +1,4 @@
-"""Capture LIVE de l'univers des gappers 5-500% (toute la séance), via le scanner IBKR.
+"""Capture LIVE de l'univers des gappers 3-500% (toute la séance), via le scanner IBKR.
 On note CHAQUE gapper vu (ticker, bande de %-change, 1re fois vu), en direct, dans un fichier
 STICKY par jour -> data/collected_live/universe-YYYY-MM-DD.json. Les BOUGIES 1-min sont tirées
 ensuite (après clôture) par bot/fetch_universe_bars.py. But (Martin 23/09) : dataset LIVE fiable
@@ -12,7 +12,9 @@ from datetime import datetime
 ET = ZoneInfo('America/New_York')
 DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data', 'collected_live')
 # bandes de %-change FINES dans le bas (dense) pour ne rater aucun gapper (top-50/bande sinon écrase)
-BANDS = [(5, 7), (7, 10), (10, 14), (14, 20), (20, 30), (30, 50), (50, 100), (100, 500)]
+# 15/11 : plancher abaissé 5->3 (bandes 3-5, 4-5 ajoutées) pour capter la tranche 3-5% que le
+# scan LIVE trade mais que la collecte ratait (cf univers-reel-aligne-live). Univers = 3-500%.
+BANDS = [(3, 4), (4, 5), (5, 7), (7, 10), (10, 14), (14, 20), (20, 30), (30, 50), (50, 100), (100, 500)]
 ROWS = 50
 PMIN, PMAX = 0.5, 50.0
 
