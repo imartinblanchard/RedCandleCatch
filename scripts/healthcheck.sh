@@ -41,8 +41,8 @@ echo "▸ 5. Fichiers de données"
 [ -f data/collected/eligibles.csv ] && ok "eligibles.csv ($(($(wc -l < data/collected/eligibles.csv)-1)) ticker-jours)" || warn "eligibles.csv absent"
 POS=$($PY -c "import json;print(len(json.load(open('data/computed/redcandlecatch-open.json'))))" 2>/dev/null || echo "?")
 echo "  • positions ouvertes : $POS"
-if [ -f "data/computed/redcandlecatch-eligible-$TODAY.json" ]; then
-  ok "signal du jour présent ($($PY -c "import json;print(len(json.load(open('data/computed/redcandlecatch-eligible-$TODAY.json'))))" 2>/dev/null) tickers)"
+if [ -f "data/computed/tradable-$TODAY.json" ]; then
+  ok "signal du jour présent ($($PY -c "import json;print(len(json.load(open('data/computed/tradable-$TODAY.json'))))" 2>/dev/null) tickers)"
 else warn "pas de signal pour aujourd'hui ($TODAY) — dashboard pas encore lancé ce jour ?"; fi
 
 echo "▸ 6. Cron de collecte quotidienne"

@@ -5,7 +5,7 @@ ce fichier à chaque cycle, surveille les prix et déclenche lui-même les entr�
 
 STICKY : une fois un titre ajouté, il reste dans la liste toute la journée (on ne
 réécrase pas son snapshot d'origine, on ne le retire pas) — évite le flapping si son
-gap oscille autour de 50%.  Un fichier par jour : redcandlecatch-eligible-YYYY-MM-DD.json.
+gap oscille autour de 50%.  Un fichier par jour : tradable-YYYY-MM-DD.json.
 """
 from __future__ import annotations
 import json
@@ -18,7 +18,7 @@ COMPUTED = Path(__file__).resolve().parent.parent / 'data' / 'computed'
 
 def path(day: Optional[str] = None) -> Path:
     d = day or date.today().isoformat()
-    return COMPUTED / f'redcandlecatch-eligible-{d}.json'
+    return COMPUTED / f'tradable-{d}.json'
 
 
 def load(day: Optional[str] = None) -> Dict[str, dict]:

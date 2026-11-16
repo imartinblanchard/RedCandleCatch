@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """APRÈS la clôture : tire les bougies 1-min (IBKR) de tout l'univers capté EN DIRECT par le
-dashboard (data/collected_live/universe-YYYY-MM-DD.json). 100% IBKR, aucune Alpaca.
+dashboard (data/collected_live/gappers-YYYY-MM-DD.json). 100% IBKR, aucune Alpaca.
 Sortie : data/collected_live/bars-YYYY-MM-DD.parquet + meta-YYYY-MM-DD.json (prev_close, band...).
 Résumable (saute les tickers déjà dans le parquet). Cadence gérée.
 
@@ -33,7 +33,7 @@ def prev_close(ib, ct):
 def main(day):
     uni = cu.load(day)
     if not uni:
-        print(f"[{day}] aucun univers capté (data/collected_live/universe-{day}.json absent)"); return
+        print(f"[{day}] aucun univers capté (data/collected_live/gappers-{day}.json absent)"); return
     from ib_insync import IB, Stock
     barp = os.path.join(DIR, f'bars-{day}.parquet')
     metap = os.path.join(DIR, f'meta-{day}.json')

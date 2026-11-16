@@ -27,7 +27,7 @@ SLEEP = 6.0
 def prev_trading_day():
     """Date du univers le plus recent STRICTEMENT avant aujourd'hui (= jour N a suivre)."""
     today = datetime.now(ET).date().isoformat()
-    days = sorted(os.path.basename(f)[9:19] for f in glob.glob(os.path.join(DIR, 'universe-*.json')))
+    days = sorted(os.path.basename(f)[8:18] for f in glob.glob(os.path.join(DIR, 'gappers-*.json')))
     before = [d for d in days if d < today]
     return before[-1] if before else None
 

@@ -34,7 +34,7 @@ def main(day):
     # minutes PM distinctes actives par ticker
     freq = pm.groupby('ticker')['datetime'].nunique().to_dict()
 
-    elig_p = os.path.join(ELIG, f'redcandlecatch-eligible-{day}.json')
+    elig_p = os.path.join(ELIG, f'tradable-{day}.json')
     elig = json.load(open(elig_p)) if os.path.exists(elig_p) else {}
 
     # ce qui a été réellement tradé ce jour (journal)

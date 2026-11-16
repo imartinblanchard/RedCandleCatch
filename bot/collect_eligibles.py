@@ -2,7 +2,7 @@
 """
 Collecteur de DATA de recherche — TOUS les tickers qui passent nos filtres (PM + post-open).
 
-Chaque jour, le dashboard écrit `redcandlecatch-eligible-YYYY-MM-DD.json` (sticky) avec les
+Chaque jour, le dashboard écrit `tradable-YYYY-MM-DD.json` (sticky) avec les
 métadonnées de chaque ticker éligible AU MOMENT où il devient éligible (temps réel ->
 SANS biais du survivant, contrairement à candles.parquet historique).
 
@@ -47,11 +47,11 @@ META_FIELDS = ['added', 'gap', 'price', 'pm_vol', 'pm_minutes', 'chart_rating',
 
 
 def _eligible_files():
-    return sorted(glob.glob(os.path.join(COMPUTED, 'redcandlecatch-eligible-*.json')))
+    return sorted(glob.glob(os.path.join(COMPUTED, 'tradable-*.json')))
 
 
 def _date_of(path):
-    return os.path.basename(path)[len('redcandlecatch-eligible-'):-len('.json')]
+    return os.path.basename(path)[len('tradable-'):-len('.json')]
 
 
 def build_master():

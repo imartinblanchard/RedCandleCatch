@@ -59,7 +59,7 @@ def _band_lo(info):
 def main(day, tickers=None, sample=None, min_band=None):
     uni = cu.load(day)
     if not uni:
-        print(f"[{day}] univers absent (universe-{day}.json)"); return
+        print(f"[{day}] univers absent (gappers-{day}.json)"); return
     syms = tickers or list(uni)
     if min_band is not None:                          # ne garder que les gappers >= min_band%
         syms = [t for t in syms if _band_lo(uni.get(t, {})) >= min_band]

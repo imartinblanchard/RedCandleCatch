@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """APRÈS la clôture : tire les bougies 1-min (IBKR) de l'univers ÉLIGIBLE réellement vu par le
-bot live (data/computed/redcandlecatch-eligible-YYYY-MM-DD.json), PAS la collecte universe.json.
+bot live (data/computed/tradable-YYYY-MM-DD.json), PAS la collecte universe.json.
 But : aligner l'univers RECHERCHE sur l'univers LIVE (démontré 14/11 : ~50% des trades live
 absents de universe.json -> invisibles au backtest -> stats non comparables).
 
@@ -27,8 +27,8 @@ SLEEP = 6.0
 
 
 def load_eligible(day):
-    """Univers ÉLIGIBLE du live : {ticker: meta} depuis redcandlecatch-eligible-DATE.json."""
-    p = os.path.join(COMPUTED, f'redcandlecatch-eligible-{day}.json')
+    """Univers ÉLIGIBLE du live : {ticker: meta} depuis tradable-DATE.json."""
+    p = os.path.join(COMPUTED, f'tradable-{day}.json')
     return json.load(open(p)) if os.path.exists(p) else {}
 
 
@@ -49,7 +49,7 @@ def prev_close(ib, ct, day):
 def main(day):
     uni = load_eligible(day)
     if not uni:
-        print(f"[{day}] aucun éligible (data/computed/redcandlecatch-eligible-{day}.json absent)"); return
+        print(f"[{day}] aucun éligible (data/computed/tradable-{day}.json absent)"); return
     from ib_insync import IB, Stock
     barp = os.path.join(DIR, f'bars_eligible-{day}.parquet')
     metap = os.path.join(DIR, f'meta_eligible-{day}.json')

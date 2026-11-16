@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """APRÈS la clôture : capture la NEWS Yahoo Finance (horodatée) de tout l'univers capté en
-direct par le dashboard (data/collected_live/universe-YYYY-MM-DD.json).
+direct par le dashboard (data/collected_live/gappers-YYYY-MM-DD.json).
 
 ⚠️ Yahoo ne renvoie que les ~10 DERNIERS articles par ticker (pas de requête par date) :
 donc à lancer LE JOUR MÊME (comme fetch_universe_bars) pour capter la news du jour. La
@@ -44,7 +44,7 @@ def _extract(art):
 def main(day):
     uni = cu.load(day)
     if not uni:
-        print(f"[{day}] aucun univers capté (universe-{day}.json absent)"); return
+        print(f"[{day}] aucun univers capté (gappers-{day}.json absent)"); return
     import yfinance as yf
     path = os.path.join(DIR, f'news-{day}.json')
     out = json.load(open(path)) if os.path.exists(path) else {}

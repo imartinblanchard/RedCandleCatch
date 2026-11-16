@@ -1,6 +1,6 @@
 """Capture LIVE de l'univers des gappers 3-500% (toute la séance), via le scanner IBKR.
 On note CHAQUE gapper vu (ticker, bande de %-change, 1re fois vu), en direct, dans un fichier
-STICKY par jour -> data/collected_live/universe-YYYY-MM-DD.json. Les BOUGIES 1-min sont tirées
+STICKY par jour -> data/collected_live/gappers-YYYY-MM-DD.json. Les BOUGIES 1-min sont tirées
 ensuite (après clôture) par bot/fetch_universe_bars.py. But (Martin 23/09) : dataset LIVE fiable
 (source IBKR), large (5-500), qu'on filtre à l'analyse. Le TRADING reste à gap 5-10.
 """
@@ -21,7 +21,7 @@ PMIN, PMAX = 0.5, 50.0
 
 def _path(day=None):
     d = day or datetime.now(ET).date().isoformat()
-    return os.path.join(DIR, f'universe-{d}.json')
+    return os.path.join(DIR, f'gappers-{d}.json')
 
 
 def scan_wide(broker):
