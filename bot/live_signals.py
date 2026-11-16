@@ -35,6 +35,82 @@ def _rsi(c, n=14):                      # RSI Wilder — réplique EXACTE de pri
     return 100 - 100 / (1 + rs)
 
 
+def _ewm(x, span):                      # EMA — réplique EXACTE de price_lab.indicators._ewm
+    a = 2.0 / (span + 1.0); out = np.empty_like(x, float); out[0] = x[0]
+    for i in range(1, len(x)):
+        out[i] = a * x[i] + (1 - a) * out[i - 1]
+    return out
+
+
+def _sma(x, n):                         # réplique EXACTE de price_lab.indicators._sma (tête = moyenne expansive)
+    x = np.asarray(x, float); cs = np.cumsum(np.insert(x, 0, 0.0))
+    out = (cs[n:] - cs[:-n]) / n
+    head = np.array([x[:i + 1].mean() for i in range(min(n - 1, len(x)))])
+    return np.concatenate([head, out])[:len(x)]
+
+
+def _rstd(x, n):                        # réplique EXACTE de price_lab.indicators._rstd (std population, ddof=0)
+    x = np.asarray(x, float)
+    return np.array([x[max(0, i - n + 1):i + 1].std() for i in range(len(x))])
+
+
+def bb_breakout_signal(allbars: List[dict], now_t, pc: float, gap_min: float = 10.0, gap_max: float = 20.0,
+                       squeeze_bw: float = 0.04, win: Tuple[int, int] = (570, 720),
+                       price: Tuple[float, float] = (3.0, 20.0), n: int = 20, k: float = 2.0,
+                       tp: float = 0.15) -> Optional[Tuple[float, float, str]]:
+    """Réplique EXACTEMENT signals.bb_breakout + engine._entry (gates fenêtre/prix/gap) :
+      - compression : largeur de bande Bollinger (bb_bw) de la bougie PRÉCÉDENTE <= squeeze_bw
+      - clôture > bande haute (bb_up), bougie VERTE, gap dans [gap_min,gap_max], prix/fenêtre OK.
+    Renvoie (entry, tp, desc) ou None. Univers PM-liquidité géré EN AMONT par le terminator."""
+    up = [b for b in allbars if b['t'] <= now_t]
+    if len(up) < n + 2 or not pc or pc <= 0:
+        return None
+    i = len(up) - 1; bi = up[i]
+    if not (win[0] <= _hm(bi['t']) <= win[1]):
+        return None
+    c_i, o_i = bi['c'], bi['o']
+    if not (price[0] <= c_i <= price[1]) or c_i < o_i:       # prix exécutable + bougie VERTE
+        return None
+    hod = max(b['h'] for b in up); gap = (hod - pc) / pc * 100.0
+    if not (gap_min <= gap <= gap_max):
+        return None
+    c = np.array([b['c'] for b in up], float)
+    ma = _sma(c, n); sd = _rstd(c, n); up_b = ma + k * sd; lo_b = ma - k * sd
+    bw = np.where(ma > 0, (up_b - lo_b) / ma, 0.0)
+    if not (bw[i - 1] <= squeeze_bw and c_i > up_b[i]):      # squeeze (bougie préc.) PUIS cassure haut
+        return None
+    return (float(c_i), float(tp), f"bb_breakout gap{gap:.0f}% squeeze {bw[i-1]:.3f} c>{up_b[i]:.2f}")
+
+
+def higher_high_signal(allbars: List[dict], now_t, pc: float, gap_min: float = 10.0, gap_max: float = 20.0,
+                       hh_win: int = 3, win: Tuple[int, int] = (570, 720),
+                       price: Tuple[float, float] = (3.0, 20.0),
+                       tp: float = 0.15) -> Optional[Tuple[float, float, str]]:
+    """Réplique EXACTEMENT signals.higher_high_momentum + engine._entry (gates fenêtre/prix/gap) :
+      - N clôtures consécutivement plus hautes (poussée) ET clôture > EMA20. PAS de gate bougie verte
+        (l'archétype ne le check pas). gap dans [gap_min,gap_max], prix/fenêtre OK.
+    Renvoie (entry, tp, desc) ou None. Univers PM-liquidité géré EN AMONT par le terminator."""
+    up = [b for b in allbars if b['t'] <= now_t]
+    N = hh_win
+    if len(up) < N + 2 or not pc or pc <= 0:
+        return None
+    i = len(up) - 1; bi = up[i]
+    if not (win[0] <= _hm(bi['t']) <= win[1]):
+        return None
+    c_i = bi['c']
+    if not (price[0] <= c_i <= price[1]):                    # prix exécutable (pas de gate verte)
+        return None
+    hod = max(b['h'] for b in up); gap = (hod - pc) / pc * 100.0
+    if not (gap_min <= gap <= gap_max):
+        return None
+    c = np.array([b['c'] for b in up], float)
+    ema20 = _ewm(c, 20)
+    rising = all(c[i - j] > c[i - j - 1] for j in range(N))
+    if not (rising and c_i > ema20[i]):                      # N clôtures montantes + au-dessus EMA20
+        return None
+    return (float(c_i), float(tp), f"higher_high gap{gap:.0f}% {N}xHH c>ema20 {ema20[i]:.2f}")
+
+
 def rsi_bounce_signal(allbars: List[dict], now_t, pc: float, gap_min: float = 3.0, gap_max: float = 10.0,
                       rsi_lo: float = 20.0, win: Tuple[int, int] = (570, 720),
                       price: Tuple[float, float] = (3.0, 20.0), n: int = 14,

@@ -28,7 +28,8 @@ except Exception:
 from execution.ibkr_broker import IBKRBroker
 from bot import redcandlecatch_scan as wscan
 from bot import eligible
-from bot.live_signals import vwap_reclaim_signal, rsi_bounce_signal   # détecteurs purs (== backtest)
+from bot.live_signals import (vwap_reclaim_signal, rsi_bounce_signal,   # détecteurs purs (== backtest)
+                              bb_breakout_signal, higher_high_signal)
 
 # ---- paramètres de la stratégie (issus du backtest) ----
 # Config validée 2026-09-11 (backtest 9 mois) : gap 10-20% + dip -5% + trail 2%
@@ -144,6 +145,13 @@ RSI_GAP = (3.0, 500.0)      # 15/11 : 3-10 -> TOUTE la bande (univers réel). Su
 RSI_LO = 20.0               # RSI recroise 20 à la hausse (survendu intraday)
 RSI_WIN = (570, 720)        # 09:30 -> midi
 RSI_TP = 0.20               # take-profit +20% (stop -8% via STOP)
+# ── 4e/5e TRACKS (BREAKOUT sur gap 10-20, leaderboard RÉEL 15/11) : détecteurs purs == backtest ──
+# bb_breakout #1 (t 3.0, OOS +25, maxDD -3) et higher_high #2 (t 3.1, OOS +22). Placés AVANT rsi
+# ('all' gaps) pour donner priorité aux setups 10-20 à forte conviction. Sortie tp15 / STOP -8%.
+USE_BB_TRACK = True
+BB_GAP = (10.0, 20.0); BB_WIN = (570, 720); BB_SQUEEZE = 0.04; BB_TP = 0.15
+USE_HH_TRACK = True
+HH_GAP = (10.0, 20.0); HH_WIN = (570, 720); HH_N = 3; HH_TP = 0.15
 # --- sortie EN DEUX PHASES ---
 STOP = 0.08             # 05/11 : -8% (strat repli déployée /s8). STOP -STOP% + TP +TAKE_PROFIT% en OCA.
 # ACTIVATION ADAPTATIVE (18/09) : l'effet du seuil d'activation est OPPOSÉ selon la population
@@ -656,6 +664,48 @@ class RedCandleCatchTerminator:
         print(f"[{now_et():%H:%M}] {tk}[rsi] {r['t']:%H:%M} {sig[2]} -> ENTER (track prix)")
         return sig
 
+    def _bb_breakout_signal(self, tk: str, r: dict, allbars):
+        """4e TRACK (BREAKOUT, 100% PRIX) : squeeze Bollinger + cassure haut, gapper 10-20%, 9:30->midi.
+        MÊME gate PM-liq. Détecteur PUR bot.live_signals.bb_breakout_signal (== backtest). -> (entry,tp,desc)|None."""
+        if not allbars:
+            return None
+        if PM_LIQ_MIN_FRAC > 0:
+            _, pm_frac = self._pm_liq(tk, 'bb_breakout', r, allbars)
+            if pm_frac < PM_LIQ_MIN_FRAC:
+                return None
+        pc = self._pc.get(tk)
+        if pc is None:
+            pc = _prev_close(self.broker, tk); self._pc[tk] = pc
+        if not pc or pc <= 0:
+            return None
+        sig = bb_breakout_signal(allbars, r['t'], pc=pc, gap_min=BB_GAP[0], gap_max=BB_GAP[1],
+                                 squeeze_bw=BB_SQUEEZE, win=BB_WIN, price=(PRICE_MIN, PRICE_MAX), tp=BB_TP)
+        if sig is None:
+            return None
+        print(f"[{now_et():%H:%M}] {tk}[bb] {r['t']:%H:%M} {sig[2]} -> ENTER (track breakout)")
+        return sig
+
+    def _higher_high_signal(self, tk: str, r: dict, allbars):
+        """5e TRACK (MOMENTUM, 100% PRIX) : N clôtures montantes au-dessus EMA20, gapper 10-20%, 9:30->midi.
+        MÊME gate PM-liq. Détecteur PUR bot.live_signals.higher_high_signal (== backtest). -> (entry,tp,desc)|None."""
+        if not allbars:
+            return None
+        if PM_LIQ_MIN_FRAC > 0:
+            _, pm_frac = self._pm_liq(tk, 'higher_high', r, allbars)
+            if pm_frac < PM_LIQ_MIN_FRAC:
+                return None
+        pc = self._pc.get(tk)
+        if pc is None:
+            pc = _prev_close(self.broker, tk); self._pc[tk] = pc
+        if not pc or pc <= 0:
+            return None
+        sig = higher_high_signal(allbars, r['t'], pc=pc, gap_min=HH_GAP[0], gap_max=HH_GAP[1],
+                                 hh_win=HH_N, win=HH_WIN, price=(PRICE_MIN, PRICE_MAX), tp=HH_TP)
+        if sig is None:
+            return None
+        print(f"[{now_et():%H:%M}] {tk}[hh] {r['t']:%H:%M} {sig[2]} -> ENTER (track momentum)")
+        return sig
+
     def _dip_signal(self, tk: str, r: dict, allbars):
         """ANCIENNE stratégie (dip mono-bougie). -> (entry, activate, desc) ou None."""
         premarket = hm(r['t']) < (9, 31)
@@ -697,7 +747,15 @@ class RedCandleCatchTerminator:
                 sig = self._vwap_reclaim_signal(tk, r, allbars)
                 if sig is not None:
                     strat = 'vwap_reclaim'
-            if sig is None and USE_RSI_TRACK:            # 3e TRACK : rsi_bounce (100% prix), sortie tp20/s8
+            if sig is None and USE_BB_TRACK:             # 4e TRACK : bb_breakout (gap 10-20, breakout), tp15/s8
+                sig = self._bb_breakout_signal(tk, r, allbars)
+                if sig is not None:
+                    strat = 'bb_breakout'; entry_tp = sig[1]
+            if sig is None and USE_HH_TRACK:             # 5e TRACK : higher_high (gap 10-20, momentum), tp15/s8
+                sig = self._higher_high_signal(tk, r, allbars)
+                if sig is not None:
+                    strat = 'higher_high'; entry_tp = sig[1]
+            if sig is None and USE_RSI_TRACK:            # 6e TRACK : rsi_bounce (100% prix, 'all' gaps), tp20/s8
                 sig = self._rsi_bounce_signal(tk, r, allbars)
                 if sig is not None:
                     strat = 'rsi_bounce'; entry_tp = sig[1]
