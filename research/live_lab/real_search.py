@@ -28,7 +28,15 @@ WINS = [('9:30>midi', 570, 720), ('9:30>15:55', 570, 955)]
 EXITS = {'tp15': dict(exit_mode='tp', tp_pct=0.15), 'tp20': dict(exit_mode='tp', tp_pct=0.20),
          'trail10/5': dict(exit_mode='trail', activate_pct=0.10, trail_pct=0.05), 'eod': dict(exit_mode='eod')}
 STOPS = [0.08, 0.10]
-THRS = [0.20, 0.35]
+# DIMENSION LIQUIDITÉ : compare le filtre PM-MATIN (fixe 8:00-9:30) à la liquidité GLISSANTE
+# À L'ENTRÉE (act_30 = min actives / dvol_30 = $ des 30 dernières min, à la bougie d'achat).
+# (label, kind, param) : kind 'pm' -> filtre groupe amont ; 'entry' -> gate dans P ; None -> aucun.
+LIQ = [('none', None, None),
+       ('pm0.20', 'pm', 0.20), ('pm0.35', 'pm', 0.35),
+       ('act30>=10', 'entry', dict(liq_col='act_30', liq_min=10)),
+       ('act30>=15', 'entry', dict(liq_col='act_30', liq_min=15)),
+       ('dvol30>=100k', 'entry', dict(liq_col='dvol_30', liq_min=100_000)),
+       ('dvol30>=200k', 'entry', dict(liq_col='dvol_30', liq_min=200_000))]
 N_MIN = 30
 OUT = os.path.join(HERE, 'results', 'real_search-results.csv')
 
@@ -41,20 +49,26 @@ def main():
     for g in groups:
         g['_pm'] = sum(1 for mn, vv in zip(g['mins'], g['v']) if PM_LO <= mn < PM_HI and vv > 0) / (PM_HI - PM_LO)
     split = bt.oos_split(dates)
-    ncfg = len(ARCHES) * len(GAPS) * len(WINS) * len(EXITS) * len(STOPS) * len(THRS)
+    ncfg = len(ARCHES) * len(GAPS) * len(WINS) * len(EXITS) * len(STOPS) * len(LIQ)
     print(f"univers RÉEL : {len(groups)} ticker-jours · {len(dates)} séances · OOS {split} · {ncfg} configs", flush=True)
 
     rows = []
     k = 0
-    for thr in THRS:
-        liq = [g for g in groups if g['_pm'] >= thr]
+    for liq_label, kind, param in LIQ:
+        if kind == 'pm':                                   # filtre PM-MATIN (amont)
+            liq = [g for g in groups if g['_pm'] >= param]; extra = {}
+        elif kind == 'entry':                              # liquidité GLISSANTE à l'entrée (gate dans P)
+            liq = groups; extra = param
+        else:                                              # aucun filtre
+            liq = groups; extra = {}
         for name in ARCHES:
             ap = APARAMS.get(name, {})
             for (gl, gmin, gmax), (wl, ws, we) in itertools.product(GAPS, WINS):
                 for stp in STOPS:
                     for exl, ex_ in EXITS.items():
                         k += 1
-                        P = dict(gap_min=gmin, gap_max=gmax, entry_start=ws, entry_end=we, stop_pct=stp, **ap, **ex_)
+                        P = dict(gap_min=gmin, gap_max=gmax, entry_start=ws, entry_end=we,
+                                 stop_pct=stp, **ap, **ex_, **extra)
                         df = E.simulate(liq, name, P)
                         if len(df) < N_MIN:
                             continue
@@ -62,7 +76,7 @@ def main():
                         if not r:
                             continue
                         r['robust'] = bool(r['e_h1'] > 0 and r['e_h2'] > 0 and r['t'] >= 2 and r['cpte_oos'] > 0)
-                        rows.append(dict(archetype=name, gap=gl, heure=wl, exit=f'{exl}/s{int(stp*100)}', pm=thr,
+                        rows.append(dict(archetype=name, gap=gl, heure=wl, exit=f'{exl}/s{int(stp*100)}', liq=liq_label,
                                          **{c: r[c] for c in ['n', 'trj', 'exp', 't', 'win', 'entry_med',
                                             'cpte', 'cpte_oos', 'e_h1', 'e_h2', 'maxDD', 'robust']}))
                 if k % 200 < len(EXITS) * len(STOPS):
@@ -71,7 +85,7 @@ def main():
     res = pd.DataFrame(rows)
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     res.to_csv(OUT, index=False)
-    cols = ['archetype', 'gap', 'heure', 'exit', 'pm', 'n', 'trj', 'exp', 't', 'win', 'cpte', 'cpte_oos', 'e_h1', 'e_h2', 'maxDD']
+    cols = ['archetype', 'gap', 'heure', 'exit', 'liq', 'n', 'trj', 'exp', 't', 'win', 'cpte', 'cpte_oos', 'e_h1', 'e_h2', 'maxDD']
     print(f"-> {OUT} ({len(res)} configs n>={N_MIN})\n")
     rob = res[res.robust].sort_values('cpte', ascending=False)
     print(f"=== ROBUSTES (OOS+ , 2 moitiés+, t>=2) : {len(rob)} ===")
