@@ -11,7 +11,7 @@ Usage : python -m research.live_lab.strategy_gen            (recherche complète
         python -m research.live_lab.strategy_gen --calib    (mesure la vitesse sur un échantillon)
         python -m research.live_lab.strategy_gen --validate (prouve que (rsi^20 & green) == archétype rsi_bounce)
 """
-import os, sys, time, itertools, argparse
+import os, sys, time, itertools, argparse, glob, pickle, hashlib
 import numpy as np, pandas as pd
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.dirname(os.path.dirname(HERE)))
@@ -32,6 +32,8 @@ LIQ = [('none', None, None), ('pm0.20', 'pm', 0.20), ('pm0.35', 'pm', 0.35),
        ('dvol30>=100k', 'entry', ('dvol_30', 100_000)), ('dvol30>=200k', 'entry', ('dvol_30', 200_000))]
 N_MIN = 30
 OUT = os.path.join(HERE, 'results', 'strategy_gen-results.csv')
+DONE = os.path.join(HERE, 'results', 'strategy_gen-done.txt')     # bandes déjà terminées (reprise)
+PREP_CACHE = os.path.join(HERE, 'results', 'strategy_gen-prep.pkl')
 
 
 def _cross_up(x, thr):
@@ -90,6 +92,39 @@ def prep(groups):
     return P
 
 
+def _bars_key():
+    """Clé de validité du cache = empreinte des bars-*.parquet (noms + tailles)."""
+    files = sorted(glob.glob(os.path.join(bt.DATA, 'bars-*.parquet')))
+    sig = ';'.join(f'{os.path.basename(f)}:{os.path.getsize(f)}' for f in files)
+    return hashlib.md5(sig.encode()).hexdigest()
+
+
+def prep_cached(groups):
+    """prep() avec CACHE disque — invalidé si les bars changent. Évite de repayer ~15 min à chaque relance."""
+    key = _bars_key()
+    if os.path.exists(PREP_CACHE):
+        try:
+            blob = pickle.load(open(PREP_CACHE, 'rb'))
+            if blob.get('key') == key:
+                print(f"prep : chargé du cache ({len(blob['prepped'])} ticker-jours)", flush=True)
+                return blob['prepped']
+        except Exception:
+            pass
+    t0 = time.time(); prepped = prep(groups)
+    pickle.dump({'key': key, 'prepped': prepped}, open(PREP_CACHE, 'wb'), protocol=4)
+    print(f"prep : calculé en {time.time()-t0:.0f}s et mis en cache", flush=True)
+    return prepped
+
+
+def _done_bands():
+    return set(open(DONE).read().split()) if os.path.exists(DONE) else set()
+
+
+def _mark_done(band):
+    with open(DONE, 'a') as f:
+        f.write(band + '\n')
+
+
 def entries(prepped, ci, cj, gmin, gmax, ws, we, liqkind, liqarg):
     """Liste (elem, i) : 1re bougie passant gap/prix/fenêtre/liquidité ET les briques ci(&cj)."""
     out = []
@@ -133,54 +168,65 @@ def combos():
     return singles + pairs
 
 
-def main(mode):
+def run_band(prepped, dates, split, gl, gmin, gmax, cmb):
+    """Teste TOUS les combos × fenêtre × liquidité × sortie × stop pour UNE bande de gap.
+    -> liste de lignes de résultat. (Unité de checkpoint : on sauvegarde après chaque bande.)"""
+    rows = []
+    for ci, cj in cmb:
+        nm = NAMES[ci] + ('' if cj is None else ' & ' + NAMES[cj])
+        for wl, ws, we in WINS:
+            for liql, lk, la in LIQ:
+                ents = entries(prepped, ci, cj, gmin, gmax, ws, we, lk, la)
+                for exl, stp, r in eval_exits(ents, dates, split):
+                    rows.append(dict(regle=nm, gap=gl, heure=wl, liq=liql, exit=f'{exl}/s{int(stp*100)}',
+                                     **{c: r[c] for c in ['n', 'trj', 'exp', 't', 'win', 'cpte', 'cpte_oos', 'e_h1', 'e_h2', 'maxDD', 'robust']}))
+    return rows
+
+
+def main(mode, gap_filter=None):
     groups, dates = bt.load_groups()
     ex = E.excluded_set()
     groups = [g for g in groups if (g['tk'], g['date']) not in ex]
     split = bt.oos_split(dates)
-    t0 = time.time(); prepped = prep(groups); t_prep = time.time() - t0
     cmb = combos()
-    ncfg = len(cmb) * len(GAPS) * len(WINS) * len(LIQ) * len(EXITS) * len(STOPS)
+    bands = [b for b in GAPS if (gap_filter is None or b[0] in gap_filter)]
     print(f"univers {len(groups)} ticker-jours · {len(dates)} séances · OOS {split}", flush=True)
-    print(f"briques {len(NAMES)} · combos {len(cmb)} (1-2) · configs totales {ncfg:,} · prep {t_prep:.0f}s", flush=True)
+    print(f"briques {len(NAMES)} · combos {len(cmb)} · bandes {[b[0] for b in bands]}", flush=True)
+    prepped = prep_cached(groups)
 
     if mode == 'validate':
         ci, cj = NAMES.index('rsi^20'), NAMES.index('green')
         ents = entries(prepped, ci, cj, 3, 10, 570, 720, None, None)
-        arche = E.entries(E.liquid_groups(groups, thr=0.0) if False else groups, 'rsi_bounce',
-                          dict(gap_min=3, gap_max=10, entry_start=570, entry_end=720, rsi_lo=20))
+        arche = E.entries(groups, 'rsi_bounce', dict(gap_min=3, gap_max=10, entry_start=570, entry_end=720, rsi_lo=20))
         a = sorted((e['g']['tk'], e['g']['date'], i) for e, i in ents)
         b = sorted((g['tk'], g['date'], i) for g, ind, i in arche)
-        print(f"(rsi^20 & green) gap3-10 : généré {len(a)} vs archétype rsi_bounce {len(b)} -> "
+        print(f"(rsi^20 & green) gap3-10 : généré {len(a)} vs rsi_bounce {len(b)} -> "
               f"{'✅ IDENTIQUE' if a == b else '⚠️ DIFFÉRENT'}")
         return
 
-    # échantillon pour calibrer le temps : 1 combo complet (toutes dims) -> extrapolation
-    sample = cmb[:1] if mode == 'calib' else cmb
-    t1 = time.time(); done = 0; rows = []
-    for ci, cj in sample:
-        for (gl, gmin, gmax), (wl, ws, we) in itertools.product(GAPS, WINS):
-            for liql, lk, la in LIQ:
-                ents = entries(prepped, ci, cj, gmin, gmax, ws, we, lk, la)
-                for exl, stp, r in eval_exits(ents, dates, split):
-                    nm = NAMES[ci] + ('' if cj is None else ' & ' + NAMES[cj])
-                    rows.append(dict(regle=nm, gap=gl, heure=wl, liq=liql, exit=f'{exl}/s{int(stp*100)}',
-                                     **{c: r[c] for c in ['n', 'trj', 'exp', 't', 'win', 'cpte', 'cpte_oos', 'e_h1', 'e_h2', 'maxDD', 'robust']}))
-                done += len(EXITS) * len(STOPS)
-    dt = time.time() - t1
-    if mode == 'calib':
-        per = dt / max(done, 1)
-        tot = per * ncfg
-        print(f"\ncalibration : {done} configs en {dt:.1f}s -> {per*1000:.1f} ms/config")
-        print(f"ESTIMATION recherche complète ({ncfg:,} configs) : {tot/3600:.1f} h  (~{tot/3600/24:.1f} jours) + prep {t_prep:.0f}s")
-        return
-    pd.DataFrame(rows).to_csv(OUT, index=False)
-    print(f"\n{done} configs testées en {dt/3600:.1f}h -> {OUT} ({len(rows)} gardées n>={N_MIN})")
+    done_bands = _done_bands()
+    for gl, gmin, gmax in bands:
+        if gl in done_bands:
+            print(f"[{gl}] déjà fait -> skip", flush=True); continue
+        t0 = time.time()
+        rows = run_band(prepped, dates, split, gl, gmin, gmax, cmb)
+        # CHECKPOINT : append au CSV + marque la bande faite (crash-safe)
+        pd.DataFrame(rows).to_csv(OUT, mode='a', header=not os.path.exists(OUT), index=False)
+        _mark_done(gl)
+        if mode == 'calib':
+            dt = time.time() - t0; ncfg = len(cmb) * len(WINS) * len(LIQ) * len(EXITS) * len(STOPS)
+            print(f"[{gl}] CALIB : {ncfg:,} configs en {dt/60:.1f} min ({len(rows)} gardées) "
+                  f"-> ~{dt/60:.0f} min/bande", flush=True)
+            return
+        print(f"[{gl}] ✅ {len(rows)} lignes gardées en {(time.time()-t0)/60:.1f} min -> checkpoint", flush=True)
+    print(f"\nTERMINÉ. Résultats -> {OUT}", flush=True)
 
 
 if __name__ == '__main__':
     ap = argparse.ArgumentParser()
-    ap.add_argument('--calib', action='store_true')
-    ap.add_argument('--validate', action='store_true')
+    ap.add_argument('--calib', action='store_true', help='mesure le temps sur la 1re bande puis stop')
+    ap.add_argument('--validate', action='store_true', help='prouve générateur == archétype')
+    ap.add_argument('--gaps', default=None, help='bandes à tester, ex: 3-5,5-7,7-10,10-14,14-20')
     a = ap.parse_args()
-    main('calib' if a.calib else 'validate' if a.validate else 'full')
+    gf = set(a.gaps.split(',')) if a.gaps else None
+    main('calib' if a.calib else 'validate' if a.validate else 'full', gap_filter=gf)
