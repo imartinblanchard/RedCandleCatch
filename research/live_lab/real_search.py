@@ -23,7 +23,12 @@ PM_LO, PM_HI = 480, 570          # 8:00 -> 9:30 ET (fréquence PM)
 ARCHES = list(S.REGISTRY)
 APARAMS = {'rsi_bounce': dict(rsi_lo=20), 'rsi_divergence': dict(div_win=20),
            'williams_bounce': dict(wr_lo=-80), 'orb_breakout': dict(orb_win=15)}
-GAPS = [('3-10', 3, 10), ('5-10', 5, 10), ('10-20', 10, 20), ('3-20', 3, 20), ('all', -100, 9999)]
+# PALIERS FINS NON-CHEVAUCHANTS de 3 à 500% (Martin 16/11 : « on teste tout, on combinera les
+# seuils ensuite à partir des résultats »). Bandes hautes larges (données rares en haut). 'all' = repère.
+GAPS = [('3-5', 3, 5), ('5-7', 5, 7), ('7-10', 7, 10), ('10-14', 10, 14), ('14-20', 14, 20),
+        ('20-30', 20, 30), ('30-50', 30, 50), ('50-70', 50, 70), ('70-90', 70, 90),
+        ('90-120', 90, 120), ('120-160', 120, 160), ('160-220', 160, 220), ('220-500', 220, 500),
+        ('all', -100, 9999)]
 WINS = [('9:30>midi', 570, 720), ('9:30>15:55', 570, 955)]
 EXITS = {'tp15': dict(exit_mode='tp', tp_pct=0.15), 'tp20': dict(exit_mode='tp', tp_pct=0.20),
          'trail10/5': dict(exit_mode='trail', activate_pct=0.10, trail_pct=0.05), 'eod': dict(exit_mode='eod')}
