@@ -1,1 +1,38 @@
-{}
+{
+ "WENN": [
+  {
+   "halt_time": "08:25:00.000",
+   "reason": "T1",
+   "resume_date": "",
+   "resume_quote_time": "",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Wen Acq Cp Ord A",
+   "pause_price": ""
+  }
+ ],
+ "WENNU": [
+  {
+   "halt_time": "08:25:00.000",
+   "reason": "T1",
+   "resume_date": "",
+   "resume_quote_time": "",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Wen Acquisition Corp",
+   "pause_price": ""
+  }
+ ],
+ "WENNW": [
+  {
+   "halt_time": "08:25:00.000",
+   "reason": "T1",
+   "resume_date": "",
+   "resume_quote_time": "",
+   "resume_trade_time": "",
+   "market": "NASDAQ",
+   "name": "Wen Acq Cp Wt",
+   "pause_price": ""
+  }
+ ]
+}

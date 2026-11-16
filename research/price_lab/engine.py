@@ -122,6 +122,23 @@ def entries(groups, name, P=None):
     return out
 
 
+def entries_fn(groups, fn, P=None):
+    """Comme entries() mais prend une FONCTION d'entrée directe (pour le générateur de
+    stratégies) au lieu d'un nom du registre. fn(ind, i, P) -> bool."""
+    Q = dict(DEFAULTS); Q.update(P or {})
+    out = []
+    for g in groups:
+        ind = _ind(g); i = _entry(g, ind, fn, Q)
+        if i is not None:
+            out.append((g, ind, i))
+    return out
+
+
+def simulate_fn(groups, fn, P=None, slip=True):
+    Q = dict(DEFAULTS); Q.update(P or {})
+    return trades_from(entries_fn(groups, fn, Q), Q, slip)
+
+
 def trades_from(ents, exitP, slip=True):
     Q = dict(DEFAULTS); Q.update(exitP)
     rows = [dict(ticker=g['tk'], date=g['date'], entry_min=int(ind['mins'][i]),
