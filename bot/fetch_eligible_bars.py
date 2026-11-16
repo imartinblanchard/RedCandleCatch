@@ -32,11 +32,15 @@ def load_eligible(day):
     return json.load(open(p)) if os.path.exists(p) else {}
 
 
-def prev_close(ib, ct):
+def prev_close(ib, ct, day):
+    # endDateTime + cutoff ANCRÉS au jour cible (pas datetime.now) — sinon au BACKFILL la
+    # clôture-veille = le dernier close avant AUJOURD'HUI, pas avant le jour cible (bug 15/11
+    # : 90% des prev_close faux -> gaps faux -> trades faux).
     try:
-        d = ib.reqHistoricalData(ct, '', '5 D', '1 day', 'TRADES', useRTH=True, formatDate=1)
-        today = datetime.now(ET).date()
-        prev = [b for b in d if (b.date.date() if hasattr(b.date, 'hour') else b.date) < today]
+        end_dt = f"{day.replace('-', '')} 20:00:00 US/Eastern"
+        d = ib.reqHistoricalData(ct, end_dt, '5 D', '1 day', 'TRADES', useRTH=True, formatDate=1)
+        cut = datetime.fromisoformat(day).date()
+        prev = [b for b in d if (b.date.date() if hasattr(b.date, 'hour') else b.date) < cut]
         return float(prev[-1].close) if prev else None
     except Exception:
         return None
@@ -74,7 +78,7 @@ def main(day):
                          float(b.close), float(b.volume) * 100))     # IB vol en lots de 100
         if rows:
             chunks.append(pd.DataFrame(rows, columns=['ticker', 'date', 'datetime', 'o', 'h', 'l', 'c', 'v']))
-            pc = prev_close(ib, ct)
+            pc = prev_close(ib, ct, day)
             fund = wscan.fetch_fundamentals(tk)
             meta[tk] = {**uni[tk], 'prev_close': round(pc, 4) if pc else None,
                         'float_shares': fund.get('float_shares'), 'inst_pct': fund.get('inst_pct'),
