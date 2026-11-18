@@ -102,6 +102,25 @@ Construire un tableau classé (par robustesse / P&L compte OOS), **groupé par b
 `bars-`, `meta-`, `news-`, `halts-`) sont produits par les scripts ci-dessus et par eux seuls.
 Tout fichier d'un ancien nom (`universe-`, `redcandlecatch-eligible-`) est un reliquat → `quarantaine/`.
 
+## Notes sur les données (éviter les malentendus)
+
+**Schéma `bars-DATE.parquet`** : colonnes `ticker, date, datetime, o, h, l, c, v`.
+- ⚠️ **`date`** = le JOUR (`YYYY-MM-DD`). **`datetime`** = l'HEURE SEULE (`HH:MM`), **sans date**.
+  Pour la date d'une bougie, lire **`date`**, jamais parser `datetime` (sinon la lib y colle
+  la date du jour → faux « tout est aujourd'hui »). `mins` se calcule par découpe de `datetime`
+  (`HH:MM` → minutes) dans `load_groups`.
+- `v` = volume en actions (déjà ×100 depuis les lots IBKR).
+- Fiabilité : les bars sont tirés **le jour même** (`fetch_universe_bars`) → `prev_close` correct.
+  On **ne re-fetch PAS le passé** (un backfill historique est plus fragile que la capture same-day
+  et l'`endDateTime=''` actuel ne sait pas viser un jour passé). On repart propre **vers l'avant**.
+
+**Couverture `tradable-` → `bars-`** : ~**62-86 %** des titres `tradable-` d'un jour ont des bougies
+dans `bars-` (le reste = échecs de fetch IBKR : contrats non qualifiés / radiés). La recherche
+point-in-time teste donc le **sous-ensemble couvert** — petit n assumé. Amélioration possible plus
+tard via un re-fetch **ciblé** des manquants (après correction du fetch date-ancré), gain limité.
+
+**Jour 11-16 exclu** : capture partielle (process arrêté à 07:20 le jour du renommage), on le drop.
+
 ## Rappel méthodo
 
 Le juge final reste le **forward/live** (`nightly_real_leaderboard` + journal réel du bot).
