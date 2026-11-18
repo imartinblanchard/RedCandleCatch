@@ -38,9 +38,14 @@ float 5M-50M, exclusions (reverse-split / rachat-cible). Contient le champ **`ad
 ### 3. Heure d'arrivée du gap — par titre
 Champ **`added`** (`HH:MM`) de `tradable-DATE.json`. C'est l'ancre point-in-time. *(existe)*
 
-### 4. Construction des fichiers de gappers PAR BANDE  *(à bâtir)*
+### 4. Construction des fichiers de gappers PAR BANDE — `research/live_lab/build_bands.py` *(✅ fait)*
 Découper les titres de `tradable-` en **fichiers par bande de gap**, chacun gardant **l'heure
 d'arrivée dans cette bande**.
+
+> **Script** : `build_bands.py`. Lit `tradable-DATE.json` (+ `added`) ∩ `bars-DATE.parquet` + `meta-`
+> (prev_close). gap HOD par minute = `(max-high-courant − prev_close)/prev_close`. Entrées ≥ `added`,
+> 1re minute dans chaque bande. **Sortie : `research/live_lab/bands/band-<lo>-<hi>.parquet`**
+> (`ticker, date, band, band_arrival_min, band_arrival_ts`). Lecture seule sur la data. 11-16 exclu.
 
 - **Le gap bouge pendant la journée → un titre peut apparaître dans PLUSIEURS fichiers de bande.**
   Exemple : un titre qui gappe **3 % à 10:00** va dans le fichier bande 3 % (arrivée 10:00) ; si
@@ -58,16 +63,30 @@ d'arrivée dans cette bande**.
 En parallèle, appliquer le gate de fréquence pré-marché (pm_frac 8:00-9:30 ≥ 20 %, cf mémoire
 `filtre-frequence-pm-audit`) : on ne garde que les titres qui se qualifient encore. *(logique existe)*
 
-### 6. Test des stratégies, point-in-time, par bande  *(à bâtir)*
-Rejouer la recherche de stratégies (gap × signaux × sortie × stop × liquidité) **sur chaque
-fichier de bande**, avec la contrainte : **entrée autorisée seulement à partir de l'heure
-d'arrivée du titre DANS CETTE bande** (son `band_arrival_time`). Un même titre peut donc être
-testé dans plusieurs bandes, chacune avec sa propre heure de départ. Chaque bande est testée sur
-son propre fichier et son niveau de gap.
+### 6. Test des stratégies, point-in-time, par bande — `research/live_lab/search_bands.py` *(🔨 à bâtir)*
+Re-jouer le **générateur complet** (portée B) **sur chaque fichier de bande**, avec la contrainte
+point-in-time.
 
-### 7. Tableau de résultats
-Construire un tableau classé (par robustesse / P&L compte OOS), **groupé par bande de gap**,
-à partir des tests point-in-time. C'est la base propre pour choisir quoi déployer.
+> **Script** : `search_bands.py` (adapte `strategy_gen.py`). Pour chaque bande :
+> - univers = les ticker-jours du `band-<lo>-<hi>.parquet` ; bougies depuis `bars-DATE.parquet`.
+> - **contrainte clé** : pour chaque ticker-jour, **1re entrée ≥ son `band_arrival_min`** (fenêtre
+>   effective = `max(band_arrival, début_fenêtre) → fin`). Un même titre est testé dans chaque
+>   bande qu'il atteint, avec sa propre heure de départ.
+> - **PAS de re-gate sur le gap** : le fichier de bande EST l'appartenance (évite le piège monotone).
+> - **Briques** : les ~24 du moteur (`strategy_gen.PRIMS`), combos de 1-2 → ~500k configs.
+>   × fenêtres × liquidité (`pm`/`act_30`/`dvol_30`) × sorties (`tp/trail/eod`) × stops. Prix 3-20.
+> - **Enregistrer `open_pct` + `entry_med`** (que `strategy_gen` oubliait) → vérifier que le
+>   point-in-time repousse bien les entrées (anti buy-the-open).
+> - **Robustesse** : OOS + 2 moitiés + `t ≥ 2` + `cpte_oos > 0`. ⚠️ 500k configs = faux positifs
+>   massifs → lire la robustesse, JAMAIS un gagnant isolé.
+> - **Crash-safe** : checkpoint par bande (append CSV + `done`), cache du prep (comme `strategy_gen`).
+> - **Sortie : `research/live_lab/results/search_bands-results.csv`** (colonne `band`).
+
+### 7. Tableau de résultats — leaderboard par bande *(🔨 à bâtir)*
+Classer `search_bands-results.csv` **par robustesse**, **groupé par bande**, en appliquant les
+filtres anti-artefact (fréquence tradable `trj ≤ 10`, `open_pct` bas, congruence OOS). Sortie :
+`research/live_lab/results/leaderboard-bandes.csv`. C'est la base propre pour choisir quoi déployer
+— puis validation **forward/live** avant tout déploiement.
 
 ## Ce qui existe déjà vs à bâtir
 
@@ -76,10 +95,10 @@ Construire un tableau classé (par robustesse / P&L compte OOS), **groupé par b
 | 1. Tous les gappers | `gappers-DATE.json` | ✅ |
 | 2. Filtre de base | `tradable-DATE.json` | ✅ |
 | 3. Heure d'arrivée | champ `added` | ✅ |
-| 4. Fichiers par bande (+ heure) | — | 🔨 à bâtir |
+| 4. Fichiers par bande (+ heure) | `build_bands.py` → `bands/band-*.parquet` | ✅ fait |
 | 5. Filtre fréquence PM | pm_frac ≥ 20 % | ✅ logique |
-| 6. Test stratégies point-in-time | entrée ≥ `added`, par bande | 🔨 à bâtir |
-| 7. Tableau de résultats par bande | — | 🔨 à bâtir |
+| 6. Test stratégies point-in-time | `search_bands.py` (entrée ≥ `band_arrival`, par bande) | 🔨 à bâtir |
+| 7. Tableau de résultats par bande | leaderboard sur `search_bands-results.csv` | 🔨 à bâtir |
 
 ## Script ↔ fichier ↔ étape (qui produit quoi)
 
@@ -94,10 +113,10 @@ Construire un tableau classé (par robustesse / P&L compte OOS), **groupé par b
 | — | Bougies 1-min | `fetch_universe_bars.py` | `collected_live/bars-DATE.parquet` + `meta-DATE.json` | `gappers-DATE.json` + IBKR | jour même |
 | — | News | `fetch_universe_news.py` | `collected_live/news-DATE.json` | `gappers-DATE.json` | jour même |
 | — | Halts | `fetch_halts.py` | `collected_live/halts-DATE.json` | Nasdaq | cron 15 min |
-| 4 | Fichiers par bande (+ heure) | *à bâtir* | *(ex. `bands/band-X-DATE.*`)* | `tradable-` + `bars-` | — |
+| 4 | Fichiers par bande (+ heure) | `build_bands.py` ✅ | `research/live_lab/bands/band-<lo>-<hi>.parquet` | `tradable-` + `bars-` + `meta-` | one-shot |
 | 5 | Filtre fréquence PM | logique pm_frac | *(gate, pas un fichier)* | bars / tradable | — |
-| 6 | Test stratégies point-in-time | `strategy_gen.py` / `backtest.py` (à adapter) | `results/strategy_gen-results.csv` | `bars-DATE.parquet` (⚠️ aujourd'hui sans `added`) | — |
-| 7 | Tableau résultats par bande | *à bâtir* | *(ex. `results/leaderboard-bandes.csv`)* | sortie étape 6 | — |
+| 6 | Test stratégies point-in-time | `search_bands.py` (adapte `strategy_gen`) 🔨 | `results/search_bands-results.csv` (col. `band`) | `bands/band-*.parquet` + `bars-` | one-shot, crash-safe |
+| 7 | Tableau résultats par bande | leaderboard 🔨 | `results/leaderboard-bandes.csv` | `search_bands-results.csv` | — |
 | ⚠️ | QUARANTAINE | `fetch_eligible_bars.py` | `bars_eligible-` / `meta_eligible-` | `tradable-` | **ne plus utiliser** (prev_close contaminé) |
 
 **Règle anti-confusion** : un seul écriveur par fichier. Les noms live (`gappers-`, `tradable-`,
