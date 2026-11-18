@@ -20,7 +20,8 @@ ROOT = os.getcwd()                                   # lancé depuis la racine d
 COLLECTED = os.path.join(ROOT, 'data', 'collected_live')
 COMPUTED = os.path.join(ROOT, 'data', 'computed')
 OUTDIR = os.path.join(ROOT, 'research', 'live_lab', 'bands')
-BANDS = [(3, 5), (5, 7), (7, 10), (10, 14), (14, 20)]
+BANDS = [(3, 5), (5, 7), (7, 10), (10, 14), (14, 20),     # bandes BASSES (edge visé)
+         (20, 30), (30, 50), (50, 100), (100, 500)]       # bandes HAUTES (vue complète 3-500)
 EXCLUDE_DAYS = {'2026-11-16'}                         # capture partielle
 MIN_BARS = 5                                         # titre ignoré si trop peu de bougies
 

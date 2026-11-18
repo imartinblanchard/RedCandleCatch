@@ -48,7 +48,9 @@ d'arrivée dans cette bande**.
 - Pour chaque bande, on enregistre **l'heure à laquelle le titre est entré dans cette bande**
   (1re minute où son gap franchit le seuil de la bande). Cette heure est l'ancre point-in-time
   **propre à cette bande** (et jamais avant son `added` global, par construction).
-- Bandes basses visées : `3-5, 5-7, 7-10, 10-14, 14-20` (+ hautes si besoin).
+- **Bandes construites = TOUTES, 3-500 %** (alignées sur `collect_universe`) :
+  basses `3-5, 5-7, 7-10, 10-14, 14-20` (edge visé) **+ hautes `20-30, 30-50, 50-100, 100-500`**
+  (vue complète, ne rien masquer — même si l'edge est en bas, on garde la visibilité du haut).
 - Sortie : un fichier par bande, chaque ligne = `ticker, date, band, band_arrival_time`,
   joint aux bougies 1-min correspondantes.
 
