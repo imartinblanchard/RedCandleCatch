@@ -18,10 +18,13 @@ in-sample ET OOS → aucun filtre statistique (congruence, no-open, fréquence) 
 
 ## Règle d'or
 
-> **Par titre, AUCUNE entrée avant son `added`.**
-> On ne regarde les bougies/signaux d'un titre qu'à partir de l'heure où le dashboard l'a
-> réellement vu passer les filtres (`added`, format `HH:MM`, dans `tradable-DATE.json`).
-> Le dashboard scanne toutes les **60 s** → `added` est précis à ~1 min, aligné sur les bougies.
+> **On ne trade un titre qu'à partir du moment où on l'a réellement vu.**
+> - Ancre globale : `added` (`HH:MM`, dans `tradable-DATE.json`) = quand le dashboard l'a vu
+>   passer les filtres de base.
+> - Ancre **par bande** (pour les tests de l'étape 6) : l'heure où son gap a franchi le seuil de
+>   cette bande (`band_arrival_time`, toujours ≥ `added`).
+>
+> Le dashboard scanne toutes les **60 s** → ces heures sont précises à ~1 min, alignées sur les bougies.
 
 ## Le pipeline
 
@@ -37,13 +40,16 @@ Champ **`added`** (`HH:MM`) de `tradable-DATE.json`. C'est l'ancre point-in-time
 
 ### 4. Construction des fichiers de gappers PAR BANDE  *(à bâtir)*
 Découper les titres de `tradable-` en **fichiers par bande de gap**, chacun gardant **l'heure
-d'arrivée** du titre.
+d'arrivée dans cette bande**.
 
-- **Bande d'un titre = son gap AU MOMENT de son `added`** (pas le gap courant : le gap bouge
-  pendant la journée ; on fige la bande à l'arrivée pour que l'affectation soit stable et
-  point-in-time).
+- **Le gap bouge pendant la journée → un titre peut apparaître dans PLUSIEURS fichiers de bande.**
+  Exemple : un titre qui gappe **3 % à 10:00** va dans le fichier bande 3 % (arrivée 10:00) ; si
+  le **même titre** atteint **8 % à 11:00**, il va AUSSI dans le fichier bande 8 % (arrivée 11:00).
+- Pour chaque bande, on enregistre **l'heure à laquelle le titre est entré dans cette bande**
+  (1re minute où son gap franchit le seuil de la bande). Cette heure est l'ancre point-in-time
+  **propre à cette bande** (et jamais avant son `added` global, par construction).
 - Bandes basses visées : `3-5, 5-7, 7-10, 10-14, 14-20` (+ hautes si besoin).
-- Sortie : un fichier par bande, chaque ligne = `ticker, date, added, gap_at_added, band`,
+- Sortie : un fichier par bande, chaque ligne = `ticker, date, band, band_arrival_time`,
   joint aux bougies 1-min correspondantes.
 
 ### 5. Filtre de fréquence PM
@@ -52,8 +58,10 @@ En parallèle, appliquer le gate de fréquence pré-marché (pm_frac 8:00-9:30 �
 
 ### 6. Test des stratégies, point-in-time, par bande  *(à bâtir)*
 Rejouer la recherche de stratégies (gap × signaux × sortie × stop × liquidité) **sur chaque
-fichier de bande**, avec la contrainte : **entrée autorisée seulement à partir de `added`** du titre.
-Chaque bande est testée sur son propre fichier et son niveau de gap.
+fichier de bande**, avec la contrainte : **entrée autorisée seulement à partir de l'heure
+d'arrivée du titre DANS CETTE bande** (son `band_arrival_time`). Un même titre peut donc être
+testé dans plusieurs bandes, chacune avec sa propre heure de départ. Chaque bande est testée sur
+son propre fichier et son niveau de gap.
 
 ### 7. Tableau de résultats
 Construire un tableau classé (par robustesse / P&L compte OOS), **groupé par bande de gap**,
