@@ -79,6 +79,29 @@ Construire un tableau classé (par robustesse / P&L compte OOS), **groupé par b
 | 6. Test stratégies point-in-time | entrée ≥ `added`, par bande | 🔨 à bâtir |
 | 7. Tableau de résultats par bande | — | 🔨 à bâtir |
 
+## Script ↔ fichier ↔ étape (qui produit quoi)
+
+> À tenir à jour : évite de se redemander « quel fichier vient de quoi » (cf. incident du 11-16,
+> deux dashboards en parallèle le jour du renommage → `universe-`/`gappers-` coupés en deux).
+
+| # | Étape | Produit par | Fichier(s) écrit(s) | Lit / source | Cadence |
+|---|---|---|---|---|---|
+| 1 | Tous les gappers | `redcandlecatch_dashboard.py` → `collect_universe.py` | `collected_live/gappers-DATE.json` (champs `band, first_seen, last_seen`) | scanner IBKR `TOP_PERC_GAIN` | live, 60 s |
+| 2 | Filtre de base | `redcandlecatch_dashboard.py` → `redcandlecatch_scan.py` + `eligible.py` (`write_all`, sticky) | `computed/tradable-DATE.json` (champs `gap, price, float_shares, …, added`) | le scan + gappers | live, 60 s |
+| 3 | Heure d'arrivée | *(champs des fichiers ci-dessus)* | `first_seen` (gappers) / `added` (tradable) | — | — |
+| — | Bougies 1-min | `fetch_universe_bars.py` | `collected_live/bars-DATE.parquet` + `meta-DATE.json` | `gappers-DATE.json` + IBKR | jour même |
+| — | News | `fetch_universe_news.py` | `collected_live/news-DATE.json` | `gappers-DATE.json` | jour même |
+| — | Halts | `fetch_halts.py` | `collected_live/halts-DATE.json` | Nasdaq | cron 15 min |
+| 4 | Fichiers par bande (+ heure) | *à bâtir* | *(ex. `bands/band-X-DATE.*`)* | `tradable-` + `bars-` | — |
+| 5 | Filtre fréquence PM | logique pm_frac | *(gate, pas un fichier)* | bars / tradable | — |
+| 6 | Test stratégies point-in-time | `strategy_gen.py` / `backtest.py` (à adapter) | `results/strategy_gen-results.csv` | `bars-DATE.parquet` (⚠️ aujourd'hui sans `added`) | — |
+| 7 | Tableau résultats par bande | *à bâtir* | *(ex. `results/leaderboard-bandes.csv`)* | sortie étape 6 | — |
+| ⚠️ | QUARANTAINE | `fetch_eligible_bars.py` | `bars_eligible-` / `meta_eligible-` | `tradable-` | **ne plus utiliser** (prev_close contaminé) |
+
+**Règle anti-confusion** : un seul écriveur par fichier. Les noms live (`gappers-`, `tradable-`,
+`bars-`, `meta-`, `news-`, `halts-`) sont produits par les scripts ci-dessus et par eux seuls.
+Tout fichier d'un ancien nom (`universe-`, `redcandlecatch-eligible-`) est un reliquat → `quarantaine/`.
+
 ## Rappel méthodo
 
 Le juge final reste le **forward/live** (`nightly_real_leaderboard` + journal réel du bot).
