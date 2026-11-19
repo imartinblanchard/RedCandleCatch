@@ -138,6 +138,47 @@ def rsi_bounce_signal(allbars: List[dict], now_t, pc: float, gap_min: float = 3.
     return (float(c_i), float(tp), f"rsi_bounce gap{gap:.0f}% RSI {rsi[i-1]:.0f}->{rsi[i]:.0f} (cross {rsi_lo:.0f})")
 
 
+def rsi30_bblo_signal(allbars: List[dict], now_t, pc: float, gap_min: float = 14.0, gap_max: float = 9999.0,
+                      rsi_thr: float = 30.0, win: Tuple[int, int] = (570, 720),
+                      price: Tuple[float, float] = (3.0, 20.0), n: int = 14, bb_n: int = 20, bb_k: float = 2.0,
+                      act_win: int = 30, act_min: int = 10,
+                      tp: float = 0.20) -> Optional[Tuple[float, float, str]]:
+    """Setup ④ (recherche point-in-time, bande 14-20) — réplique EXACTEMENT la brique
+    `rsi^30 & c<bbLo` + gate liquidité `act_30>=10` du générateur :
+      - gap (plus-haut du jour depuis la 1re bougie, PM inclus, vs clôture veille) >= gap_min.
+        ⚠️ PAS de plafond de gap par défaut (gap_max=9999) : comme dans search_bands, la bande 14-20
+        signifie « a ATTEINT >=14 % », l'entrée peut survenir même si le gap a depuis dépassé 20 %
+        (rebond de survente). Mettre gap_max=20 pour borner (change l'edge mesuré).
+      - RSI(14) recroise rsi_thr (=30) à la hausse (rsi[i-1] < 30 <= rsi[i])
+      - clôture SOUS la bande de Bollinger basse (c < bb_lo), bb_n=20/k=2
+      - >= act_min (=10) bougies actives (vol>0) sur les act_win (=30) dernières. PAS de gate verte.
+    Renvoie (entry, tp, desc) ou None. Univers PM-liquidité géré EN AMONT par le terminator."""
+    up = [b for b in allbars if b['t'] <= now_t]
+    if len(up) < max(n, bb_n, act_win) + 2 or not pc or pc <= 0:
+        return None
+    i = len(up) - 1; bi = up[i]
+    if not (win[0] <= _hm(bi['t']) <= win[1]):
+        return None
+    c_i = bi['c']
+    if not (price[0] <= c_i <= price[1]):                     # prix exécutable (pas de gate verte)
+        return None
+    hod = max(b['h'] for b in up); gap = (hod - pc) / pc * 100.0
+    if not (gap_min <= gap <= gap_max):
+        return None
+    c = np.array([b['c'] for b in up], float)
+    rsi = _rsi(c, n)
+    if not (rsi[i - 1] < rsi_thr <= rsi[i]):                  # RSI recroise 30 à la hausse
+        return None
+    ma = _sma(c, bb_n); sd = _rstd(c, bb_n); bb_lo = ma - bb_k * sd
+    if not (c_i < bb_lo[i]):                                  # clôture sous Bollinger basse
+        return None
+    start = max(0, i - act_win + 1)
+    active = sum(1 for b in up[start:i + 1] if (b['v'] or 0) > 0)
+    if active < act_min:                                     # liquidité : >=10 bougies actives/30
+        return None
+    return (float(c_i), float(tp), f"rsi30_bblo gap{gap:.0f}% RSI{rsi[i-1]:.0f}->{rsi[i]:.0f} c<bbLo{bb_lo[i]:.2f}")
+
+
 def vwap_reclaim_signal(allbars: List[dict], now_t, rvol_min: float = 60.0,
                         win: Tuple[int, int] = (570, 630), price: Tuple[float, float] = (3.0, 20.0),
                         activate: float = 0.10) -> Optional[Tuple[float, float, str]]:
