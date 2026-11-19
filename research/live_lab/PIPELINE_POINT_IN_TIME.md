@@ -142,6 +142,27 @@ tard via un re-fetch **ciblé** des manquants (après correction du fetch date-a
 
 **Jour 11-16 exclu** : capture partielle (process arrêté à 07:20 le jour du renommage), on le drop.
 
+**⚠️ `band_arrival` = `max(added, 1re-minute-gap-dans-la-bande)`** (pas juste le franchissement du gap).
+`build_bands` gate les bougies par `mins >= added` AVANT de chercher l'entrée dans la bande. Donc
+toutes les entrées de recherche sont **gatées par `added`** (point-in-time). Conséquences :
+- **En live, le terminator ne voit un titre qu'à partir de son `added`** → c'est automatiquement correct.
+- **Un `verify_live` (détecteur == backtest) DOIT rejouer le détecteur à partir de `added`, pas de
+  l'ouverture.** Rejouer depuis l'open crée de FAUX écarts sur les **petites bandes** (ex. 5-7 : le gap
+  atteint 5 % AVANT `added`, donc le détecteur « gap≥5 » tirerait trop tôt). Sur les **hautes bandes**
+  (14-20+) le gap est atteint tard, après `added`, donc `added` ne mord pas → un verify naïf passe
+  quand même (④ : 38/38). **Ce n'est NI un bug du détecteur NI des données corrompues** — c'est le
+  gate `added` qu'il faut reproduire. (Incident 19/11 : n°1 bande 5-7 donnait 90 % faux, 100 % une fois
+  le gate `added` ajouté au verify.) Cf [[pipeline-point-in-time-added]], [[verifier-en-reel-avant-deploiement]].
+
+**⚠️ RSI/indicateurs SOUS-CHAUFFÉS (<16 bougies)** : la recherche (`strategy_gen`/`search_bands`)
+calcule les indicateurs sur un tableau qui s'étend et **tire des signaux dès les 1res bougies** (ex.
+RSI 0→57→100 avec 9 bougies). Les détecteurs live ont un garde `len < n+2 → None` (RSI(14) pas
+réchauffé) → ils **rejettent** ces entrées, à juste titre. Conséquence : ~7 % des entrées des petites
+bandes (ex. 5-7) sont des **signaux bruités non-reproductibles en live** → l'edge mesuré y est
+légèrement **gonflé**. PISTE : ajouter un **gate de warmup** (min bougies) à la recherche pour qu'elle
+colle aux détecteurs. (Découvert 19/11 en voulant déployer le n°1 bande 5-7 : reste 93 % même après le
+gate `added`, le reste = entrées <16 bougies.)
+
 ## Rappel méthodo
 
 Le juge final reste le **forward/live** (`nightly_real_leaderboard` + journal réel du bot).
