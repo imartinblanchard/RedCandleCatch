@@ -108,7 +108,7 @@ PM_LIQ_MIN_FRAC = 0.35            # 09/11 : 0.20 -> 0.35 (≈32/90 min PM). Somm
 # Le vwap_reclaim est débranché : audit 05/11 = "buy-the-open" déguisé (62% des entrées à 9:30, rvol>=60
 # trivial à l'open), edge fragile au slippage/exécution, 0/6 en live le 05/11. On revient au repli et
 # on VÉRIFIERA EN RÉEL tout futur déploiement avant de l'activer. [[verifier-en-reel-avant-deploiement]]
-USE_RETRACE_TRACK = True
+USE_RETRACE_TRACK = False    # 19/11 OFF (Martin : garder SEULEMENT le setup ④ en live)
 USE_TRIO = True
 # STRAT DÉPLOYÉE 05/11 : repli reproductible (entrée médiane ~10:52, 3% à l'open seulement) issu du
 # leaderboard GATÉ reproductibilité. 3-10/9:30>midi/r0.08/cap-1.0/tp20/s8 : CPTE +20,6% / OOS +18,9%
@@ -137,7 +137,7 @@ VWAP_ACTIVATE = 0.10        # (mode 'trail' seulement) bascule TRAIL à +10%
 # ── 3e TRACK (famille INDICATEURS, 100% PRIX) : rsi_bounce — rebond du survendu sur petit gapper ──
 # OFF par défaut : à activer APRÈS vérification sur charts (règle Martin). Détecteur PUR
 # bot.live_signals.rsi_bounce_signal (à prouver == backtest via verify_live_rsi). Sortie TP +20%/STOP-8%.
-USE_RSI_TRACK = True        # 05/11 ACTIVÉ (vérifié charts OK) : rsi_bounce en 2e track à côté du repli
+USE_RSI_TRACK = False       # 19/11 OFF (Martin : garder seulement ④). (ex-True 05/11 rsi_bounce)
 RSI_GAP = (3.0, 500.0)      # 15/11 : 3-10 -> TOUTE la bande (univers réel). Sur bars_eligible
                             # (45j), rsi_bounce 'all' gaps bat largement 3-10 : exp +0.83 vs ~0,
                             # t 2.4, cpte +40 vs -0.6, OOS +19, 2 moitiés+. Config #3 du leaderboard
@@ -148,9 +148,9 @@ RSI_TP = 0.20               # take-profit +20% (stop -8% via STOP)
 # ── 4e/5e TRACKS (BREAKOUT sur gap 10-20, leaderboard RÉEL 15/11) : détecteurs purs == backtest ──
 # bb_breakout #1 (t 3.0, OOS +25, maxDD -3) et higher_high #2 (t 3.1, OOS +22). Placés AVANT rsi
 # ('all' gaps) pour donner priorité aux setups 10-20 à forte conviction. Sortie tp15 / STOP -8%.
-USE_BB_TRACK = True
+USE_BB_TRACK = False       # 19/11 OFF (Martin : garder seulement ④)
 BB_GAP = (10.0, 20.0); BB_WIN = (570, 720); BB_SQUEEZE = 0.04; BB_TP = 0.15
-USE_HH_TRACK = True
+USE_HH_TRACK = False       # 19/11 OFF (Martin : garder seulement ④)
 HH_GAP = (10.0, 20.0); HH_WIN = (570, 720); HH_N = 3; HH_TP = 0.15
 # ── 7e TRACK (setup ④, recherche POINT-IN-TIME 19/11, bande 14-20) : rsi^30 & c<bbLo ──
 # Rebond de survente (RSI recroise 30) SOUS la Bollinger basse. Détecteur PUR rsi30_bblo_signal,
