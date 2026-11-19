@@ -29,7 +29,8 @@ from execution.ibkr_broker import IBKRBroker
 from bot import redcandlecatch_scan as wscan
 from bot import eligible
 from bot.live_signals import (vwap_reclaim_signal, rsi_bounce_signal,   # détecteurs purs (== backtest)
-                              bb_breakout_signal, higher_high_signal, rsi30_bblo_signal)
+                              bb_breakout_signal, higher_high_signal, rsi30_bblo_signal,
+                              oversold_roc_signal)
 
 # ---- paramètres de la stratégie (issus du backtest) ----
 # Config validée 2026-09-11 (backtest 9 mois) : gap 10-20% + dip -5% + trail 2%
@@ -159,6 +160,12 @@ HH_GAP = (10.0, 20.0); HH_WIN = (570, 720); HH_N = 3; HH_TP = 0.15
 # S4_GAP sans plafond (9999) = fidèle au backtest (« a atteint >=14% », l'oversold peut survenir au-delà).
 USE_S4_TRACK = True        # 19/11 : ACTIVÉ pour essai live (choix Martin). Mettre False pour débrancher.
 S4_GAP = (14.0, 9999.0); S4_WIN = (570, 720); S4_TP = 0.20; S4_ACT_MIN = 10
+# ── 8e TRACK (setup n°3, recherche POINT-IN-TIME 19/11, bande 30-50) : stoch<20 & roc>0 ──
+# Survente (stoch %K<20) + momentum (ROC(10)>0). Détecteur PUR oversold_roc_signal, PROUVÉ == backtest
+# (verify 54/54, 19/11). Recherche : +2,32%/tr, t=2,78, win 67%, n=52, open_pct 2%, maxDD -2,4 (propre,
+# intraday ~10:50). S3_GAP sans plafond (9999) = fidèle (« a atteint >=30% »). Sortie TP+15/STOP-8 (OCA).
+USE_S3_TRACK = True        # 19/11 : 2e strat live (choix Martin). Mettre False pour débrancher.
+S3_GAP = (30.0, 9999.0); S3_WIN = (570, 720); S3_TP = 0.15
 # --- sortie EN DEUX PHASES ---
 STOP = 0.08             # 05/11 : -8% (strat repli déployée /s8). STOP -STOP% + TP +TAKE_PROFIT% en OCA.
 # ACTIVATION ADAPTATIVE (18/09) : l'effet du seuil d'activation est OPPOSÉ selon la population
@@ -693,6 +700,28 @@ class RedCandleCatchTerminator:
         print(f"[{now_et():%H:%M}] {tk}[s4] {r['t']:%H:%M} {sig[2]} -> ENTER (track rsi30_bblo)")
         return sig
 
+    def _oversold_roc_signal(self, tk: str, r: dict, allbars):
+        """8e TRACK (setup n°3, 100% PRIX) : stoch %K<20 & ROC(10)>0, gap >=30%, 9:30->midi.
+        MÊME gate PM-liq. Détecteur PUR bot.live_signals.oversold_roc_signal (== backtest, verify 54/54).
+        -> (entry, tp, desc) ou None."""
+        if not allbars:
+            return None
+        if PM_LIQ_MIN_FRAC > 0:
+            _, pm_frac = self._pm_liq(tk, 'oversold_roc', r, allbars)
+            if pm_frac < PM_LIQ_MIN_FRAC:
+                return None
+        pc = self._pc.get(tk)
+        if pc is None:
+            pc = _prev_close(self.broker, tk); self._pc[tk] = pc
+        if not pc or pc <= 0:
+            return None
+        sig = oversold_roc_signal(allbars, r['t'], pc=pc, gap_min=S3_GAP[0], gap_max=S3_GAP[1],
+                                  win=S3_WIN, price=(PRICE_MIN, PRICE_MAX), tp=S3_TP)
+        if sig is None:
+            return None
+        print(f"[{now_et():%H:%M}] {tk}[s3] {r['t']:%H:%M} {sig[2]} -> ENTER (track oversold_roc)")
+        return sig
+
     def _bb_breakout_signal(self, tk: str, r: dict, allbars):
         """4e TRACK (BREAKOUT, 100% PRIX) : squeeze Bollinger + cassure haut, gapper 10-20%, 9:30->midi.
         MÊME gate PM-liq. Détecteur PUR bot.live_signals.bb_breakout_signal (== backtest). -> (entry,tp,desc)|None."""
@@ -792,6 +821,10 @@ class RedCandleCatchTerminator:
                 sig = self._rsi30_bblo_signal(tk, r, allbars)
                 if sig is not None:
                     strat = 'rsi30_bblo'; entry_tp = sig[1]
+            if sig is None and USE_S3_TRACK:             # 8e TRACK : oversold_roc (setup n°3, gap>=30), tp15/s8
+                sig = self._oversold_roc_signal(tk, r, allbars)
+                if sig is not None:
+                    strat = 'oversold_roc'; entry_tp = sig[1]
         else:
             sig = self._dip_signal(tk, r, allbars)
             if sig is not None:

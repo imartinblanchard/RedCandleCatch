@@ -179,6 +179,68 @@ def rsi30_bblo_signal(allbars: List[dict], now_t, pc: float, gap_min: float = 14
     return (float(c_i), float(tp), f"rsi30_bblo gap{gap:.0f}% RSI{rsi[i-1]:.0f}->{rsi[i]:.0f} c<bbLo{bb_lo[i]:.2f}")
 
 
+def rsi20_30_signal(allbars: List[dict], now_t, pc: float, gap_min: float = 5.0, gap_max: float = 9999.0,
+                    win: Tuple[int, int] = (570, 720), price: Tuple[float, float] = (3.0, 20.0),
+                    n: int = 14, tp: float = 0.20) -> Optional[Tuple[float, float, str]]:
+    """Setup n°1 (recherche point-in-time, bande 5-7) — réplique EXACTEMENT la brique `rsi^20 & rsi^30` :
+      - RSI(14) SAUTE de <20 à >=30 en UNE bougie (rsi[i-1] < 20 ET rsi[i] >= 30) = rebond violent
+        de survente profonde. (PAS de gate verte, PAS de gate liq : la liq pm0.35 est gérée EN AMONT
+        par le terminator via PM_LIQ_MIN_FRAC.)
+      - gap (plus-haut du jour vs clôture veille) >= gap_min. ⚠️ PAS de plafond (gap_max=9999) = fidèle
+        au backtest (« a atteint >=5% ») -> chevauche les autres bandes. Mettre gap_max=7 pour borner.
+      - prix dans [price], fenêtre horaire [win].
+    Renvoie (entry, tp, desc) ou None."""
+    up = [b for b in allbars if b['t'] <= now_t]
+    if len(up) < n + 2 or not pc or pc <= 0:
+        return None
+    i = len(up) - 1; bi = up[i]
+    if not (win[0] <= _hm(bi['t']) <= win[1]):
+        return None
+    c_i = bi['c']
+    if not (price[0] <= c_i <= price[1]):                     # prix exécutable (pas de gate verte)
+        return None
+    hod = max(b['h'] for b in up); gap = (hod - pc) / pc * 100.0
+    if not (gap_min <= gap <= gap_max):
+        return None
+    rsi = _rsi([b['c'] for b in up], n)
+    if not (rsi[i - 1] < 20.0 and rsi[i] >= 30.0):           # saut <20 -> >=30 (cross 20 ET 30 à la fois)
+        return None
+    return (float(c_i), float(tp), f"rsi20_30 gap{gap:.0f}% RSI{rsi[i-1]:.0f}->{rsi[i]:.0f} (saut 20&30)")
+
+
+def oversold_roc_signal(allbars: List[dict], now_t, pc: float, gap_min: float = 30.0, gap_max: float = 9999.0,
+                        win: Tuple[int, int] = (570, 720), price: Tuple[float, float] = (3.0, 20.0),
+                        stoch_n: int = 14, roc_n: int = 10, tp: float = 0.15) -> Optional[Tuple[float, float, str]]:
+    """Setup n°3 (recherche point-in-time, bande 30-50) — réplique EXACTEMENT `stoch<20 & roc>0`
+    (identique à `will<-80 & roc>0` : %R = %K-100, donc %K<20 ⟺ %R<-80) :
+      - stochastique %K(14) < 20 (survente)
+      - ROC(10) > 0  <=>  close[i] > close[i-10]  (momentum haussier)
+      - gap (plus-haut du jour vs clôture veille) >= 30. ⚠️ PAS de plafond (gap_max=9999) = fidèle au
+        backtest (« a atteint >=30% »). PAS de gate verte, PAS de gate liq.
+      - prix dans [price], fenêtre [win], warmup >= 16 bougies (RSI/stoch réchauffés).
+    Renvoie (entry, tp, desc) ou None. Univers PM-liquidité géré EN AMONT par le terminator."""
+    up = [b for b in allbars if b['t'] <= now_t]
+    if len(up) < max(stoch_n, roc_n) + 2 or not pc or pc <= 0:
+        return None
+    i = len(up) - 1; bi = up[i]
+    if not (win[0] <= _hm(bi['t']) <= win[1]):
+        return None
+    c_i = bi['c']
+    if not (price[0] <= c_i <= price[1]):                     # prix exécutable (pas de gate verte)
+        return None
+    hod = max(b['h'] for b in up); gap = (hod - pc) / pc * 100.0
+    if not (gap_min <= gap <= gap_max):
+        return None
+    wb = up[-stoch_n:]                                        # stochastique %K(14) = position dans le range
+    hh = max(b['h'] for b in wb); ll = min(b['l'] for b in wb)
+    k = (c_i - ll) / (hh - ll) * 100.0 if hh > ll else 50.0
+    if not (k < 20.0):                                        # survente
+        return None
+    if not (c_i > up[i - roc_n]['c']):                        # ROC(10) > 0
+        return None
+    return (float(c_i), float(tp), f"oversold_roc gap{gap:.0f}% stoch{k:.0f}<20 ROC>0")
+
+
 def vwap_reclaim_signal(allbars: List[dict], now_t, rvol_min: float = 60.0,
                         win: Tuple[int, int] = (570, 630), price: Tuple[float, float] = (3.0, 20.0),
                         activate: float = 0.10) -> Optional[Tuple[float, float, str]]:
