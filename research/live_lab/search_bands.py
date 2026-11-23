@@ -22,6 +22,8 @@ from research.live_lab import strategy_gen as sg
 from research.live_lab import backtest as bt
 from research.price_lab import engine as E
 
+WARMUP = 32            # 23/11 : min de bougies avant une entrée (indicateurs réchauffés) — colle aux
+                       # détecteurs live (garde len<n+2). Couvre rsi/stoch(14), bb(20), act_30(30), macd(26).
 BANDS_DIR = os.path.join(HERE, 'bands')
 OUT = os.path.join(HERE, 'results', 'search_bands-results.csv')
 DONE = os.path.join(HERE, 'results', 'search_bands-done.txt')
@@ -36,7 +38,8 @@ def entries_pit(band_prepped, ci, cj, ws, we, liqkind, liqarg):
             continue
         mask = e['prims'][ci] if cj is None else (e['prims'][ci] & e['prims'][cj])
         start = max(ws, amin)
-        gate = ((e['mins'] >= start) & (e['mins'] <= we) & (e['c'] >= 3.0) & (e['c'] <= 20.0) & mask)
+        warm = np.arange(len(e['mins'])) >= WARMUP     # indicateurs réchauffés (>=WARMUP bougies) = colle aux détecteurs live
+        gate = ((e['mins'] >= start) & (e['mins'] <= we) & (e['c'] >= 3.0) & (e['c'] <= 20.0) & mask & warm)
         if liqkind == 'entry':
             gate = gate & (e[liqarg[0]] >= liqarg[1])
         idx = np.argmax(gate)
