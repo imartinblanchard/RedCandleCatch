@@ -1061,6 +1061,26 @@ class RedCandleCatchTerminator:
             time.sleep(interval)
 
 
+class _Tee:
+    """Duplique stdout/stderr vers la console ET un fichier log (buffering=1 = ligne à ligne)."""
+    def __init__(self, *streams):
+        self._streams = streams
+
+    def write(self, s):
+        for st in self._streams:
+            try:
+                st.write(s); st.flush()
+            except Exception:
+                pass
+
+    def flush(self):
+        for st in self._streams:
+            try:
+                st.flush()
+            except Exception:
+                pass
+
+
 def main():
     ap = argparse.ArgumentParser(description='RedCandleCatch (paper/journal)')
     ap.add_argument('--once', action='store_true')
@@ -1068,6 +1088,11 @@ def main():
     ap.add_argument('--tickers', type=str, help='watchlist fixe (contourne le scan gap)')
     ap.add_argument('--live', action='store_true', help='VRAIS ORDRES IBKR (défaut: paper/journal)')
     args = ap.parse_args()
+    import sys                                        # log DATÉ (console + fichier), robuste quel que soit le lancement
+    _logp = COMPUTED / f'terminator-{now_et():%Y-%m-%d}.log'
+    _logf = open(_logp, 'a', buffering=1)
+    sys.stdout = _Tee(sys.stdout, _logf); sys.stderr = _Tee(sys.stderr, _logf)
+    print(f"[{now_et():%H:%M}] === démarrage terminator (log -> {_logp}) ===")
     broker = IBKRBroker(allow_live=args.live)        # --live => vrais ordres, sinon paper
     if not broker.connect():
         print("✗ IBKR indisponible (IB Gateway sur 4001 ?)"); return
