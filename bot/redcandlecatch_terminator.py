@@ -1032,7 +1032,12 @@ class RedCandleCatchTerminator:
                       if USE_VWAP_TRACK else "")
             track3 = (f"TRACK rsi_bounce(gap{RSI_GAP[0]:.0f}-{RSI_GAP[1]:.0f}/RSI<{RSI_LO:.0f}/"
                       f"{RSI_WIN[0]//60}:{RSI_WIN[0]%60:02d}>midi/TP+{RSI_TP*100:.0f}%)" if USE_RSI_TRACK else "")
-            extra = ''.join(f" + {t}" for t in (track2, track3) if t)
+            track_bb = (f"TRACK bb_breakout(gap{BB_GAP[0]:.0f}-{BB_GAP[1]:.0f}/TP+{BB_TP*100:.0f}%)" if USE_BB_TRACK else "")
+            track_hh = (f"TRACK higher_high(gap{HH_GAP[0]:.0f}-{HH_GAP[1]:.0f}/TP+{HH_TP*100:.0f}%)" if USE_HH_TRACK else "")
+            track_s4 = (f"TRACK rsi30_bblo(gap>={S4_GAP[0]:.0f}/RSI^30&c<bbLo/{S4_WIN[0]//60}:{S4_WIN[0]%60:02d}>midi/TP+{S4_TP*100:.0f}%)" if USE_S4_TRACK else "")
+            track_s3 = (f"TRACK oversold_roc(gap>={S3_GAP[0]:.0f}/stoch<20&ROC>0/{S3_WIN[0]//60}:{S3_WIN[0]%60:02d}>midi/TP+{S3_TP*100:.0f}%)" if USE_S3_TRACK else "")
+            _allx = (track2, track3, track_bb, track_hh, track_s4, track_s3)
+            extra = ''.join(f" + {t}" for t in _allx if t)
             if USE_RETRACE_TRACK:
                 cfg_txt = trio + extra
                 if any(c.get('tp') for c in TRIO):       # sortie take-profit (strat repli-tp20)
@@ -1043,7 +1048,7 @@ class RedCandleCatchTerminator:
                 else:
                     exit_txt = f"STOP -{STOP*100:.0f}% -> TRAIL {TRAIL*100:.0f}% (act +10%)"
             else:                                        # repli désactivé -> tracks indicateurs seuls
-                cfg_txt = ' + '.join(t for t in (track2, track3) if t) or "(AUCUN track actif !)"
+                cfg_txt = ' + '.join(t for t in _allx if t) or "(AUCUN track actif !)"
                 exit_txt = f"STOP -{STOP*100:.0f}% + TP (sortie forcée 15:55)"
             pmliq = f"PM-liq>={PM_LIQ_MIN_FRAC:.0%}(8:00-9:30)" if PM_LIQ_MIN_FRAC > 0 else "PM-liq OFF"
             print(f"RedCandleCatch — {mode}. CONFIG = {cfg_txt}. Sortie: {exit_txt}, "
