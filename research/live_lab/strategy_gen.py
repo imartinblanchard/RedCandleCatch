@@ -158,6 +158,10 @@ def eval_exits(ents, dates, split):
             if not r:
                 continue
             r['robust'] = bool(r['e_h1'] > 0 and r['e_h2'] > 0 and r['t'] >= 2 and r['cpte_oos'] > 0)
+            pnl = df['pnl']; w = pnl[pnl > 0]; l = pnl[pnl <= 0]       # R:R réalisé
+            gm = float(w.mean()) if len(w) else 0.0; pm_ = float(l.mean()) if len(l) else 0.0
+            r['gain_moy'] = round(gm, 2); r['perte_moy'] = round(pm_, 2)
+            r['rr'] = round(gm / abs(pm_), 2) if pm_ < 0 else 0.0     # gain moy / perte moy
             rows.append((exl, stp, r))
     return rows
 
@@ -179,7 +183,7 @@ def run_band(prepped, dates, split, gl, gmin, gmax, cmb):
                 ents = entries(prepped, ci, cj, gmin, gmax, ws, we, lk, la)
                 for exl, stp, r in eval_exits(ents, dates, split):
                     rows.append(dict(regle=nm, gap=gl, heure=wl, liq=liql, exit=f'{exl}/s{int(stp*100)}',
-                                     **{c: r[c] for c in ['n', 'trj', 'exp', 't', 'win', 'cpte', 'cpte_oos', 'e_h1', 'e_h2', 'maxDD', 'robust']}))
+                                     **{c: r[c] for c in ['n', 'trj', 'exp', 't', 'win', 'gain_moy', 'perte_moy', 'rr', 'cpte', 'cpte_oos', 'e_h1', 'e_h2', 'maxDD', 'robust']}))
     return rows
 
 

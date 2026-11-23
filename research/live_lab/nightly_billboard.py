@@ -73,6 +73,8 @@ def compute_day(day):
                                              exit=f'{exl}/s{int(stp*100)}', n=len(pnl),
                                              sum_pnl=float(pnl.sum()), sumsq_pnl=float((pnl**2).sum()),
                                              n_win=int((pnl > 0).sum()), open_n=int((ems <= 575).sum()),
+                                             sum_win=float(pnl[pnl > 0].sum()),       # R:R : somme des gains
+                                             sum_loss=float(pnl[pnl <= 0].sum()),     # R:R : somme des pertes
                                              entry_med=int(np.median(ems))))
     return pd.DataFrame(rows)
 
@@ -91,6 +93,10 @@ def rebuild_board():
         exp = sm / n; var = max((ssq - sm * sm / n) / (n - 1), 0) if n > 1 else 0
         sd = var ** 0.5; t = exp / (sd / np.sqrt(n)) if sd > 0 else 0
         win = 100 * g.n_win.sum() / n; open_pct = 100 * g.open_n.sum() / n
+        nw = int(g.n_win.sum()); nl = n - nw                 # R:R réalisé (gain moy / perte moy)
+        gm = g.sum_win.sum() / nw if nw else 0.0; pm_ = g.sum_loss.sum() / nl if nl else 0.0
+        rr = gm / abs(pm_) if pm_ < 0 else 0.0
+        be = abs(pm_) / (gm + abs(pm_)) * 100 if (gm + abs(pm_)) > 0 else 0.0   # win% seuil rentabilité
         gh1 = g[g.date < mid]; gh2 = g[g.date >= mid]; gte = g[g.date >= split] if split else g
         eh1 = gh1.sum_pnl.sum() / gh1.n.sum() if gh1.n.sum() else 0
         eh2 = gh2.sum_pnl.sum() / gh2.n.sum() if gh2.n.sum() else 0
@@ -111,10 +117,12 @@ def rebuild_board():
         robust = bool(eh1 > 0 and eh2 > 0 and t >= 2 and (eqo - 1) > 0)
         out.append(dict(regle=key[0], band=key[1], heure=key[2], liq=key[3], exit=key[4],
                         n=n, trj=round(avg_day, 1), exp=round(exp, 2), t=round(t, 2), win=round(win),
+                        gain_moy=round(gm, 2), perte_moy=round(pm_, 2), rr=round(rr, 2), breakeven=round(be),
                         open_pct=round(open_pct), somme=round(sm, 1), cpte=round(cpte, 1),
                         cpte_oos=round((eqo - 1) * 100, 1), e_h1=round(eh1, 2), e_h2=round(eh2, 2),
                         maxDD=round(maxdd, 1), robust=robust, jours=g.date.nunique(), dernier=g.date.max()))
-    cols = ['regle', 'band', 'heure', 'liq', 'exit', 'n', 'trj', 'exp', 't', 'win', 'open_pct',
+    cols = ['regle', 'band', 'heure', 'liq', 'exit', 'n', 'trj', 'exp', 't', 'win',
+            'gain_moy', 'perte_moy', 'rr', 'breakeven', 'open_pct',
             'somme', 'cpte', 'cpte_oos', 'e_h1', 'e_h2', 'maxDD', 'robust', 'jours', 'dernier']
     board = pd.DataFrame(out, columns=cols)
     if len(board):
@@ -147,8 +155,8 @@ def main(day):
         print(f"🏆 gagnante du {day} : {w.regle} [{w.band}] {w.exit} "
               f"(n={int(w.n)}, somme={w.sum_pnl:.1f}%, exp={w.sum_pnl/w.n:.2f}%)", flush=True)
     print("\n=== TOP 10 billboard (robustesse) ===")
-    cols = ['regle', 'band', 'heure', 'liq', 'exit', 'n', 'trj', 'exp', 't', 'win', 'open_pct',
-            'cpte', 'cpte_oos', 'e_h1', 'e_h2', 'maxDD', 'jours']
+    cols = ['regle', 'band', 'heure', 'liq', 'exit', 'n', 'trj', 'exp', 't', 'win', 'rr', 'breakeven',
+            'open_pct', 'cpte', 'cpte_oos', 'e_h1', 'e_h2', 'maxDD', 'jours']
     pd.set_option('display.width', 240, 'display.max_columns', 40)
     print(board[board.robust].head(10)[cols].to_string(index=False)
           if (len(board) and board.robust.any()) else "(pas encore de config robuste — le board se remplit au fil des jours)")

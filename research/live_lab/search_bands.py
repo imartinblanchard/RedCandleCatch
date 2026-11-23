@@ -56,8 +56,8 @@ def run_band(band_prepped, dates, split, bandlabel, cmb):
                     rows.append(dict(regle=nm, band=bandlabel, heure=wl, liq=liql,
                                      exit=f'{exl}/s{int(stp*100)}',
                                      **{c: r[c] for c in ['n', 'trj', 'exp', 't', 'win',
-                                        'open_pct', 'entry_med', 'cpte', 'cpte_oos',
-                                        'e_h1', 'e_h2', 'maxDD', 'robust']}))
+                                        'gain_moy', 'perte_moy', 'rr', 'open_pct', 'entry_med',
+                                        'cpte', 'cpte_oos', 'e_h1', 'e_h2', 'maxDD', 'robust']}))
     return rows
 
 
