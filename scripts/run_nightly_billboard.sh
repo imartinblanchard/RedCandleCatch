@@ -15,5 +15,7 @@ TODAY=$(TZ=America/New_York date +%F)
   fi
   "$PROJ/.venv/bin/python" research/live_lab/build_bands.py \
     && "$PROJ/.venv/bin/python" -m research.live_lab.nightly_billboard --date "$TODAY"
+  echo "--- réconciliation (attendus vs réels) ---"
+  "$PROJ/.venv/bin/python" -m research.live_lab.reconcile_live --date "$TODAY"
   echo "=== fini $(TZ=America/New_York date '+%T %Z') ==="
 } >> "$LOG" 2>&1
