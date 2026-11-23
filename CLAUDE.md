@@ -8,33 +8,44 @@ Trading bot for the **LONG Gap & Go strategy** (Warrior Trading style). Scans fo
 
 **Direction**: LONG (buy low, sell high on gap-up momentum)
 
-> 🧭 **ÉTAT COURANT 2026-11-16 (fait autorité sur les sections historiques ci-dessous).**
+> 🧭 **ÉTAT COURANT 2026-11-23 (fait autorité sur les sections historiques ci-dessous).**
+> Doc de référence complète : **`research/live_lab/PIPELINE_POINT_IN_TIME.md`**.
 >
-> **Pipeline en 1 phrase** : on collecte TOUS les gappers 3-500 % en live → on tire leurs
-> bougies 1-min → on cherche la meilleure règle d'achat dessus → on déploie la/les gagnantes
-> dans le terminator (1 action/trade) → chaque soir la data s'accumule et on réévalue.
+> **Pipeline en 1 phrase** : collecte live de TOUS les gappers 3-500 % → bougies 1-min → recherche
+> de règles d'achat **POINT-IN-TIME** (entrée jamais avant que le dashboard ait vu le titre) →
+> déploiement des gagnantes **prouvées == backtest** dans le terminator (1 action/trade) → chaque
+> soir la data s'accumule, le billboard évolue, et on réconcilie attendus-vs-réels.
 >
-> **Noms de fichiers (renommés 16/11 pour la clarté)** :
-> - `data/collected_live/gappers-DATE.json` — TOUS les gappers scannés 3-500 % (ex-`universe-`).
-> - `data/collected_live/bars-DATE.parquet` (+ `meta-DATE.json`) — bougies 1-min de ces gappers,
->   fetchées **le jour même** (`fetch_universe_bars`). **= LA BASE DE TEST fiable** (prev_close correct).
-> - `data/computed/tradable-DATE.json` — sous-ensemble que le bot PEUT trader (ex-`redcandlecatch-eligible-`),
->   = passent gap 3-13 % + prix 3-20 $ + float 5M-50M + exclusions (reverse-split / rachat-cible).
-> - `data/collected_live/{news,halts}-DATE.json` — drivers hors-prix (collectés en live).
-> - ⚠️ `bars_eligible-*` (sous-ensemble tradé) = **EN QUARANTAINE** (prev_close contaminé au backfill ;
->   corrigé mais plus utilisé ; cf mémoire `backfill-prevclose-now-bug`).
+> **Fichiers** :
+> - `collected_live/gappers-DATE.json` — TOUS les gappers scannés 3-500 % (`collect_universe`, live 60 s).
+> - `collected_live/bars-DATE.parquet` (+ `meta-DATE.json`) — bougies 1-min, fetchées **le jour même**
+>   (`fetch_universe_bars`, 16:20) → **base de test fiable** (prev_close correct). ⚠️ `datetime` = `HH:MM`
+>   SEULE ; la date est dans la colonne `date` (ne pas parser `datetime` comme un timestamp).
+> - `computed/tradable-DATE.json` — sous-ensemble tradable (gap 3-50, prix 3-20, float, exclusions) +
+>   champ **`added`** (`HH:MM`) = heure où le dashboard a vu le titre = **ancre point-in-time**.
+> - `research/live_lab/bands/band-<lo>-<hi>.parquet` — gappers PAR BANDE avec `band_arrival_min`
+>   (`= max(added, 1re min du gap dans la bande)`) (`build_bands`).
+> - ⚠️ `bars_eligible-*` = **QUARANTAINE** (prev_close contaminé ; cf `backfill-prevclose-now-bug`).
 >
-> **Recherche (sur `bars-*.parquet`, univers large)** : `research/price_lab/` (engine/indicators/
-> signals) + `research/live_lab/` (backtest, real_search = menu d'archétypes, **strategy_gen =
-> GÉNÉRATEUR** qui assemble des règles d'achat à partir de ~24 briques, combos de 1-2 →
-> ~500k configs). Liquidité GLISSANTE par-bougie (`act_30`/`dvol_30`) testée À L'ENTRÉE, pas
-> seulement le PM du matin. Classé par ROBUSTESSE (OOS + 2 moitiés + t). ⚠️ 45 j × 500k configs =
-> faux positifs massifs : lire la robustesse, jamais un gagnant isolé.
+> **Recherche POINT-IN-TIME** (`research/live_lab/`) : `search_bands.py` = générateur (~24 briques,
+> ~300k configs) **par bande**, entrée ≥ `band_arrival`, **gate warmup ≥32 bougies** (indicateurs
+> réchauffés), classé par ROBUSTESSE (OOS + 2 moitiés + t) + **R:R** (gain moy/perte moy). Le
+> point-in-time a **tué l'artefact buy-the-open** (open_pct 10-26 % vs 65-100 %). ⚠️ faux positifs
+> massifs : lire la robustesse, jamais un gagnant isolé. **RÈGLE : prouver détecteur == backtest**
+> (`verify`, rejeu DEPUIS `added`) avant tout déploiement.
 >
-> **Déployé dans le terminator (à re-juger sur l'univers propre)** : `rsi_bounce` (gap élargi),
-> + `bb_breakout`/`higher_high` (gap 10-20, détecteurs prouvés `verify_live_breakouts`), filtre
-> PM-liq 0.35. Le VRAI verdict `rsi_bounce 3-10` = +2,16 %/tr (le « ~0 » était le bug prev_close).
-> Mémoires clés : `univers-reel-aligne-live`, `backfill-prevclose-now-bug`, `filtre-frequence-pm-audit`.
+> **Nightly (cron `0 20 * * 1-5`, `scripts/run_nightly_billboard.sh`)** : fetch(16:20) → `build_bands`
+> → `nightly_billboard` (teste toutes les configs sur LE jour → `daily-stats.parquet` log immuable +
+> `billboard.csv` = tableau cumulatif évolutif, R:R inclus) → `reconcile_live` (attendus-vs-réels →
+> `reconcile-history.csv`, flagge les ratés).
+>
+> **Déployé dans le terminator (2 strats, prouvées == backtest, anciennes OFF)** :
+> - **④ `rsi30_bblo`** : RSI recroise 30 SOUS la Bollinger basse, gap≥14, TP+20/stop−8 (verify 38/38).
+> - **n°3 `oversold_roc`** : stoch %K<20 & ROC(10)>0, gap≥30, TP+15/stop−8 (verify 54/54).
+> - Combiné (backtest) ~3,5 tr/j, R:R ~1,5-1,7. Gate PM-liq 0,35. Log auto `terminator-DATE.log`.
+> - ⚠️ Edge concentré sur la moitié récente (e_h1≈0) → à confirmer en forward via billboard + journal.
+> Mémoires clés : `pipeline-point-in-time-added`, `resultat-point-in-time-bandes`,
+> `setup4-deploye-essai-live`, `verify-added-et-rsi-souschauffe`, `billboard-nightly`.
 
 > 🔬 **RÈGLE DE RECHERCHE 2026-10-21 (Martin) — FAIT AUTORITÉ.** Toute recherche / validation
 > de stratégie se fait **UNIQUEMENT sur nos données live** (`data/collected_live/` : `bars-*.parquet`,

@@ -97,8 +97,9 @@ filtres anti-artefact (fréquence tradable `trj ≤ 10`, `open_pct` bas, congrue
 | 3. Heure d'arrivée | champ `added` | ✅ |
 | 4. Fichiers par bande (+ heure) | `build_bands.py` → `bands/band-*.parquet` | ✅ fait |
 | 5. Filtre fréquence PM | pm_frac ≥ 20 % | ✅ logique |
-| 6. Test stratégies point-in-time | `search_bands.py` (entrée ≥ `band_arrival`, par bande) | 🔨 à bâtir |
-| 7. Tableau de résultats par bande | leaderboard sur `search_bands-results.csv` | 🔨 à bâtir |
+| 6. Test stratégies point-in-time | `search_bands.py` (warmup ≥32, R:R) | ✅ fait |
+| 7. Billboard évolutif | `nightly_billboard.py` → `billboard.csv` + `daily-stats.parquet` | ✅ fait (cron 20:00) |
+| 8. Réconciliation attendus/réels | `reconcile_live.py` → `reconcile-history.csv` | ✅ fait (cron 20:00) |
 
 ## Script ↔ fichier ↔ étape (qui produit quoi)
 
@@ -115,8 +116,10 @@ filtres anti-artefact (fréquence tradable `trj ≤ 10`, `open_pct` bas, congrue
 | — | Halts | `fetch_halts.py` | `collected_live/halts-DATE.json` | Nasdaq | cron 15 min |
 | 4 | Fichiers par bande (+ heure) | `build_bands.py` ✅ | `research/live_lab/bands/band-<lo>-<hi>.parquet` | `tradable-` + `bars-` + `meta-` | one-shot |
 | 5 | Filtre fréquence PM | logique pm_frac | *(gate, pas un fichier)* | bars / tradable | — |
-| 6 | Test stratégies point-in-time | `search_bands.py` (adapte `strategy_gen`) 🔨 | `results/search_bands-results.csv` (col. `band`) | `bands/band-*.parquet` + `bars-` | one-shot, crash-safe |
-| 7 | Tableau résultats par bande | leaderboard 🔨 | `results/leaderboard-bandes.csv` | `search_bands-results.csv` | — |
+| 6 | Test stratégies point-in-time | `search_bands.py` ✅ (warmup ≥32, R:R) | `results/search_bands-results.csv` (col. `band`, `rr`) | `bands/band-*.parquet` + `bars-` | one-shot, crash-safe |
+| 7 | Billboard évolutif (leaderboard) | `nightly_billboard.py` ✅ | `results/daily-stats.parquet` (log immuable) + `results/billboard.csv` (vue, R:R) | daily-stats | **cron 20:00** |
+| 8 | Réconciliation attendus/réels | `reconcile_live.py` ✅ | `results/reconcile-history.csv` | `bars-` + `tradable-` + journal | **cron 20:00** |
+| — | Cron du soir | `scripts/run_nightly_billboard.sh` (`0 20 * * 1-5`) | — | fetch(16:20) → build_bands → billboard → reconcile | — |
 | ⚠️ | QUARANTAINE | `fetch_eligible_bars.py` | `bars_eligible-` / `meta_eligible-` | `tradable-` | **ne plus utiliser** (prev_close contaminé) |
 
 **Règle anti-confusion** : un seul écriveur par fichier. Les noms live (`gappers-`, `tradable-`,
